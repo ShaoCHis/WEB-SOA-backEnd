@@ -1,0 +1,22 @@
+POST http://localhost:8082/api/users
+content-type:application/json
+Accept: application/json
+
+{
+  "userId": "ShaoCHis",
+  "name": "ShenTao",
+  "password": "123456",
+  "phoneNumber": "13558545064",
+  "openId": "1214"
+}
+
+###
+
+POST localhost:8082/api/users/session
+content-type:application/json
+Accept: application/json
+
+{
+  "userId": "ShaoCHis",
+  "password": "123456"
+}

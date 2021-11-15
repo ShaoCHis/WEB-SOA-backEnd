@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service</artifactId>
+    <artifactId>common</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>service_test2</module>
-        <module>service_loginRegister</module>
+        <module>common_redis</module>
+        <module>common_utils</module>
     </modules>
 
     <properties>
