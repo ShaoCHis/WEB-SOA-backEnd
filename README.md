@@ -64,7 +64,7 @@ back-end---------------------|SpringBoot
   "data": {}            #数据
   "success": true,      #成功与否
   "message": null,      #提示信息
-  "code": 0             #成功为null
+  "code": 0             #成功为0
 ```
 #### 返回码定义
 ```
