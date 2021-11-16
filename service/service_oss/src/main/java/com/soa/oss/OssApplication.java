@@ -15,6 +15,7 @@ import java.util.TimeZone;
  * @ date: 2021-11-16 08:39:24
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+
 @ComponentScan({"com.soa"})
 public class OssApplication {
     public static void main(String[] args) {
