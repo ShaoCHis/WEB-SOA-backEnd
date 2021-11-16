@@ -3,11 +3,11 @@ content-type:application/json
 Accept: application/json
 
 {
-  "userId": "ShaoCHis",
+  "userId": "ShaoCHi",
   "name": "ShenTao",
   "password": "123456",
   "phoneNumber": "13558545064",
-  "openId": "1214"
+  "openId": "1215"
 }
 
 ###
@@ -20,3 +20,5 @@ Accept: application/json
   "userId": "ShaoCHis",
   "password": "123456"
 }
+
+###

@@ -12,6 +12,12 @@
     <artifactId>service_oss</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>common_utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!--oss依赖-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
