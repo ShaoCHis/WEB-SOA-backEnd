@@ -15,6 +15,7 @@
         <module>service_test2</module>
         <module>service_loginRegister</module>
         <module>service_hospital</module>
+        <module>service_oss</module>
     </modules>
 
     <properties>
