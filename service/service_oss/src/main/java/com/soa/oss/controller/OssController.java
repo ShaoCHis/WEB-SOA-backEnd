@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/oss/fileoss")
 @CrossOrigin
-@Api(value="测试接口",tags = "测试",description = "test")
+@Api(value="上传图片",tags = "上传图片",description = "上传医院logo")
 public class OssController {
     @Autowired
     OssService ossService;
