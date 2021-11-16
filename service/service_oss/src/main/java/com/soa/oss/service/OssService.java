@@ -2,11 +2,13 @@ package com.soa.oss.service;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.ObjectMetadata;
 import com.soa.oss.utils.ConstantPropertiesUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -38,7 +40,7 @@ public class OssService {
             OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
             //获取上传文件输入流
-            InputStream inputStream = file.getInputStream();
+            //InputStream inputStream = file.getInputStream();
             //获取文件名称
             String fileName = file.getOriginalFilename();
 
@@ -55,11 +57,15 @@ public class OssService {
             //  2019/11/12/ewtqr313401.jpg
             fileName = datePath+"/"+fileName;
 
+            // 创建上传文件的元信息，可以通过文件元信息设置HTTP header(设置了才能通过返回的链接直接访问)。
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType("image/jpg");
+
             //调用oss方法实现上传
             //第一个参数  Bucket名称
             //第二个参数  上传到oss文件路径和文件名称   aa/bb/1.jpg
             //第三个参数  上传文件输入流
-            ossClient.putObject(bucketName,fileName , inputStream);
+            ossClient.putObject(bucketName,fileName , new ByteArrayInputStream(file.getBytes()),objectMetadata);
 
             // 关闭OSSClient。
             ossClient.shutdown();
