@@ -8,5 +8,5 @@ public class UserAlreadyExistedError implements ServiceError{
     }
 
     @Override
-    public Integer getCode() {return 9;}
+    public Integer getCode() {return 2;}
 }

@@ -8,5 +8,5 @@ public class UserNotExistedError implements ServiceError{
     }
 
     @Override
-    public Integer getCode() {return 10;}
+    public Integer getCode() {return 3;}
 }

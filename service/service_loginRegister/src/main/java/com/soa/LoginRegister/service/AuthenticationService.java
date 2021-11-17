@@ -47,12 +47,11 @@ public class AuthenticationService {
     }
 
 
-    public String createSessionId(String username,String password){
-        Optional<User> optionalUser = userDAO.findById(username);
-        if(!optionalUser.isPresent()){
+    public String createSessionId(String email,String password){
+        User user=userDAO.findByEmail(email);
+        if(user==null){
             return null;
         }
-        User user=optionalUser.get();
         String passwordHashed= HashHelper.computeSha256Hash(password+user.getSalt());
         if(!user.getPassword().equals(passwordHashed)){
             return null;

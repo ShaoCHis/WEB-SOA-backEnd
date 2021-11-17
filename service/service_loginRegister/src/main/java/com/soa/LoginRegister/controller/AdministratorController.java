@@ -2,7 +2,9 @@ package com.soa.LoginRegister.controller;
 
 import com.soa.LoginRegister.model.*;
 import com.soa.LoginRegister.service.AuthenticationService;
+import com.soa.utils.error.UserNotExistedError;
 import com.soa.utils.utils.Result;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -16,6 +18,7 @@ public class AdministratorController {
     @Autowired
     AuthenticationService authenticationService;
 
+    @ApiOperation(value = "管理员登陆")
     @PostMapping(path="/session")
     public @ResponseBody
     Result<Administrator> getLoginToken(@RequestBody Administrator body,
@@ -24,7 +27,7 @@ public class AdministratorController {
         String sessionId=authenticationService.createSessionId(body.getId(),body.getPassword());
         if(sessionId==null){
             response.setStatus(401);
-            return null;
+            return Result.wrapErrorResult(new UserNotExistedError());
         }
         ResponseCookie responseCookie = ResponseCookie.from("sessionId", sessionId)
                 .maxAge(3* 24* 60 * 60)

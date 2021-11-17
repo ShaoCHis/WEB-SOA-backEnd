@@ -19,6 +19,8 @@ public class UserService {
     public User addNewUser (User user) {
         Optional<User> opt=userRepository.findById(user.getUserId());
         if(opt.isPresent()) return null;
+        User optionUser=userRepository.findByEmail(user.getEmail());
+        if(optionUser!=null) return null;
         double seed= ThreadLocalRandom.current().nextDouble();
         user.setSalt(HashHelper.computeSha256Hash(user.getUserId()+ seed));
         user.setPassword(HashHelper.computeSha256Hash(user.getPassword()+user.getSalt()));

@@ -8,5 +8,5 @@ public class PermissionDeniedError implements ServiceError{
     }
 
     @Override
-    public Integer getCode() {return 3;}
+    public Integer getCode() {return 1;}
 }

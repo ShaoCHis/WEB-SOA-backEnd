@@ -18,7 +18,17 @@ public class User {
     @Column(name = "open_ID")
     private String openId;
 
+    private String email;
+
     private String salt;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getSalt() {
         return salt;
