@@ -24,6 +24,7 @@ public class HospInfoService {
         return hospById.orElse(null);
     }
 
+    @Transactional
     public void update(Hospital hospital) {
         Hospital hosp = hospInfoRepository.save(hospital);
     }
@@ -33,7 +34,6 @@ public class HospInfoService {
         Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
         Hospital hospital1=byId.orElse(null);
         hospital1.setNotice(hospital.getNotice());
-        hospInfoRepository.save(hospital1);
-
+        Hospital hosp = hospInfoRepository.save(hospital1);
     }
 }
