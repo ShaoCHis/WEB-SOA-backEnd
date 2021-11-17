@@ -17,8 +17,12 @@ content-type:application/json
 Accept: application/json
 
 {
-  "userId": "ShaoCHis",
+  "email": "1215",
   "password": "123456"
 }
 
 ###
+
+GET localhost:8082/api/msm/send/764053156@qq.com
+content-type:application/json
+Accept: application/json
