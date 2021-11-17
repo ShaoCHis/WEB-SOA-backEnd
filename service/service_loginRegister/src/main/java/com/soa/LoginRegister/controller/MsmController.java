@@ -4,6 +4,8 @@ import com.soa.LoginRegister.service.MsmService;
 import com.soa.LoginRegister.utils.RandomUtil;
 import com.soa.utils.error.EmailFailedError;
 import com.soa.utils.utils.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
@@ -14,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/api/msm")
 @CrossOrigin
+@Api(value="登陆注册",tags = "登陆注册",description = "登陆注册")
 public class MsmController {
 
     @Autowired
@@ -23,6 +26,7 @@ public class MsmController {
     private RedisTemplate<String,String> redisTemplate;
 
     //发送短信的方法
+    @ApiOperation(value="发送短信到指定邮箱")
     @GetMapping("/send/{email}")
     public Result sendMsm(@PathVariable String email) {
         //1 从redis获取验证码，如果获取到直接返回
