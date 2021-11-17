@@ -4,6 +4,7 @@ import com.soa.hospital.model.Hospital;
 import com.soa.hospital.repository.HospInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,5 +22,18 @@ public class HospInfoService {
     public Hospital getById(String id) {
         Optional<Hospital> hospById = hospInfoRepository.findById(id);
         return hospById.orElse(null);
+    }
+
+    public void update(Hospital hospital) {
+        Hospital hosp = hospInfoRepository.save(hospital);
+    }
+
+    @Transactional
+    public void updateNoticeById(Hospital hospital){
+        Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
+        Hospital hospital1=byId.orElse(null);
+        hospital1.setNotice(hospital.getNotice());
+        hospInfoRepository.save(hospital1);
+
     }
 }

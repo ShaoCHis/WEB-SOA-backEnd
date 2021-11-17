@@ -29,5 +29,19 @@ public class HospInfoController {
         return Result.wrapSuccessfulResult(hospital);
     }
 
+    @ApiOperation(value="修改医院所有信息")
+    @PostMapping("updateHospital")
+    public void updateHospital(@RequestBody Hospital hospital){
+        hospInfoService.update(hospital);
+    }
+
+    @ApiOperation(value="修改医院公告")
+    @PostMapping("updateNoticeById")
+    public void updateNoticeById(@RequestBody Hospital hospital){
+        hospInfoService.updateNoticeById(hospital);
+    }
+
+
+
 
 }
