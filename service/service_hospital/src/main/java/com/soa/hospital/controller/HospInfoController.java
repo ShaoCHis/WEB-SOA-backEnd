@@ -29,7 +29,7 @@ public class HospInfoController {
         return Result.wrapSuccessfulResult(hospital);
     }
 
-    @ApiOperation(value="修改医院基本信息")
+    @ApiOperation(value="修改医院基本信息，请传递所有字段否则覆盖为空值")
     @PostMapping("updateHospital")
     public Result updateHospital(@RequestBody Hospital hospital){
         hospInfoService.update(hospital);
@@ -43,6 +43,12 @@ public class HospInfoController {
         return Result.wrapSuccessfulResult("Success!");
     }
 
+    @ApiOperation(value="按id修改医院logo，请传递id和oss服务返回的图片url")
+    @PostMapping("updateLogoById")
+    public Result updateLogoById(@RequestBody Hospital hospital){
+        hospInfoService.updateLogoById(hospital);
+        return Result.wrapSuccessfulResult("Success!");
+    }
 
 
 

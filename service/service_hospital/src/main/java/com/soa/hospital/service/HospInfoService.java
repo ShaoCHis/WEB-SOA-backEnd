@@ -36,4 +36,12 @@ public class HospInfoService {
         hospital1.setNotice(hospital.getNotice());
         Hospital hosp = hospInfoRepository.save(hospital1);
     }
+
+    @Transactional
+    public void updateLogoById(Hospital hospital) {
+        Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
+        Hospital hospital1=byId.orElse(null);
+        hospital1.setImage(hospital.getImage());
+        Hospital hosp = hospInfoRepository.save(hospital1);
+    }
 }

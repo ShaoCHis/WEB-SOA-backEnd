@@ -1,9 +1,0 @@
-GET localhost:8081/api/tests/getTest/1
-content-type:application-json
-Accept: application/json
-
-###
-
-GET localhost:8082/api/tests/getTest/2
-content-type:application-json
-Accept: application/json
