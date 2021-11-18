@@ -4,6 +4,7 @@ import com.soa.LoginRegister.model.*;
 import com.soa.LoginRegister.service.AuthenticationService;
 import com.soa.utils.error.UserNotExistedError;
 import com.soa.utils.utils.Result;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(path = "api/administrators")
+@Api(value="管理员登录",tags = "管理员登录",description = "管理员登录")
 public class AdministratorController {
     @Autowired
     AuthenticationService authenticationService;

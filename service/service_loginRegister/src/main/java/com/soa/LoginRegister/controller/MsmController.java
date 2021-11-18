@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/api/msm")
 @CrossOrigin
-@Api(value="登陆注册",tags = "登陆注册",description = "登陆注册")
+@Api(value="发短信",tags = "发短信",description = "发短信")
 public class MsmController {
 
     @Autowired

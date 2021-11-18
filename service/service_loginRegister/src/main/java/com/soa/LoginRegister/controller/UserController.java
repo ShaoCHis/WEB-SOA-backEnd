@@ -5,6 +5,7 @@ import com.soa.LoginRegister.service.*;
 import com.soa.utils.error.UserAlreadyExistedError;
 import com.soa.utils.error.UserNotExistedError;
 import com.soa.utils.utils.Result;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(path = "api/users")
+@Api(value="用户登录",tags = "用户登录注册",description = "用户登录注册")
 public class UserController {
     @Autowired
     AuthenticationService authenticationService;

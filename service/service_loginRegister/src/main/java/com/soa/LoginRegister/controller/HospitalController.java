@@ -5,6 +5,7 @@ import com.soa.LoginRegister.model.Hospital;
 import com.soa.LoginRegister.service.AuthenticationService;
 import com.soa.utils.error.UserNotExistedError;
 import com.soa.utils.utils.Result;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping(path = "api/hospital")
+@Api(value="医院登录",tags = "医院登录",description = "id和code均可，不要传空值也不要都传")
 public class HospitalController {
     @Autowired
     AuthenticationService authenticationService;
@@ -30,7 +32,12 @@ public class HospitalController {
     public @ResponseBody
     Result<Hospital> getLoginToken(@RequestBody Hospital body,
                                    HttpServletResponse response) {
-        String sessionId=authenticationService.createHospSession(body.getId(),body.getPassword());
+        String sessionId;
+        if(body.getId()!=null)
+            sessionId=authenticationService.createHospSession(body.getId(),body.getPassword(),1);
+        else
+            sessionId=authenticationService.createHospSession(body.getCode(),body.getPassword(),2);
+
         if(sessionId==null){
             response.setStatus(401);
             return Result.wrapErrorResult(new UserNotExistedError());
@@ -41,8 +48,11 @@ public class HospitalController {
                 .path("/")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
-
-        Hospital hospital=authenticationService.getHospital(sessionId);
+        Hospital hospital;
+        if(body.getId()!=null)
+            hospital=authenticationService.getHospital(sessionId,1);
+        else
+            hospital=authenticationService.getHospital(sessionId,2);
         return Result.wrapSuccessfulResult(hospital);
     }
 }
