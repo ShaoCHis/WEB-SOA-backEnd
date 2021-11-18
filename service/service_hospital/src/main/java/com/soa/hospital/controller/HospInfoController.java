@@ -22,7 +22,7 @@ public class HospInfoController {
     @Autowired
     HospInfoService hospInfoService;
 
-    @ApiOperation(value="根据id获取医院信息")
+    @ApiOperation(value="根据id获取医院信息,里面包括科室信息")
     @GetMapping("getHospInfo/{id}")
     public Result<Hospital> getHospSet(@PathVariable String id) {
         Hospital hospital = hospInfoService.getById(id);

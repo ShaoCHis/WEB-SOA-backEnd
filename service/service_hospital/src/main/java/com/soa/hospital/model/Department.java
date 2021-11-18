@@ -1,8 +1,9 @@
 package com.soa.hospital.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 
 /**
  * @ program: demo
@@ -11,34 +12,13 @@ import javax.persistence.Table;
  * @ date: 2021-11-18 14:40:40
  */
 @Entity
+@Getter
+@Setter
 @Table(name="department")
 public class Department {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String Id;
     private String name;
     private String introduction;
-
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        Id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
-    }
 }
