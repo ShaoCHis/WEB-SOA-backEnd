@@ -12,10 +12,11 @@
     <artifactId>service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>service_test2</module>
         <module>service_loginRegister</module>
         <module>service_hospital</module>
         <module>service_oss</module>
+        <module>service_user</module>
+        <module>service_order</module>
     </modules>
 
     <properties>

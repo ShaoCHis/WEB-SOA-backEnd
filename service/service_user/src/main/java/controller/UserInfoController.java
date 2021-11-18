@@ -1,8 +1,8 @@
-package com.soa.hospital.controller;
+package controller;
 
-import com.soa.hospital.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
+import service.UserInfoService;
 
 /**
  * @ program: demo
@@ -14,6 +14,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
-
 
 }

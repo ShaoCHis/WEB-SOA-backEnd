@@ -1,4 +1,4 @@
-package com.soa.hospital.service;
+package service;
 
 import org.springframework.stereotype.Service;
 
