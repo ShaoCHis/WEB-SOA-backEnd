@@ -17,7 +17,7 @@ public class DepartmentService {
     DepartmentRepository departmentRepository;
 
     public Department getById(String id) {
-        
+
         return null;
     }
 }
