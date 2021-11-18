@@ -1,4 +1,4 @@
-package model;
+package com.soa.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

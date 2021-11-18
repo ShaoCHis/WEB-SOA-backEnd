@@ -5,6 +5,8 @@ import com.soa.hospital.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @ program: demo
  * @ description:
@@ -17,7 +19,7 @@ public class DepartmentService {
     DepartmentRepository departmentRepository;
 
     public Department getById(String id) {
-
-        return null;
+        Optional<Department> departById = departmentRepository.findById(id);
+        return departById.orElse(null);
     }
 }

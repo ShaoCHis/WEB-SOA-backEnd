@@ -1,4 +1,4 @@
-package service;
+package com.soa.user.service;
 
 import org.springframework.stereotype.Service;
 
@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service;
  * @ program: demo
  * @ description:
  * @ author: ShenBo
- * @ date: 2021-11-18 08:44:15
+ * @ date: 2021-11-18 17:46:42
  */
 @Service
-public class UserInfoService {
-
+public class PatientService {
 }

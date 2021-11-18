@@ -1,7 +1,6 @@
 package com.soa.hospital.controller;
 
 import com.soa.hospital.model.Department;
-import com.soa.hospital.model.Hospital;
 import com.soa.hospital.service.DepartmentService;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
@@ -25,9 +24,12 @@ public class DepartmentController {
 
     @ApiOperation(value="根据id获取科室信息")
     @GetMapping("getDepartInfo/{id}")
-    public Result<Department> getHospSet(@PathVariable String id) {
+    public Result<Department> getDepartInfo(@PathVariable String id) {
         Department department = departmentService.getById(id);
-        return Result.wrapSuccessfulResult(department);
+        if(department!=null)
+            return Result.wrapSuccessfulResult(department);
+        else
+            return Result.wrapErrorResult("error!");
     }
 
 }

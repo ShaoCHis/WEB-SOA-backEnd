@@ -26,7 +26,10 @@ public class HospInfoController {
     @GetMapping("getHospInfo/{id}")
     public Result<Hospital> getHospSet(@PathVariable String id) {
         Hospital hospital = hospInfoService.getById(id);
-        return Result.wrapSuccessfulResult(hospital);
+        if(hospital!=null)
+            return Result.wrapSuccessfulResult(hospital);
+        else
+            return Result.wrapErrorResult("error!");
     }
 
     @ApiOperation(value="修改医院基本信息，请传递所有字段否则覆盖为空值")
