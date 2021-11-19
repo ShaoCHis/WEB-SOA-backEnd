@@ -35,8 +35,11 @@ public class HospInfoController {
     @ApiOperation(value="根据医院id修改医院基本信息")
     @PostMapping("updateHospital")
     public Result updateHospital(@RequestBody Hospital hospital){
-        hospInfoService.update(hospital);
-        return Result.wrapSuccessfulResult("Success!");
+        boolean update = hospInfoService.update(hospital);
+        if(update)
+            return Result.wrapSuccessfulResult("Success!");
+        else
+            return Result.wrapErrorResult("error!");
     }
 
     @ApiOperation(value="按医院id修改医院公告")

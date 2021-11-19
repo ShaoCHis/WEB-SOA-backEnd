@@ -61,5 +61,5 @@ public class DepartmentController {
         hospInfoService.updateDepart(hospital);
         return Result.wrapSuccessfulResult("success!");
     }
-
+    
 }

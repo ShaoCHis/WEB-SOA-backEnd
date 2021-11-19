@@ -1,11 +1,12 @@
 package com.soa.user.controller;
 
+import com.soa.user.model.User;
 import com.soa.user.service.UserInfoService;
+import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ program: demo
@@ -20,5 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
+
+    @ApiOperation(value="根据用户id获取用户信息")
+    @GetMapping("getUserInfo/{id}")
+    public Result<User> getUserInfo(@PathVariable String id){
+        User user=userInfoService.getById(id);
+        if(user!=null)
+            return Result.wrapSuccessfulResult(user);
+        else
+            return Result.wrapErrorResult("error!");
+    }
 
 }

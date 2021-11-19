@@ -25,9 +25,11 @@ public class HospInfoService {
     }
 
     @Transactional
-    public void update(Hospital hospital) {
+    public boolean update(Hospital hospital) {
         Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
         Hospital hospital1=byId.orElse(null);
+        if(hospital1==null)
+            return false;
         if(hospital.getPassword()!=null)
             hospital1.setPassword(hospital.getPassword());
         if(hospital.getCode()!=null)
@@ -49,6 +51,7 @@ public class HospInfoService {
         if(hospital.getStatus()!=null)
             hospital1.setStatus(hospital.getStatus());
         Hospital hosp = hospInfoRepository.save(hospital1);
+        return true;
     }
 
     @Transactional
