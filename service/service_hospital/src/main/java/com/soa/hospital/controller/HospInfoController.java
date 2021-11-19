@@ -22,7 +22,7 @@ public class HospInfoController {
     @Autowired
     HospInfoService hospInfoService;
 
-    @ApiOperation(value="根据id获取医院信息,里面包括科室信息")
+    @ApiOperation(value="根据id获取医院信息,里面包括本医院包含的科室信息")
     @GetMapping("getHospInfo/{id}")
     public Result<Hospital> getHospSet(@PathVariable String id) {
         Hospital hospital = hospInfoService.getById(id);
@@ -32,7 +32,7 @@ public class HospInfoController {
             return Result.wrapErrorResult("error!");
     }
 
-    @ApiOperation(value="修改医院基本信息，请传递所有字段否则覆盖为空值")
+    @ApiOperation(value="根据医院id修改医院基本信息")
     @PostMapping("updateHospital")
     public Result updateHospital(@RequestBody Hospital hospital){
         hospInfoService.update(hospital);
@@ -46,10 +46,17 @@ public class HospInfoController {
         return Result.wrapSuccessfulResult("Success!");
     }
 
-    @ApiOperation(value="按id修改医院logo，请传递id和oss服务返回的图片url")
+    @ApiOperation(value="按医院id修改医院logo，请传递id和oss服务返回的图片url")
     @PostMapping("updateLogoById")
     public Result updateLogoById(@RequestBody Hospital hospital){
         hospInfoService.updateLogoById(hospital);
+        return Result.wrapSuccessfulResult("Success!");
+    }
+
+    @ApiOperation(value="按医院id修改医院密码")
+    @PostMapping("updatePassById")
+    public Result updatePassById(@RequestBody Hospital hospital){
+        hospInfoService.updatePassById(hospital);
         return Result.wrapSuccessfulResult("Success!");
     }
 

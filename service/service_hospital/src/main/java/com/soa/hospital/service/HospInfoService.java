@@ -26,7 +26,29 @@ public class HospInfoService {
 
     @Transactional
     public void update(Hospital hospital) {
-        Hospital hosp = hospInfoRepository.save(hospital);
+        Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
+        Hospital hospital1=byId.orElse(null);
+        if(hospital.getPassword()!=null)
+            hospital1.setPassword(hospital.getPassword());
+        if(hospital.getCode()!=null)
+            hospital1.setCode(hospital.getCode());
+        if(hospital.getName()!=null)
+            hospital1.setName(hospital.getName());
+        if(hospital.getIntroduction()!=null)
+            hospital1.setIntroduction(hospital.getIntroduction());
+        if(hospital.getImage()!=null)
+            hospital1.setImage(hospital.getImage());
+        if(hospital.getUrl()!=null)
+            hospital1.setUrl(hospital.getUrl());
+        if(hospital.getLevel()!=null)
+            hospital1.setLevel(hospital.getLevel());
+        if(hospital.getLocation()!=null)
+            hospital1.setLocation(hospital.getLocation());
+        if(hospital.getNotice()!=null)
+            hospital1.setNotice(hospital.getNotice());
+        if(hospital.getStatus()!=null)
+            hospital1.setStatus(hospital.getStatus());
+        Hospital hosp = hospInfoRepository.save(hospital1);
     }
 
     @Transactional
@@ -43,5 +65,18 @@ public class HospInfoService {
         Hospital hospital1=byId.orElse(null);
         hospital1.setImage(hospital.getImage());
         Hospital hosp = hospInfoRepository.save(hospital1);
+    }
+
+    @Transactional
+    public void updatePassById(Hospital hospital) {
+        Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
+        Hospital hospital1=byId.orElse(null);
+        hospital1.setPassword(hospital.getPassword());
+        Hospital hosp = hospInfoRepository.save(hospital1);
+    }
+
+    @Transactional
+    public void updateDepart(Hospital hospital) {
+        Hospital hosp = hospInfoRepository.save(hospital);
     }
 }
