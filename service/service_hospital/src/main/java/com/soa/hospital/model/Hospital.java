@@ -18,7 +18,6 @@ import java.util.List;
 @Table(name="hospital")
 public class Hospital {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String Id;
     private String password;
     private String code;

@@ -3,10 +3,9 @@ package com.soa.user.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ program: demo
@@ -34,4 +33,8 @@ public class Patient {
     private String certificateNum;
     @Column(name="is_insure")
     private Integer isInsure;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_ID")
+    private List<Card> cards;
 }

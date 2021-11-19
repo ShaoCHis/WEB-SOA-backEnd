@@ -1,5 +1,6 @@
 package com.soa.user.controller;
 
+import com.soa.user.model.Patient;
 import com.soa.user.model.User;
 import com.soa.user.service.UserInfoService;
 import com.soa.utils.utils.Result;
@@ -7,6 +8,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @ program: demo
@@ -22,7 +25,7 @@ public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 
-    @ApiOperation(value="根据用户id获取用户信息")
+    @ApiOperation(value="根据用户id获取用户信息全部信息")
     @GetMapping("getUserInfo/{id}")
     public Result<User> getUserInfo(@PathVariable String id){
         User user=userInfoService.getById(id);
