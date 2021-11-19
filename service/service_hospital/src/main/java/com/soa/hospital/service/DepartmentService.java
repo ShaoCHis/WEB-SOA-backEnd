@@ -32,6 +32,8 @@ public class DepartmentService {
     public List<Department> getListById(String id) {
         Optional<Hospital> byId = hospInfoRepository.findById(id);
         Hospital hospital = byId.orElse(null);
+        if(hospital==null)
+            return null;
         List<Department> departments = hospital.getDepartments();
         return departments;
     }

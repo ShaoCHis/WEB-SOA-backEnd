@@ -1,9 +1,15 @@
 package com.soa.hospital.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @ program: demo
@@ -20,4 +26,7 @@ public class Department {
     private String Id;
     private String name;
     private String introduction;
+    @JsonBackReference
+    @ManyToMany(cascade = CascadeType.ALL,targetEntity=Hospital.class,mappedBy="departments") //让Hospital维护外键表
+    private List<Hospital> hospitals;
 }

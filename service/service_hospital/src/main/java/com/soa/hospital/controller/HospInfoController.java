@@ -1,12 +1,16 @@
 package com.soa.hospital.controller;
 
+import com.soa.hospital.model.Department;
 import com.soa.hospital.model.Hospital;
+import com.soa.hospital.service.DepartmentService;
 import com.soa.hospital.service.HospInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.soa.utils.utils.Result;
+
+import java.util.List;
 
 /**
  * @ program: demo
@@ -61,6 +65,16 @@ public class HospInfoController {
     public Result updatePassById(@RequestBody Hospital hospital){
         hospInfoService.updatePassById(hospital);
         return Result.wrapSuccessfulResult("Success!");
+    }
+
+    @ApiOperation(value="根据科室id获取医院详细信息列表")
+    @GetMapping("getHospListInfo/{id}")
+    public Result<List<Hospital>> getHospListInfo(@PathVariable String id) {
+        List<Hospital> hospitals = hospInfoService.getHospListByDepartId(id);
+        if(hospitals!=null)
+            return Result.wrapSuccessfulResult(hospitals);
+        else
+            return Result.wrapErrorResult("error!");
     }
 
 }

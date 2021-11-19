@@ -1,11 +1,14 @@
 package com.soa.hospital.service;
 
+import com.soa.hospital.model.Department;
 import com.soa.hospital.model.Hospital;
+import com.soa.hospital.repository.DepartmentRepository;
 import com.soa.hospital.repository.HospInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,6 +19,9 @@ import java.util.Optional;
  */
 @Service
 public class HospInfoService {
+    @Autowired
+    DepartmentRepository departmentRepository;
+
     @Autowired
     HospInfoRepository hospInfoRepository;
 
@@ -81,5 +87,14 @@ public class HospInfoService {
     @Transactional
     public void updateDepart(Hospital hospital) {
         Hospital hosp = hospInfoRepository.save(hospital);
+    }
+
+    public List<Hospital> getHospListByDepartId(String id) {
+        Optional<Department> byId = departmentRepository.findById(id);
+        Department department = byId.orElse(null);
+        if(department==null)
+            return null;
+        List<Hospital> hospitals = department.getHospitals();
+        return hospitals;
     }
 }

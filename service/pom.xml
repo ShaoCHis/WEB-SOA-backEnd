@@ -18,6 +18,7 @@
         <module>service_user</module>
         <module>service_order</module>
         <module>service_admin</module>
+        <module>service_schedule</module>
     </modules>
 
     <properties>

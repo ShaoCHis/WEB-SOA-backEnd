@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @ program: demo
@@ -30,8 +33,9 @@ public class Hospital {
     private String notice;
     private Integer status;
 
-    @OneToMany(fetch= FetchType.EAGER)
-    @JoinTable(name="own",joinColumns={@JoinColumn(name="hospital_ID")}
-            ,inverseJoinColumns={@JoinColumn(name="department_ID")})
+    @ManyToMany(targetEntity=Department.class)
+    @JoinTable(name="own",
+            joinColumns={@JoinColumn(name="hospital_ID",referencedColumnName="Id")}
+            ,inverseJoinColumns={@JoinColumn(name="department_ID",referencedColumnName="Id")})
     private List<Department> departments;
 }
