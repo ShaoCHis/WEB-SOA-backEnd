@@ -1,5 +1,8 @@
 package com.soa.user.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,6 +15,8 @@ import java.util.Date;
  * @ date: 2021-11-18 17:41:55
  */
 @Entity
+@Getter
+@Setter
 public class Patient {
     @Id
     @Column(name = "patient_ID")

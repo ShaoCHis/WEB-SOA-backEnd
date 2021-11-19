@@ -21,13 +21,4 @@ public class Department {
     private String Id;
     private String name;
     private String introduction;
-
-    @Override
-    public String toString() {
-        return "Department{" +
-                "Id='" + Id + '\'' +
-                ", name='" + name + '\'' +
-                ", introduction='" + introduction + '\'' +
-                '}';
-    }
 }
