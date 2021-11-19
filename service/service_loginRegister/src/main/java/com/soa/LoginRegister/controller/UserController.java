@@ -27,7 +27,6 @@ public class UserController {
     @PostMapping // Map ONLY POST Requests
     public @ResponseBody
     Result<User> addNewUser (@RequestBody User body) {
-
         User user=userService.addNewUser(body);
         if(user==null) return  Result.wrapErrorResult(new UserAlreadyExistedError());
         return Result.wrapSuccessfulResult(user);

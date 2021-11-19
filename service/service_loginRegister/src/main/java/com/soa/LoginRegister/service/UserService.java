@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -17,11 +18,13 @@ public class UserService {
 
     @Transactional
     public User addNewUser (User user) {
-        Optional<User> opt=userRepository.findById(user.getUserId());
-        if(opt.isPresent()) return null;
+        //Optional<User> opt=userRepository.findById(user.getUserId());
+        //if(opt.isPresent()) return null;
         User optionUser=userRepository.findByEmail(user.getEmail());
         if(optionUser!=null) return null;
         double seed= ThreadLocalRandom.current().nextDouble();
+        String uuid= UUID.randomUUID().toString().replaceAll("-","");
+        user.setUserId(uuid);
         user.setSalt(HashHelper.computeSha256Hash(user.getUserId()+ seed));
         user.setPassword(HashHelper.computeSha256Hash(user.getPassword()+user.getSalt()));
         userRepository.save(user);

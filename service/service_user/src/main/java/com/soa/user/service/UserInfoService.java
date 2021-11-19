@@ -23,5 +23,5 @@ public class UserInfoService {
         return userById.orElse(null);
     }
 
-    
+
 }
