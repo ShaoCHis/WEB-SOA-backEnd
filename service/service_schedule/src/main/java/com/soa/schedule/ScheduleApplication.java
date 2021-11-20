@@ -2,6 +2,7 @@ package com.soa.schedule;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.PostConstruct;
@@ -9,11 +10,12 @@ import java.util.TimeZone;
 
 /**
  * @ program: demo
- * @ description:
+ * @ description: 8086
  * @ author: ShenBo
  * @ date: 2021-11-19 21:49:33
  */
 @SpringBootApplication
+@EnableFeignClients
 @ComponentScan({"com.soa"})
 public class ScheduleApplication {
     @PostConstruct
