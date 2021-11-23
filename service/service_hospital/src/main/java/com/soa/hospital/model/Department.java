@@ -1,9 +1,11 @@
 package com.soa.hospital.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.soa.hospital.views.DepartmentWithDoctors;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,4 +31,17 @@ public class Department {
     @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL,targetEntity=Hospital.class,mappedBy="departments") //让Hospital维护外键表
     private List<Hospital> hospitals;
+
+    @OneToMany(mappedBy = "department",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private Set<Doctor> doctorSet;
+
+    public Department(DepartmentWithDoctors departmentWithDoctors){
+        this.name=departmentWithDoctors.getName();
+        this.introduction=departmentWithDoctors.getIntroduction();
+        this.Id=departmentWithDoctors.getId();
+    }
+
+    public Department() {
+
+    }
 }

@@ -3,7 +3,7 @@ package com.soa.hospital.service;
 import com.soa.hospital.model.Department;
 import com.soa.hospital.model.Hospital;
 import com.soa.hospital.repository.DepartmentRepository;
-import com.soa.hospital.repository.HospInfoRepository;
+import com.soa.hospital.repository.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class DepartmentService {
     DepartmentRepository departmentRepository;
 
     @Autowired
-    HospInfoRepository hospInfoRepository;
+    HospitalRepository hospInfoRepository;
 
     public Department getById(String id) {
         Optional<Department> departById = departmentRepository.findById(id);

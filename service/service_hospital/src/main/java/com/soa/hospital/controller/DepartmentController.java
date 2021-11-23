@@ -2,9 +2,8 @@ package com.soa.hospital.controller;
 
 import com.soa.hospital.model.Department;
 import com.soa.hospital.model.Hospital;
-import com.soa.hospital.repository.HospInfoRepository;
 import com.soa.hospital.service.DepartmentService;
-import com.soa.hospital.service.HospInfoService;
+import com.soa.hospital.service.HospitalService;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +27,7 @@ public class DepartmentController {
     DepartmentService departmentService;
 
     @Autowired
-    HospInfoService hospInfoService;
+    HospitalService hospInfoService;
 
     @ApiOperation(value="根据科室id获取科室信息")
     @GetMapping("getDepartInfo/{id}")

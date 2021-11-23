@@ -23,6 +23,6 @@ Accept: application/json
 
 ###
 
-GET localhost:8082/api/msm/send/764053156@qq.com
+GET localhost:8082/api/msm/send/1809817487@qq.com
 content-type:application/json
 Accept: application/json
