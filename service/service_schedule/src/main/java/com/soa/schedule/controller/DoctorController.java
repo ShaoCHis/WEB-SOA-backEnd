@@ -1,5 +1,6 @@
 package com.soa.schedule.controller;
 
+import com.soa.schedule.client.HospDepartClient;
 import com.soa.schedule.model.Doctor;
 import com.soa.schedule.service.DoctorService;
 import com.soa.utils.utils.Result;
@@ -24,6 +25,9 @@ public class DoctorController {
 
     @Autowired
     DoctorService doctorService;
+
+    @Autowired
+    HospDepartClient hospDepartClient;
 
     @ApiOperation(value="根据医生id获取医生信息")
     @GetMapping("getDoctorInfo/{id}")
@@ -58,10 +62,15 @@ public class DoctorController {
             return Result.wrapErrorResult("error!");
     }
 
-    @ApiOperation(value="添加一个医生")
+    @ApiOperation(value="添加一个医生,本方法暂不可使用")
     @PostMapping("addDoctor")
     public Result addDoctor(@RequestBody Doctor doctor){
 
+//        Result hospSet = hospDepartClient.getHospSet(doctor.getId());
+//        if(hospSet.isSuccess())
+//        {//医院id合法
+//            System.out.println("111111");
+//        }
         //这里需要调用service_hospital的方法，查询医院id和科室id信息是否合法
         doctor.getHospital();
         doctor.getDepartment();
@@ -69,7 +78,7 @@ public class DoctorController {
 
 
         //合法则保存,返回正确信息
-        doctorService.addDoctor(doctor);
+        //doctorService.addDoctor(doctor);
         return Result.wrapSuccessfulResult("success");
     }
 
