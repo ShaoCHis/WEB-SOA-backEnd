@@ -112,15 +112,25 @@ public class HospitalService {
         return hospitals;
     }
 
+    @Transactional
     public Result<String> joinSystem(HospitalInfo body) {
         Hospital newHospital=new Hospital(body);
         hospInfoRepository.save(newHospital);
 
         Hospital hospital = hospInfoRepository.findById(body.getId()).get();
         List<Department> departments = new LinkedList<>();
+        Iterable<Department> departmentIterable=departmentRepository.findAll();
 
         for(DepartmentWithDoctors departmentWithDoctors: body.getDepartmentWithDoctors()){
-            Department department=new Department(departmentWithDoctors);
+            Department department=null;
+            for(Department department1:departmentIterable){
+                if(department1.getName()==departmentWithDoctors.getName()) {
+                    department=department1;
+                    break;
+                }
+            }
+            if(department==null)
+                department=new Department(departmentWithDoctors);
             departmentRepository.save(department);
             departments.add(department);
             for(DoctorInfo doctorInfo:departmentWithDoctors.getDoctorList()){
@@ -159,6 +169,7 @@ public class HospitalService {
         return Result.wrapSuccessfulResult("join Success!!!");
     }
 
+    @Transactional
     public Result<String> getInformation(String id, List<PatientInfo> body) {
         Hospital hospital= getById(id);
         for(PatientInfo patientInfo:body){

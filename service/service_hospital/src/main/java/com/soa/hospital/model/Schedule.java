@@ -4,6 +4,7 @@ package com.soa.hospital.model;/**
  * Tongji University
  */
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,63 +40,8 @@ public class Schedule {
   @Column(name = "available_number")
   private Integer availableNumber;
 
+  @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "doctor_Id")
   private Doctor doctor;
-
-  public Integer getId() {
-    return Id;
-  }
-
-  public void setId(Integer id) {
-    Id = id;
-  }
-
-  public Time getStartTime() {
-    return startTime;
-  }
-
-  public void setStartTime(Time startTime) {
-    this.startTime = startTime;
-  }
-
-  public Time getEndTime() {
-    return endTime;
-  }
-
-  public void setEndTime(Time endTime) {
-    this.endTime = endTime;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
-  }
-
-  public Integer getReservedNumber() {
-    return reservedNumber;
-  }
-
-  public void setReservedNumber(Integer reservedNumber) {
-    this.reservedNumber = reservedNumber;
-  }
-
-  public Integer getAvailableNumber() {
-    return availableNumber;
-  }
-
-  public void setAvailableNumber(Integer availableNumber) {
-    this.availableNumber = availableNumber;
-  }
-
-  public Doctor getDoctor() {
-    return doctor;
-  }
-
-  public void setDoctor(Doctor doctor) {
-    this.doctor = doctor;
-  }
 }

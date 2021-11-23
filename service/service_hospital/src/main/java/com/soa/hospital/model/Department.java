@@ -28,10 +28,12 @@ public class Department {
     private String Id;
     private String name;
     private String introduction;
+
     @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL,targetEntity=Hospital.class,mappedBy="departments") //让Hospital维护外键表
     private List<Hospital> hospitals;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "department",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private Set<Doctor> doctorSet;
 

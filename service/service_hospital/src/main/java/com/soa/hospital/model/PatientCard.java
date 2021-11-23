@@ -4,6 +4,7 @@ package com.soa.hospital.model;/**
  * Tongji University
  */
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.soa.hospital.views.PatientIds;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,7 @@ public class PatientCard {
   @Column(name = "type")
   private Integer type;
 
+  @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "hospital")
   private Hospital hospital;

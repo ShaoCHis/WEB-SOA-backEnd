@@ -1,5 +1,6 @@
 package com.soa.hospital.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.soa.hospital.views.HospitalInfo;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,15 +35,18 @@ public class Hospital {
     private String notice;
     private Integer status;
 
+    @JsonBackReference
     @ManyToMany(targetEntity=Department.class)
     @JoinTable(name="own",
             joinColumns={@JoinColumn(name="hospital_ID",referencedColumnName="Id")}
             ,inverseJoinColumns={@JoinColumn(name="department_ID",referencedColumnName="Id")})
     private List<Department> departments;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "hospital",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     Set<Doctor> doctorSet;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "hospital",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     Set<PatientCard> patientCardSet;
 

@@ -5,6 +5,7 @@ package com.soa.hospital.model;
  * Tongji University
  */
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GeneratorType;
@@ -36,14 +37,17 @@ public class Doctor {
 
   private Integer cost;
 
+  @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "hospital")
   private Hospital hospital;
 
+  @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "department")
   private Department department;
 
+  @JsonBackReference
   @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
   private Set<Schedule> scheduleSet;
 

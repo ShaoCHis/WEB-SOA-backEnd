@@ -6,6 +6,7 @@ import com.soa.hospital.repository.DepartmentRepository;
 import com.soa.hospital.repository.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,11 +25,13 @@ public class DepartmentService {
     @Autowired
     HospitalRepository hospInfoRepository;
 
+    @Transactional
     public Department getById(String id) {
         Optional<Department> departById = departmentRepository.findById(id);
         return departById.orElse(null);
     }
 
+    @Transactional
     public List<Department> getListById(String id) {
         Optional<Hospital> byId = hospInfoRepository.findById(id);
         Hospital hospital = byId.orElse(null);
