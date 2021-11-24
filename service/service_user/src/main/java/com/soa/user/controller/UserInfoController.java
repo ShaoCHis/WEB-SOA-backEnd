@@ -25,7 +25,7 @@ public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 
-    @ApiOperation(value="根据用户id获取用户信息全部信息")
+    @ApiOperation(value="根据用户id获取用户信息")
     @GetMapping("getUserInfo/{id}")
     public Result<User> getUserInfo(@PathVariable String id){
         User user=userInfoService.getById(id);

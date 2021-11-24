@@ -1,5 +1,6 @@
 package com.soa.user.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,7 @@ public class Patient {
     @Column(name = "phone_Number")
     private String phoneNumber;
     private String sex;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthday;
     @Column(name="certificate_type")
     private String certificateType;
