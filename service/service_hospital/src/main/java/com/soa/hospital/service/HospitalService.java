@@ -43,8 +43,7 @@ public class HospitalService {
         Optional<Hospital> hospById = hospInfoRepository.findById(id);
         return hospById.orElse(null);
     }
-
-    //需要改
+    
     @Transactional
     public boolean update(HospitalBaseInfo hospitalInfo) {
         Hospital hospital=new Hospital(hospitalInfo);

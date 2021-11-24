@@ -19,6 +19,15 @@ public class ApplyService {
 
     @Transactional
     public void applyInfo(Apply apply) {
-        applyRepository.save(apply);
+        Apply applyInfo=new Apply();
+        applyInfo.setCode(apply.getCode());
+        applyInfo.setContact(apply.getContact());
+        applyInfo.setDescription(apply.getDescription());
+        applyInfo.setImage(apply.getImage());
+        applyInfo.setLevel(apply.getLevel());
+        applyInfo.setName(apply.getName());
+        applyInfo.setLocation(apply.getLocation());
+        applyInfo.setStatus(apply.getStatus());
+        applyRepository.save(applyInfo);
     }
 }

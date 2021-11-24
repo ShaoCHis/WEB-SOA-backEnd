@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
@@ -17,6 +18,7 @@ import java.util.TimeZone;
 @SpringBootApplication
 @ComponentScan({"com.soa"})
 @EnableDiscoveryClient
+@EnableJpaAuditing
 public class HospitalApplication {
     @PostConstruct
     public void setDefaultTimezone() {

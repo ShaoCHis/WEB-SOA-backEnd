@@ -54,8 +54,18 @@ public class DepartmentController {
     public Result addDepartment(@PathVariable String hosId,
                                 @PathVariable String departId){
         Hospital hospital = hospInfoService.getById(hosId);
+        if(hospital==null)
+            return Result.wrapErrorResult("医院id错误");
         List<Department> departments = hospital.getDepartments();
-        departments.add(departmentService.getById(departId));
+        Department byId = departmentService.getById(departId);
+        if(byId==null)
+            return Result.wrapErrorResult("科室id错误");
+        for(Department tmp:departments)
+        {
+            if(tmp.getId().equals(departId))
+                return Result.wrapErrorResult("科室已经存在");
+        }
+        departments.add(byId);
         hospital.setDepartments(departments);
         hospInfoService.updateDepart(hospital);
         return Result.wrapSuccessfulResult("success!");

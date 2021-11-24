@@ -50,7 +50,7 @@ public class HospitalController {
         return hospitalService.getInformation(id,body);
     }
 
-    @ApiOperation(value="根据id获取医院信息,里面包括本医院包含的科室信息")
+    @ApiOperation(value="根据id获取医院信息")
     @GetMapping("/getHospInfo/{id}")
     public Result<Hospital> getHospSet(@PathVariable String id) {
         Hospital hospital = hospitalService.getById(id);

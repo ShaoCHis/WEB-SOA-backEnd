@@ -61,6 +61,10 @@ public class DoctorController {
     public Result addDoctor(@PathVariable String hid,
                             @PathVariable String did,
                             @RequestBody DoctorInfo doctorInfo){
+        Doctor byId = doctorService.getById(doctorInfo.getId());
+        if(byId!=null)
+            return Result.wrapErrorResult("医生id已经存在");
+
         boolean flag = doctorService.addDoctor(hid,did,doctorInfo);
         if(flag)
             return Result.wrapSuccessfulResult("success");

@@ -23,7 +23,7 @@ public class ApplyController {
     @Autowired
     ApplyService applyService;
 
-    @ApiOperation(value="提交申请信息")
+    @ApiOperation(value="提交申请信息(不用传时间，只传信息就行)")
     @PostMapping("info")
     public Result applyInfo(@RequestBody Apply apply){
         applyService.applyInfo(apply);
