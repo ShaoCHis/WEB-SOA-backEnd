@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping(path = "api/hospital")
-@Api(value="医院登录",tags = "医院登录",description = "id和code均可，不要传空值也不要都传")
+@Api(value="医院登录",tags = "医院登录",description = "id和code均可")
 public class HospitalController {
     @Autowired
     AuthenticationService authenticationService;

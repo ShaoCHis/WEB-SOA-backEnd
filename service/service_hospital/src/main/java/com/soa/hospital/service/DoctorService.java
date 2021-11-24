@@ -57,7 +57,7 @@ public class DoctorService {
     @Transactional
     public boolean addDoctor(String hid,String did,DoctorInfo doctorInfo) {
         Doctor doctor=new Doctor(doctorInfo);
-        //这里需要调用service_hospital的方法，查询医院id和科室id信息是否合法
+        //这里需要查询医院id和科室id信息是否合法
         Optional<Hospital> byId = hospitalRepository.findById(hid);
         Hospital hospital=byId.orElse(null);
         if(hospital==null)
