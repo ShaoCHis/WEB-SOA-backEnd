@@ -1,6 +1,7 @@
 package com.soa.hospital.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.soa.hospital.views.HospitalBaseInfo;
 import com.soa.hospital.views.HospitalInfo;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,6 +62,20 @@ public class Hospital {
         this.location=hospitalInfo.getLocation();
         this.notice=hospitalInfo.getNotice();
         this.status=hospitalInfo.getStatus();
+        this.password="123456";
+    }
+
+    public Hospital(HospitalBaseInfo hospitalBaseInfo){
+        this.Id=hospitalBaseInfo.getId();
+        this.code=hospitalBaseInfo.getCode();
+        this.name=hospitalBaseInfo.getName();
+        this.introduction=hospitalBaseInfo.getIntroduction();
+        this.image=hospitalBaseInfo.getImage();
+        this.url=hospitalBaseInfo.getUrl();
+        this.level=hospitalBaseInfo.getLevel();
+        this.location=hospitalBaseInfo.getLocation();
+        this.notice=hospitalBaseInfo.getNotice();
+        this.status=hospitalBaseInfo.getStatus();
         this.password="123456";
     }
 

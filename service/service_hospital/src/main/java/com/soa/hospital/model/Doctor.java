@@ -6,6 +6,7 @@ package com.soa.hospital.model;
  */
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.soa.hospital.views.DoctorInfo;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GeneratorType;
@@ -50,6 +51,18 @@ public class Doctor {
   @JsonBackReference
   @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
   private Set<Schedule> scheduleSet;
+
+  public Doctor() {
+  }
+
+  public Doctor(DoctorInfo doctorInfo) {
+    this.Id = doctorInfo.getId();
+    this.name = doctorInfo.getName();
+    this.introduction = doctorInfo.getIntroduction();
+    this.age = doctorInfo.getAge();
+    this.title = doctorInfo.getTitle();
+    this.cost = doctorInfo.getCost();
+  }
 
   public Set<Schedule> getScheduleSet() {
     return scheduleSet;

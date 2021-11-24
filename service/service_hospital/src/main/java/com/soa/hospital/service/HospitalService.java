@@ -44,8 +44,10 @@ public class HospitalService {
         return hospById.orElse(null);
     }
 
+    //需要改
     @Transactional
-    public boolean update(Hospital hospital) {
+    public boolean update(HospitalBaseInfo hospitalInfo) {
+        Hospital hospital=new Hospital(hospitalInfo);
         Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
         Hospital hospital1=byId.orElse(null);
         if(hospital1==null)
@@ -75,7 +77,8 @@ public class HospitalService {
     }
 
     @Transactional
-    public void updateNoticeById(Hospital hospital){
+    public void updateNoticeById(HospitalBaseInfo hospitalInfo) {
+        Hospital hospital=new Hospital(hospitalInfo);
         Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
         Hospital hospital1=byId.orElse(null);
         hospital1.setNotice(hospital.getNotice());
@@ -83,7 +86,8 @@ public class HospitalService {
     }
 
     @Transactional
-    public void updateLogoById(Hospital hospital) {
+    public void updateLogoById(HospitalBaseInfo hospitalInfo) {
+        Hospital hospital=new Hospital(hospitalInfo);
         Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
         Hospital hospital1=byId.orElse(null);
         hospital1.setImage(hospital.getImage());
@@ -91,13 +95,15 @@ public class HospitalService {
     }
 
     @Transactional
-    public void updatePassById(Hospital hospital) {
+    public void updatePassById(HospitalBaseInfo hospitalInfo) {
+        Hospital hospital=new Hospital(hospitalInfo);
         Optional<Hospital> byId = hospInfoRepository.findById(hospital.getId());
         Hospital hospital1=byId.orElse(null);
         hospital1.setPassword(hospital.getPassword());
         Hospital hosp = hospInfoRepository.save(hospital1);
     }
 
+    //保存科室信息
     @Transactional
     public void updateDepart(Hospital hospital) {
         Hospital hosp = hospInfoRepository.save(hospital);

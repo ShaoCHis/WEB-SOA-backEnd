@@ -3,6 +3,7 @@ package com.soa.hospital.controller;
 import com.soa.hospital.model.Hospital;
 import com.soa.hospital.repository.HospitalRepository;
 import com.soa.hospital.service.HospitalService;
+import com.soa.hospital.views.HospitalBaseInfo;
 import com.soa.hospital.views.HospitalInfo;
 import com.soa.hospital.views.PatientInfo;
 import com.soa.utils.error.HospitalNotExistedError;
@@ -51,7 +52,7 @@ public class HospitalController {
 
     @ApiOperation(value="根据id获取医院信息,里面包括本医院包含的科室信息")
     @GetMapping("/getHospInfo/{id}")
-    public Result<Hospital> getHospSet(@PathVariable String     id) {
+    public Result<Hospital> getHospSet(@PathVariable String id) {
         Hospital hospital = hospitalService.getById(id);
         if(hospital!=null)
             return Result.wrapSuccessfulResult(hospital);
@@ -61,7 +62,7 @@ public class HospitalController {
 
     @ApiOperation(value="根据医院id修改医院基本信息")
     @PostMapping("updateHospital")
-    public Result updateHospital(@RequestBody Hospital hospital){
+    public Result updateHospital(@RequestBody HospitalBaseInfo hospital){
         boolean update = hospitalService.update(hospital);
         if(update)
             return Result.wrapSuccessfulResult("Success!");
@@ -71,21 +72,21 @@ public class HospitalController {
 
     @ApiOperation(value="按医院id修改医院公告")
     @PostMapping("updateNoticeById")
-    public Result updateNoticeById(@RequestBody Hospital hospital){
+    public Result updateNoticeById(@RequestBody HospitalBaseInfo hospital){
         hospitalService.updateNoticeById(hospital);
         return Result.wrapSuccessfulResult("Success!");
     }
 
     @ApiOperation(value="按医院id修改医院logo，请传递id和oss服务返回的图片url")
     @PostMapping("updateLogoById")
-    public Result updateLogoById(@RequestBody Hospital hospital){
+    public Result updateLogoById(@RequestBody HospitalBaseInfo hospital){
         hospitalService.updateLogoById(hospital);
         return Result.wrapSuccessfulResult("Success!");
     }
 
     @ApiOperation(value="按医院id修改医院密码")
     @PostMapping("updatePassById")
-    public Result updatePassById(@RequestBody Hospital hospital){
+    public Result updatePassById(@RequestBody HospitalBaseInfo hospital){
         hospitalService.updatePassById(hospital);
         return Result.wrapSuccessfulResult("Success!");
     }
