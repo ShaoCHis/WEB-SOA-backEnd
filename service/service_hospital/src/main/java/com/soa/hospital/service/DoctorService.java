@@ -74,4 +74,21 @@ public class DoctorService {
         }
         return false;
     }
+
+    @Transactional
+    public boolean updateDoctor(DoctorInfo doctorInfo) {
+        Doctor doctor = getById(doctorInfo.getId());
+        if(doctorInfo.getAge()!=null)
+            doctor.setAge(doctorInfo.getAge());
+        if(doctorInfo.getCost()!=null)
+            doctor.setCost(doctorInfo.getCost());
+        if(doctorInfo.getIntroduction()!=null)
+            doctor.setIntroduction(doctorInfo.getIntroduction());
+        if(doctorInfo.getName()!=null)
+            doctor.setName(doctorInfo.getName());
+        if(doctorInfo.getTitle()!=null)
+            doctor.setTitle(doctorInfo.getTitle());
+        doctorRepository.save(doctor);
+        return true;
+    }
 }

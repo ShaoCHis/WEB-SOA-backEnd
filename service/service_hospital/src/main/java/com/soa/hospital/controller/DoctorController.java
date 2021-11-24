@@ -72,4 +72,18 @@ public class DoctorController {
             return Result.wrapErrorResult("error");
     }
 
+    @ApiOperation(value="根据医生id修改医生基本信息")
+    @PostMapping("updateDoctor")
+    public Result updateDoctor(@RequestBody DoctorInfo doctorInfo){
+
+        Doctor byId = doctorService.getById(doctorInfo.getId());
+        if(byId==null)
+            return Result.wrapErrorResult("医生不存在");
+
+        boolean flag = doctorService.updateDoctor(doctorInfo);
+        if(flag)
+            return Result.wrapSuccessfulResult("success");
+        else
+            return Result.wrapErrorResult("error");
+    }
 }
