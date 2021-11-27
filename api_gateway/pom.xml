@@ -17,10 +17,11 @@
             <version>2.1.3.RELEASE</version>
         </dependency>
 
+        <!-- 服务注册 -->
         <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>common_utils</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>0.2.2.RELEASE</version>
         </dependency>
     </dependencies>
 
