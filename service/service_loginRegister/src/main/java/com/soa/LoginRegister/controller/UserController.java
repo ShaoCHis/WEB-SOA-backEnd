@@ -43,7 +43,7 @@ public class UserController {
             response.setStatus(401);
             return Result.wrapErrorResult(new UserNotExistedError());
         }
-        ResponseCookie responseCookie = ResponseCookie.from("sessionId", sessionId)
+        ResponseCookie responseCookie = ResponseCookie.from("userSessionId", sessionId)
                 .maxAge(3* 24* 60 * 60)
                 .httpOnly(true)
                 .path("/")

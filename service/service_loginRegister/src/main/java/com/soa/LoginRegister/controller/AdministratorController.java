@@ -31,7 +31,7 @@ public class AdministratorController {
             response.setStatus(401);
             return Result.wrapErrorResult(new UserNotExistedError());
         }
-        ResponseCookie responseCookie = ResponseCookie.from("sessionId", sessionId)
+        ResponseCookie responseCookie = ResponseCookie.from("adminSessionId", sessionId)
                 .maxAge(3* 24* 60 * 60)
                 .httpOnly(true)
                 .path("/")
