@@ -28,7 +28,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        return null;
+        return chain.filter(exchange);
     }
 
     @Override
