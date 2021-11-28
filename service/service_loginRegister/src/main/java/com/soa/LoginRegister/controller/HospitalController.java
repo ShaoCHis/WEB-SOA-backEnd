@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @ date: 2021-11-18 09:13:16
  */
 @RestController
-@RequestMapping(path = "api/hospital")
+@RequestMapping(path = "/loginRegister/hospitals")
 @Api(value="医院登录",tags = "医院登录",description = "id和code均可")
 public class HospitalController {
     @Autowired

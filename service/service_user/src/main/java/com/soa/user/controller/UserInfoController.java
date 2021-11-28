@@ -18,7 +18,7 @@ import java.util.List;
  * @ date: 2021-11-18 08:43:54
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/Info")
 @CrossOrigin
 @Api(value="用户信息",tags = "用户信息",description = "用户信息")
 public class UserInfoController {

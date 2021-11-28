@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @ date: 2021-11-18 15:28:14
  */
 @RestController
-@RequestMapping("/apply")
+@RequestMapping("/hospital/applies")
 @CrossOrigin
 @Api(value="加入申请",tags = "加入申请",description = "加入申请")
 public class ApplyController {

@@ -19,7 +19,7 @@ import java.util.List;
  * @ date: 2021-11-18 14:38:29
  */
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/hospital/departments")
 @CrossOrigin
 @Api(value="科室信息",tags = "科室信息",description = "科室信息")
 public class DepartmentController {

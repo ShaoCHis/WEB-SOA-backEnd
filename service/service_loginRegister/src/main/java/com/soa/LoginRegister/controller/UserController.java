@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(path = "api/users")
+@RequestMapping(path = "/loginRegister/users")
 @Api(value="用户登录",tags = "用户登录注册",description = "用户登录注册")
 public class UserController {
     @Autowired

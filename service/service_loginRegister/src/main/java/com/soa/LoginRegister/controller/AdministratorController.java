@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(path = "api/administrators")
+@RequestMapping(path = "/loginRegister/administrators")
 @Api(value="管理员登录",tags = "管理员登录",description = "管理员登录")
 public class AdministratorController {
     @Autowired

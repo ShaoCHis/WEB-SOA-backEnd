@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @ date: 2021-11-24 10:18:50
  */
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/hospital/schedules")
 @CrossOrigin
 @Api(value="排班信息",tags = "排班信息",description = "排班信息")
 public class ScheduleController {

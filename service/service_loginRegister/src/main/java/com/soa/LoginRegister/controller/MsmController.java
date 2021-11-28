@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/api/msm")
+@RequestMapping("/loginRegister/msm")
 @CrossOrigin
 @Api(value="发短信",tags = "发短信",description = "发短信")
 public class MsmController {
