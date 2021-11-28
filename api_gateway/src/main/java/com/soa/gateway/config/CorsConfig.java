@@ -9,22 +9,22 @@ import org.springframework.web.util.pattern.PathPatternParser;
 
 /*
  * @author ShenBo
- * @description 处理跨域
+ * @description 处理跨域,已使用CrossOrigin注解
  * @date 2021/11/27 21:36
  */
 @Configuration
 public class CorsConfig {
-    @Bean
-    public CorsWebFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedMethod("*");
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
-        source.registerCorsConfiguration("/**", config);
-
-        return new CorsWebFilter(source);
-    }
+//    @Bean
+//    public CorsWebFilter corsFilter() {
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.addAllowedMethod("*");
+//        config.addAllowedOrigin("*");
+//        config.addAllowedHeader("*");
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
+//        source.registerCorsConfiguration("/**", config);
+//
+//        return new CorsWebFilter(source);
+//    }
 }
 

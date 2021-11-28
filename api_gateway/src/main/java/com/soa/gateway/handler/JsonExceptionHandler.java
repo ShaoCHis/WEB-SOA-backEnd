@@ -13,11 +13,7 @@ import java.util.Map;
 
 /**
  * 自定义异常处理
- *
  * <p>异常时用JSON代替HTML异常信息<p>
- *
- * @author yinjihuan
- *
  */
 public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
 
