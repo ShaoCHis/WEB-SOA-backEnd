@@ -38,7 +38,7 @@ public class HospitalReceiver {
 //        schedule.setReservedNumber(orderMqVo.getReservedNumber());
 //        schedule.setAvailableNumber(orderMqVo.getAvailableNumber());
 //        scheduleService.update(schedule);
-//        //发送邮件功能要不？
+//        //发送提醒邮件功能要不？
 //        MsmVo msmVo = orderMqVo.getMsmVo();
 //        if(null != msmVo) {
 //            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM, MqConst.ROUTING_MSM_ITEM, msmVo);
