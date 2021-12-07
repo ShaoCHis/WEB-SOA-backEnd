@@ -15,6 +15,11 @@ public class RabbitService {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
+    /**
+     * @param exchange 交换机
+     * @param routingKey 路由键
+     * @param message 消息
+     */
     public boolean sendMessage(String exchange,String routingKey,Object message){
         rabbitTemplate.convertAndSend(exchange,routingKey,message);
         return true;
