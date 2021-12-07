@@ -18,5 +18,5 @@ public class HospitalReceiver {
     @Autowired
     private RabbitService rabbitService;
 
-    
+
 }
