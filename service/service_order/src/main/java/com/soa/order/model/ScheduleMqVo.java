@@ -1,4 +1,6 @@
-package com.soa.hospital.model;
+package com.soa.order.model;
+
+import lombok.Data;
 
 /**
  * @ program: demo
@@ -6,5 +8,6 @@ package com.soa.hospital.model;
  * @ author: ShenBo
  * @ date: 2021-12-07 23:06:48
  */
-public class OrderMqVo {
+@Data
+public class ScheduleMqVo {
 }

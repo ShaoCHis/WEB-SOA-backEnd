@@ -1,7 +1,7 @@
 package com.soa.hospital.receiver;
 
 import com.rabbitmq.client.Channel;
-import com.soa.hospital.model.OrderMqVo;
+import com.soa.hospital.views.ScheduleMqVo;
 import com.soa.hospital.service.ScheduleService;
 import com.soa.rabbit.constant.MqConst;
 import com.soa.rabbit.service.RabbitService;
@@ -32,14 +32,14 @@ public class HospitalReceiver {
             exchange = @Exchange(value = MqConst.EXCHANGE_DIRECT_ORDER),
             key = {MqConst.ROUTING_ORDER}
     ))
-    public void receiver(OrderMqVo orderMqVo, Message message, Channel channel) throws IOException {
+    public void receiver(ScheduleMqVo scheduleMqVo, Message message, Channel channel) throws IOException {
 //        //下单成功更新预约数
-//        Schedule schedule = scheduleService.getScheduleId(orderMqVo.getScheduleId());
-//        schedule.setReservedNumber(orderMqVo.getReservedNumber());
-//        schedule.setAvailableNumber(orderMqVo.getAvailableNumber());
+//        Schedule schedule = scheduleService.getScheduleId(scheduleMqVo.getScheduleId());
+//        schedule.setReservedNumber(scheduleMqVo.getReservedNumber());
+//        schedule.setAvailableNumber(scheduleMqVo.getAvailableNumber());
 //        scheduleService.update(schedule);
 //        //发送提醒邮件功能要不？
-//        MsmVo msmVo = orderMqVo.getMsmVo();
+//        MsmVo msmVo = scheduleMqVo.getMsmVo();
 //        if(null != msmVo) {
 //            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM, MqConst.ROUTING_MSM_ITEM, msmVo);
 //        }

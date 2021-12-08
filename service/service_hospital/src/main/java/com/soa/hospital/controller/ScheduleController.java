@@ -1,8 +1,12 @@
 package com.soa.hospital.controller;
 
+import com.soa.hospital.model.Department;
 import com.soa.hospital.model.Doctor;
+import com.soa.hospital.model.Hospital;
 import com.soa.hospital.model.Schedule;
+import com.soa.hospital.service.DepartmentService;
 import com.soa.hospital.service.DoctorService;
+import com.soa.hospital.service.HospitalService;
 import com.soa.hospital.service.ScheduleService;
 import com.soa.hospital.views.ScheduleInfo;
 import com.soa.hospital.views.ScheduleToUpdate;
@@ -30,6 +34,12 @@ public class ScheduleController {
 
     @Autowired
     DoctorService doctorService;
+
+    @Autowired
+    HospitalService hospitalService;
+
+    @Autowired
+    DepartmentService departmentService;
 
     @ApiOperation(value="为医生添加排班信息")
     @PostMapping("addSchedule/{doctorId}")
@@ -73,7 +83,33 @@ public class ScheduleController {
             return Result.wrapErrorResult("error");
     }
 
-    //查看某医院的全部的排班信息列表
-    //查看某医院的某科室的全部排班信息列表
+    @ApiOperation(value="查看某医院的全部的排班信息列表")
+    @GetMapping("getHospSchedule/{hospitalId}")
+    public Result getHospSchedule(@PathVariable String hospitalId){
+        //检查医院id是否正确
+        Hospital byId = hospitalService.getById(hospitalId);
+        if(byId==null)
+            return Result.wrapErrorResult("error");
+        List<Schedule> list = scheduleService.getHospSchedule(hospitalId);
+        return Result.wrapSuccessfulResult(list);
+    }
 
+    @ApiOperation(value="查看某医院的某科室的排班信息列表")
+    @GetMapping("getHospDepartSchedule/{hospitalId}/{departmentId}")
+    public Result getHospDepartSchedule(@PathVariable String hospitalId,
+                                        @PathVariable String departmentId){
+        //医院id是否正确,且医院是否有该科室
+        Hospital byId = hospitalService.getById(hospitalId);
+        if(byId==null)
+            return Result.wrapErrorResult("error");
+        List<Department> listById = departmentService.getListById(hospitalId);
+        for(Department department:listById){
+            if(department.getId().equals(departmentId)){
+                List<Schedule> list = scheduleService.getHospDepartSchedule(hospitalId,departmentId);
+                return Result.wrapSuccessfulResult(list);
+            }
+        }
+        //没有该科室
+        return Result.wrapErrorResult("error");
+    }
 }

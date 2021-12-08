@@ -70,4 +70,14 @@ public class ScheduleService {
         //to write
         return false;
     }
+
+    public List<Schedule> getHospSchedule(String hospitalId) {
+        //to write
+        return null;
+    }
+
+    public List<Schedule> getHospDepartSchedule(String hospitalId, String departmentId) {
+        //to write
+        return null;
+    }
 }
