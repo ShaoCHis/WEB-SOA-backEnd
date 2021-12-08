@@ -35,10 +35,10 @@ public class Schedule {
   private Date date;
 
   @Column(name = "reserved_number")
-  private Integer reservedNumber;
+  private Integer reservedNumber;//总预约数
 
   @Column(name = "available_number")
-  private Integer availableNumber;
+  private Integer availableNumber;//剩余可预约数
 
   @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
