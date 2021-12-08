@@ -17,4 +17,5 @@ public class PatientDegradeFeignClient implements PatientFeignClient {
     public Result<Patient> getPatientInfo(String id) {
         return Result.wrapErrorResult("获取病人信息失败！");
     }
+
 }

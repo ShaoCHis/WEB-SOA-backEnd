@@ -4,7 +4,7 @@ import com.soa.hospital.model.Doctor;
 import com.soa.hospital.model.Schedule;
 import com.soa.hospital.repository.ScheduleRepository;
 import com.soa.hospital.views.ScheduleInfo;
-import com.soa.hospital.views.ScheduleToUpdate;
+import com.soa.hospital.views.ScheduleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +66,7 @@ public class ScheduleService {
         return true;
     }
 
-    public boolean updateSchedule(ScheduleToUpdate scheduleToUpdate) {
+    public boolean updateSchedule(ScheduleVo scheduleVo) {
         //to write
         return false;
     }
@@ -77,6 +77,11 @@ public class ScheduleService {
     }
 
     public List<Schedule> getHospDepartSchedule(String hospitalId, String departmentId) {
+        //to write
+        return null;
+    }
+
+    public ScheduleVo getScheduleVo(String scheduleId) {
         //to write
         return null;
     }

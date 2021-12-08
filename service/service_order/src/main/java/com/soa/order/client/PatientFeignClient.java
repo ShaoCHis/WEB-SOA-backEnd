@@ -14,4 +14,5 @@ public interface PatientFeignClient {
     //根据病人id获取病人信息
     @GetMapping("/user/patients/getPatientInfo/{id}")
     public Result<Patient> getPatientInfo(@PathVariable String id);
+
 }

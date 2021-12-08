@@ -23,10 +23,13 @@ public class ReservationService {
 
     public String addReservation(String scheduleId, String patientId) {
         Result patientResult = patientFeignClient.getPatientInfo(patientId);
-        if(patientResult.isSuccess()){
-            Patient patient = (Patient)patientResult.getData();
-            System.out.println(patient.getPatientId());
-        }
+        //获取病人信息
+        Patient patient;
+        if(patientResult.isSuccess())
+            patient = (Patient) patientResult.getData();
+        //获取排班信息
+
+
         return "tmp";
     }
 }

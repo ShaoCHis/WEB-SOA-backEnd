@@ -12,7 +12,7 @@ import java.sql.Time;
  * @ date: 2021-12-08 14:49:25
  */
 @Data
-public class ScheduleToUpdate {
+public class ScheduleVo {
     private Integer Id;
     private Integer availableNumber;
     private Integer reservedNumber;

@@ -9,7 +9,7 @@ import com.soa.hospital.service.DoctorService;
 import com.soa.hospital.service.HospitalService;
 import com.soa.hospital.service.ScheduleService;
 import com.soa.hospital.views.ScheduleInfo;
-import com.soa.hospital.views.ScheduleToUpdate;
+import com.soa.hospital.views.ScheduleVo;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -75,8 +75,8 @@ public class ScheduleController {
 
     @ApiOperation(value="修改排班信息")
     @PostMapping("updateSchedule")
-    public Result updateSchedule(@RequestBody ScheduleToUpdate scheduleToUpdate){
-        boolean flag=scheduleService.updateSchedule(scheduleToUpdate);
+    public Result updateSchedule(@RequestBody ScheduleVo scheduleVo){
+        boolean flag=scheduleService.updateSchedule(scheduleVo);
         if(flag)
             return Result.wrapSuccessfulResult("success");
         else
@@ -111,5 +111,11 @@ public class ScheduleController {
         }
         //没有该科室
         return Result.wrapErrorResult("error");
+    }
+
+    //根据排班id获取该排班的信息，其他服务调用本函数
+    @GetMapping("inner/getScheduleVo/{scheduleId}")
+    public ScheduleVo getScheduleVo(@PathVariable("scheduleId") String scheduleId) {
+        return scheduleService.getScheduleVo(scheduleId);
     }
 }
