@@ -37,7 +37,7 @@ public class PatientController {
         if(patient!=null)
             return Result.wrapSuccessfulResult(patient);
         else
-            return Result.wrapErrorResult("error!");
+            return Result.wrapErrorResult("error");
     }
 
     @ApiOperation(value="根据用户id获取病人信息列表")

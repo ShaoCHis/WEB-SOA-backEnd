@@ -2,6 +2,7 @@ package com.soa.order.model;
 
 import lombok.Data;
 
+
 /**
  * @ program: demo
  * @ description: rabbitmq传递消息的实体类

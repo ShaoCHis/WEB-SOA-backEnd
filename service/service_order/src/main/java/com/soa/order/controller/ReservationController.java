@@ -1,11 +1,12 @@
 package com.soa.order.controller;
 
+import com.soa.order.service.ReservationService;
 import com.soa.rabbit.service.RabbitService;
+import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ program: demo
@@ -19,7 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value="预约下单",tags = "预约下单",description = "预约下单")
 public class ReservationController {
 
-    //生成预约订单信息
-    //传递病人id和scheduleid
+    @Autowired
+    ReservationService reservationService;
+
+    @ApiOperation(value="根据病人id和scheduleId生成预约订单信息")
+    @PostMapping("submitReservation/{scheduleId}/{patientId}")
+    public Result submitReservation(@PathVariable String scheduleId,
+                                    @PathVariable String patientId){
+        String reservationId = reservationService.addReservation(scheduleId,patientId);
+        return Result.wrapSuccessfulResult(reservationId);
+    }
 
 }
