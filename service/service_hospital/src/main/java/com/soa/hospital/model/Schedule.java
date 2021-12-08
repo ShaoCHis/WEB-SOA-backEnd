@@ -5,8 +5,8 @@ package com.soa.hospital.model;/**
  */
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.Setter;
+import com.soa.hospital.views.ScheduleInfo;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -21,6 +21,8 @@ import java.sql.Time;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Schedule {
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
