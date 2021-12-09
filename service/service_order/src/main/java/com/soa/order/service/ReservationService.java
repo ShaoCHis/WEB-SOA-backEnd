@@ -6,7 +6,7 @@ import com.soa.order.model.*;
 import com.soa.order.repository.ReservationRepository;
 import com.soa.order.views.ReservationVo;
 import com.soa.order.views.ScheduleVo;
-//import com.soa.rabbit.service.RabbitService;
+import com.soa.rabbit.service.RabbitService;
 import com.soa.utils.utils.RandomUtil;
 import com.soa.utils.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,8 @@ import java.util.List;
  */
 @Service
 public class ReservationService {
-//    @Autowired
-//    RabbitService rabbitService;
+    @Autowired
+    RabbitService rabbitService;
     
     @Autowired
     PatientFeignClient patientFeignClient;
@@ -107,13 +107,15 @@ public class ReservationService {
         reservation.setDoctorTitle(reservationVo.getDoctorTitle());
         int num=scheduleVo.getReservedNumber()-scheduleVo.getAvailableNumber()+1;
         reservation.setNumber(num);
-        //mq修改schedule可预约数！
-
         reservation.setReserveDate(scheduleVo.getDate());
         reservation.setReserveTime(scheduleVo.getStartTime());
         reservation.setState(0);//默认未完成
         reservation.setScheduleID(scheduleId);
         System.out.println(reservation);
+
+        //mq修改schedule可预约数！
+
+
 //        reservationRepository.save(reservation);
         return reservation.getID();//返回刚刚生成的reservation的id
     }

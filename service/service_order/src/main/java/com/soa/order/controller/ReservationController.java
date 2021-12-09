@@ -1,8 +1,6 @@
 package com.soa.order.controller;
 
 import com.soa.order.service.ReservationService;
-//import com.soa.rabbit.service.RabbitService;
-import com.soa.utils.utils.RandomUtil;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
