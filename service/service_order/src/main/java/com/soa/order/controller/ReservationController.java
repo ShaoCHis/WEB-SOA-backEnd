@@ -23,12 +23,24 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
-    @ApiOperation(value="根据病人id和scheduleId生成预约订单信息")
+    @ApiOperation(value="对于有卡的病人，根据病人id和scheduleId和cardType和cardId四个参数生成预约订单信息")
+    @PostMapping("submitReservation/{scheduleId}/{patientId}/{cardType}/{cardId}")
+    public Result submitReservation(@PathVariable String scheduleId,
+                                    @PathVariable String patientId,
+                                    @PathVariable int cardType,
+                                    @PathVariable String cardId){
+//        String reservationId = reservationService.addReservation(scheduleId,patientId,cardId);
+//        return Result.wrapSuccessfulResult(reservationId);
+        return Result.wrapSuccessfulResult("111");
+    }
+
+
+    @ApiOperation(value="对于没卡的病人，根据病人id和scheduleId两个参数生成预约订单信息")
     @PostMapping("submitReservation/{scheduleId}/{patientId}")
     public Result submitReservation(@PathVariable String scheduleId,
                                     @PathVariable String patientId){
-        String reservationId = reservationService.addReservation(scheduleId,patientId);
-        return Result.wrapSuccessfulResult(reservationId);
+//        String reservationId = reservationService.addReservation(scheduleId,patientId,cardId);
+//        return Result.wrapSuccessfulResult(reservationId);
+        return Result.wrapSuccessfulResult("222");
     }
-
 }

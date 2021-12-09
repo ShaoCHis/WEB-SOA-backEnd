@@ -1,5 +1,6 @@
 package com.soa.order.model;
 
+import com.soa.order.views.CardPrimary;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -25,4 +26,5 @@ public class Card {
     @Id
     @Column(name = "card_id")
     private String cardId;
+    private String hospital;
 }

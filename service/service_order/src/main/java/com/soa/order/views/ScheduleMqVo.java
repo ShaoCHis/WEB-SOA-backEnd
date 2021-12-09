@@ -1,4 +1,4 @@
-package com.soa.order.model;
+package com.soa.order.views;
 
 import lombok.Data;
 

@@ -1,5 +1,8 @@
 package com.soa.order.client;
 
+import com.soa.order.model.Doctor;
+import com.soa.order.views.ScheduleVo;
+import com.soa.utils.utils.Result;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,5 +13,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class HospitalDegradeFeignClient implements HospitalFeignClient {
+
+    @Override
+    public ScheduleVo getScheduleVo(String scheduleId) {
+        return null;
+    }
+
+    @Override
+    public Result<Doctor> getDoctorInfo(String id) {
+        return Result.wrapErrorResult("error!");
+    }
 
 }

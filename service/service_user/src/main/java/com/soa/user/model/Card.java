@@ -25,4 +25,5 @@ public class Card {
     @Id
     @Column(name = "card_id")
     private String cardId;
+    private String hospital;
 }

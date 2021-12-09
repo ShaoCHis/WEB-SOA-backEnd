@@ -29,13 +29,8 @@ public class Patient {
     private String sex;
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthday;
-    @Column(name="certificate_type")
-    private String certificateType;
-    @Column(name="certificate_num")
-    private String certificateNum;
     @Column(name="is_insure")
     private Integer isInsure;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_ID")
     private List<Card> cards;
