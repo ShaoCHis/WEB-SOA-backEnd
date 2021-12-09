@@ -7,6 +7,7 @@ package com.soa.hospital.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.soa.hospital.views.DoctorInfo;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GeneratorType;
@@ -21,8 +22,7 @@ import java.util.Set;
  */
 
 @Entity
-@Getter
-@Setter
+@Data
 public class Doctor {
   @Id
   @Column(name = "ID")
@@ -52,9 +52,6 @@ public class Doctor {
   @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
   private Set<Schedule> scheduleSet;
 
-  public Doctor() {
-  }
-
   public Doctor(DoctorInfo doctorInfo) {
     this.Id = doctorInfo.getId();
     this.name = doctorInfo.getName();
@@ -64,75 +61,6 @@ public class Doctor {
     this.cost = doctorInfo.getCost();
   }
 
-  public Set<Schedule> getScheduleSet() {
-    return scheduleSet;
-  }
-
-  public void setScheduleSet(Set<Schedule> scheduleSet) {
-    this.scheduleSet = scheduleSet;
-  }
-
-  public String getId() {
-    return Id;
-  }
-
-  public void setId(String id) {
-    Id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getIntroduction() {
-    return introduction;
-  }
-
-  public void setIntroduction(String introduction) {
-    this.introduction = introduction;
-  }
-
-  public Integer getAge() {
-    return age;
-  }
-
-  public void setAge(Integer age) {
-    this.age = age;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Integer getCost() {
-    return cost;
-  }
-
-  public void setCost(Integer cost) {
-    this.cost = cost;
-  }
-
-  public Hospital getHospital() {
-    return hospital;
-  }
-
-  public void setHospital(Hospital hospital) {
-    this.hospital = hospital;
-  }
-
-  public Department getDepartment() {
-    return department;
-  }
-
-  public void setDepartment(Department department) {
-    this.department = department;
+  public Doctor() {
   }
 }

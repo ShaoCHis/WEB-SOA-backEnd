@@ -6,6 +6,7 @@ package com.soa.order.model;/**
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.soa.order.views.PatientIds;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +21,7 @@ import javax.persistence.*;
 @Entity
 @IdClass(PatientIds.class)
 @Table(name = "patient_card")
-@Getter
-@Setter
+@Data
 public class PatientCard {
   @Id
   @Column(name = "patient_id")

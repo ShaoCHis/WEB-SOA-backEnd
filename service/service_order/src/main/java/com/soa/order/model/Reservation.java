@@ -1,9 +1,6 @@
 package com.soa.order.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,10 +15,7 @@ import java.sql.Date;
  * @ date: 2021-12-08 20:02:33
  */
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class Reservation {
     @Id
     @Column(name = "ID")
@@ -41,6 +35,8 @@ public class Reservation {
     private String departmentName;
     private String doctorName;
     private String doctorTitle;
+    @Column(name = "schedule_ID")
+    private String scheduleID;
     private Integer number;
     private Date reserveDate;
     private Time reserveTime;

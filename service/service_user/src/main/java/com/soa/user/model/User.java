@@ -1,5 +1,6 @@
 package com.soa.user.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,8 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 public class User {
     @Id
     @Column(name = "user_ID")

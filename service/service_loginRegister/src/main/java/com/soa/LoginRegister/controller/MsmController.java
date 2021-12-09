@@ -1,8 +1,8 @@
 package com.soa.LoginRegister.controller;
 
 import com.soa.LoginRegister.service.MsmService;
-import com.soa.LoginRegister.utils.RandomUtil;
 import com.soa.utils.error.EmailFailedError;
+import com.soa.utils.utils.RandomUtil;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

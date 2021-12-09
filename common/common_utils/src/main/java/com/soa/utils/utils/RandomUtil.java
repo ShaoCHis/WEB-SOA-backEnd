@@ -1,4 +1,4 @@
-package com.soa.LoginRegister.utils;
+package com.soa.utils.utils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

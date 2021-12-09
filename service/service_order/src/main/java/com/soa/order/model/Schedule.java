@@ -5,10 +5,7 @@ package com.soa.order.model;/**
  */
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -21,10 +18,7 @@ import java.sql.Time;
  */
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class Schedule {
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)

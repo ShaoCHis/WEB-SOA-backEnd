@@ -3,8 +3,11 @@ package com.soa.order.service;
 import com.soa.order.client.HospitalFeignClient;
 import com.soa.order.client.PatientFeignClient;
 import com.soa.order.model.*;
+import com.soa.order.repository.ReservationRepository;
+import com.soa.order.views.ReservationVo;
 import com.soa.order.views.ScheduleVo;
-import com.soa.rabbit.service.RabbitService;
+//import com.soa.rabbit.service.RabbitService;
+import com.soa.utils.utils.RandomUtil;
 import com.soa.utils.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +22,8 @@ import java.util.List;
  */
 @Service
 public class ReservationService {
-    @Autowired
-    RabbitService rabbitService;
+//    @Autowired
+//    RabbitService rabbitService;
     
     @Autowired
     PatientFeignClient patientFeignClient;
@@ -28,7 +31,10 @@ public class ReservationService {
     @Autowired
     HospitalFeignClient hospitalFeignClient;
 
-    public String addReservation(String scheduleId, String patientId, String cardId) {
+    @Autowired
+    ReservationRepository reservationRepository;
+
+    public String addReservation(String scheduleId, String patientId,int cardType, String cardId) {
         Result patientResult = patientFeignClient.getPatientInfo(patientId);
         //获取病人信息
         Patient patient;
@@ -36,53 +42,79 @@ public class ReservationService {
             patient = (Patient) patientResult.getData();
         else
             patient=new Patient();
+        System.out.println(patient);
+        List<Card> cards = patient.getCards();
+        for(Card card:cards){
+            System.out.println(card);
+        }
         //获取排班信息
-        ScheduleVo scheduleVo = hospitalFeignClient.getScheduleVo(scheduleId);
+        int scheduleIntId = Integer.parseInt(scheduleId);
+        Result schedule = hospitalFeignClient.getScheduleVo(scheduleIntId);
+        ScheduleVo scheduleVo;
+        if(schedule.isSuccess())
+            scheduleVo= (ScheduleVo) schedule.getData();
+        else
+            scheduleVo=new ScheduleVo();
 
         Reservation reservation=new Reservation();
-//        reservation的id自动生成
+        String randomId = RandomUtil.getFourBitRandom()+RandomUtil.getSixBitRandom();
+        reservation.setID(randomId);
         reservation.setUserID(patient.getUserId());
         reservation.setPatientID(patient.getPatientId());
         reservation.setPatientName(patient.getName());
-        //参数传递过来选择的卡
-        boolean flag=false;
-        List<Card> cards = patient.getCards();
-        for(Card card:cards){
-            if(card.getCardId().equals(cardId)){
-                flag=true;
-                reservation.setCardType(card.getType());//0没有，1xx卡9折，2yy卡8折
-                reservation.setCardNum(card.getCardId());
-            }
-        }
-        if(!flag){
+        if(cardType==0)
+        {
             reservation.setCardType(0);
             reservation.setCardNum("无卡");
+        }else{
+            //参数传递过来选择的卡
+            boolean flag=false;
+            List<Card> cards1 = patient.getCards();
+            for(Card card:cards1){
+                if(card.getCardId().equals(cardId)&&card.getType()==cardType){
+                    flag=true;
+                    reservation.setCardType(card.getType());//0没有，1xx卡9折，2yy卡8折
+                    reservation.setCardNum(card.getCardId());
+                }
+            }
+            if(!flag){
+                reservation.setCardType(0);
+                reservation.setCardNum("无卡");
+            }
         }
+        System.out.println(scheduleVo);
 
-        String doctorId=scheduleVo.getDoctorId();
         //查询医生信息,获取名字和价格,医院id、科室id，医院name、科室name
-        Result<Doctor> doctorInfo = hospitalFeignClient.getDoctorInfo(doctorId);
-        Doctor doctor;
-        if(doctorInfo.isSuccess())
-            doctor=doctorInfo.getData();
+        Result<ReservationVo> reservationVoResult = hospitalFeignClient.getReservationVo(scheduleVo.getDoctorId());
+        ReservationVo reservationVo;
+        if(reservationVoResult.isSuccess())
+            reservationVo=reservationVoResult.getData();
         else
-            doctor=new Doctor();
-        reservation.setDoctorName(doctor.getName());
-        reservation.setDoctorTitle(doctor.getTitle());
-        int cost=doctor.getCost();
+            reservationVo=new ReservationVo();
+        System.out.println(reservationVo);
+
+        reservation.setDoctorName(reservationVo.getDoctorName());
+        reservation.setDoctorTitle(reservationVo.getDoctorTitle());
+        int cost=reservationVo.getCost();
         //根据卡类型打折
+//        if(reservation.getCardType()==1)
+//            cost=cost*0.9;
         reservation.setCost(cost);
-        reservation.setHospitalID(doctor.getHospital().getId());
-        reservation.setHospitalName(doctor.getHospital().getName());
-        reservation.setDepartmentID(doctor.getDepartment().getId());
-        reservation.setDepartmentName(doctor.getDepartment().getName());
-        //判断available小于等于0时不可约！
+        reservation.setHospitalID(reservationVo.getHospitalID());
+        reservation.setHospitalName(reservationVo.getHospitalName());
+        reservation.setDepartmentID(reservationVo.getDepartmentID());
+        reservation.setDepartmentName(reservationVo.getDepartmentName());
+        reservation.setDoctorTitle(reservationVo.getDoctorTitle());
         int num=scheduleVo.getReservedNumber()-scheduleVo.getAvailableNumber()+1;
         reservation.setNumber(num);
-        //修改schedule！
+        //mq修改schedule可预约数！
+
         reservation.setReserveDate(scheduleVo.getDate());
         reservation.setReserveTime(scheduleVo.getStartTime());
         reservation.setState(0);//默认未完成
+        reservation.setScheduleID(scheduleId);
+        System.out.println(reservation);
+//        reservationRepository.save(reservation);
         return reservation.getID();//返回刚刚生成的reservation的id
     }
 }

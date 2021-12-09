@@ -1,6 +1,7 @@
 package com.soa.user.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +16,7 @@ import java.util.List;
  * @ date: 2021-11-18 17:41:55
  */
 @Entity
-@Getter
-@Setter
+@Data
 public class Patient {
     @Id
     @Column(name = "patient_ID")

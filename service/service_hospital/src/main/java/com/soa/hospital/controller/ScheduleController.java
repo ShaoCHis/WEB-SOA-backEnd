@@ -113,9 +113,24 @@ public class ScheduleController {
         return Result.wrapErrorResult("error");
     }
 
-    //根据排班id获取该排班的信息，其他服务调用本函数
+    @ApiOperation(value="根据排班id获取该排班的信息，其他服务调用本函数")
     @GetMapping("inner/getScheduleVo/{scheduleId}")
-    public ScheduleVo getScheduleVo(@PathVariable("scheduleId") String scheduleId) {
-        return scheduleService.getScheduleVo(scheduleId);
+    public Result<ScheduleVo> getScheduleVo(@PathVariable("scheduleId") int scheduleId) {
+        Schedule schedule = scheduleService.getSchedule(scheduleId);
+        if(schedule==null)
+            return Result.wrapErrorResult("error");
+        else
+        {
+            ScheduleVo scheduleVo=new ScheduleVo();
+            scheduleVo.setAvailableNumber(schedule.getAvailableNumber());
+            scheduleVo.setReservedNumber(schedule.getReservedNumber());
+            scheduleVo.setStartTime(schedule.getStartTime());
+            scheduleVo.setEndTime(schedule.getEndTime());
+            scheduleVo.setId(schedule.getId());
+            scheduleVo.setDoctorId(schedule.getDoctor().getId());
+            scheduleVo.setDate(schedule.getDate());
+            return Result.wrapSuccessfulResult(scheduleVo);
+        }
+
     }
 }

@@ -1,9 +1,6 @@
 package com.soa.order.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,10 +13,7 @@ import javax.persistence.Id;
  * @ date: 2021-12-08 20:33:46
  */
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class Order {
     @Id
     @Column(name = "ID")

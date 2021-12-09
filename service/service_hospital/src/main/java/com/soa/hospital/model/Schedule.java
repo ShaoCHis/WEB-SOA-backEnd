@@ -19,10 +19,7 @@ import java.sql.Time;
  */
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class Schedule {
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)

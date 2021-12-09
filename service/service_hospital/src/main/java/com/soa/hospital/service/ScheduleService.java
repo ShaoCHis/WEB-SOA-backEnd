@@ -81,8 +81,9 @@ public class ScheduleService {
         return null;
     }
 
-    public ScheduleVo getScheduleVo(String scheduleId) {
-        //to write
-        return null;
+    public Schedule getSchedule(int scheduleId) {
+        Optional<Schedule> byId = scheduleRepository.findById(scheduleId);
+        Schedule schedule = byId.orElse(null);
+        return schedule;
     }
 }

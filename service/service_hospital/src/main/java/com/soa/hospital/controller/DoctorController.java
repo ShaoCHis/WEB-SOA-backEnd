@@ -3,6 +3,7 @@ package com.soa.hospital.controller;
 import com.soa.hospital.model.Doctor;
 import com.soa.hospital.service.DoctorService;
 import com.soa.hospital.views.DoctorInfo;
+import com.soa.hospital.views.ReservationVo;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +34,25 @@ public class DoctorController {
             return Result.wrapSuccessfulResult(doctor);
         else
             return Result.wrapErrorResult("error!");
+    }
+
+    //根据医生id查询医生信息、医院信息、科室信息
+    @GetMapping("/getReservationVo/{id}")
+    public Result<ReservationVo> getReservationVo(@PathVariable String id){
+        Doctor doctor=doctorService.getById(id);
+        if(doctor==null)
+            return Result.wrapErrorResult("error");
+        else{
+            ReservationVo reservationVo=new ReservationVo();
+            reservationVo.setCost(doctor.getCost());
+            reservationVo.setDepartmentID(doctor.getDepartment().getId());
+            reservationVo.setDepartmentName(doctor.getDepartment().getName());
+            reservationVo.setDoctorName(doctor.getName());
+            reservationVo.setDoctorTitle(doctor.getTitle());
+            reservationVo.setHospitalID(doctor.getHospital().getId());
+            reservationVo.setHospitalName(doctor.getHospital().getName());
+            return Result.wrapSuccessfulResult(reservationVo);
+        }
     }
 
     @ApiOperation(value="根据医院id获取全院医生信息列表")

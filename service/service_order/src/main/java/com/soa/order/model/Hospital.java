@@ -3,6 +3,7 @@ package com.soa.order.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.soa.order.views.HospitalBaseInfo;
 import com.soa.order.views.HospitalInfo;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +18,7 @@ import java.util.Set;
  * @ date: 2021-11-16 18:35:42
  */
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name="hospital")
 public class Hospital {
     @Id

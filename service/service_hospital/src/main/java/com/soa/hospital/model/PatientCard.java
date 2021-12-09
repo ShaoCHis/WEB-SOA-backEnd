@@ -6,6 +6,7 @@ package com.soa.hospital.model;/**
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.soa.hospital.views.PatientIds;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,8 +22,7 @@ import java.sql.Date;
 @Entity
 @IdClass(PatientIds.class)
 @Table(name = "patient_card")
-@Getter
-@Setter
+@Data
 public class PatientCard {
   @Id
   @Column(name = "patient_id")
