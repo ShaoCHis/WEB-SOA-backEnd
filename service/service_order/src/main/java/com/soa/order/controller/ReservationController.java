@@ -89,6 +89,4 @@ public class ReservationController {
         else
             return Result.wrapErrorResult("error");
     }
-
-    //支付部分怎么做？
 }

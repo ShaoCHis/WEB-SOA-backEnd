@@ -1,6 +1,8 @@
 package com.soa.order.controller;
 
+import com.soa.order.service.OrderService;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,5 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @Api(value="支付订单",tags = "支付订单",description = "支付订单")
 public class OrderController {
+    @Autowired
+    OrderService orderService;
+
 
 }

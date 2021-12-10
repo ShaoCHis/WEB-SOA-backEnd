@@ -34,4 +34,6 @@ public class UserInfoController {
         else
             return Result.wrapErrorResult("error!");
     }
+
+    
 }

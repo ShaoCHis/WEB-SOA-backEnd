@@ -1,5 +1,8 @@
 package com.soa.order.service;
 
+import com.soa.order.repository.OrderRepository;
+import com.soa.rabbit.service.RabbitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,4 +13,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class OrderService {
+
+    @Autowired
+    RabbitService rabbitService;
+
+    @Autowired
+    OrderRepository orderRepository;
+
+
 }
