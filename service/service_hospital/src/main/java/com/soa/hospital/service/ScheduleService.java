@@ -68,6 +68,7 @@ public class ScheduleService {
 
     public boolean updateSchedule(ScheduleVo scheduleVo) {
         //to write
+        
         return false;
     }
 
@@ -85,5 +86,10 @@ public class ScheduleService {
         Optional<Schedule> byId = scheduleRepository.findById(scheduleId);
         Schedule schedule = byId.orElse(null);
         return schedule;
+    }
+
+    public void update(Schedule schedule) {
+        //更新schedule
+        //to write
     }
 }

@@ -1,6 +1,7 @@
 package com.soa.hospital.receiver;
 
 import com.rabbitmq.client.Channel;
+import com.soa.hospital.model.Schedule;
 import com.soa.hospital.views.ScheduleMqVo;
 import com.soa.hospital.service.ScheduleService;
 import com.soa.rabbit.constant.MqConst;
@@ -24,25 +25,17 @@ import java.io.IOException;
 public class HospitalReceiver {
     @Autowired
     private ScheduleService scheduleService;
-    @Autowired
-    private RabbitService rabbitService;
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = MqConst.QUEUE_ORDER, durable = "true"),
             exchange = @Exchange(value = MqConst.EXCHANGE_DIRECT_ORDER),
             key = {MqConst.ROUTING_ORDER}
     ))
-    public void receiver(ScheduleMqVo scheduleMqVo, Message message, Channel channel) throws IOException {
-//        //下单成功更新预约数
-//        Schedule schedule = scheduleService.getScheduleId(scheduleMqVo.getScheduleId());
-//        schedule.setReservedNumber(scheduleMqVo.getReservedNumber());
-//        schedule.setAvailableNumber(scheduleMqVo.getAvailableNumber());
-//        scheduleService.update(schedule);
-//        //发送提醒邮件功能要不？
-//        MsmVo msmVo = scheduleMqVo.getMsmVo();
-//        if(null != msmVo) {
-//            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM, MqConst.ROUTING_MSM_ITEM, msmVo);
-//        }
+    public void receiver(int scheduleId, Message message, Channel channel) throws IOException {
+        //下单成功更新预约数,指定schedule可预约数-1
+        Schedule schedule = scheduleService.getSchedule(scheduleId);
+        schedule.setAvailableNumber(schedule.getAvailableNumber()-1);
+        scheduleService.update(schedule);
     }
 
 }

@@ -31,4 +31,24 @@ public class MsmService {
         }
 
     }
+
+    public boolean sendRemind(String message,String userEmail){
+        try {
+            HtmlEmail email = new HtmlEmail();
+            email.setHostName("smtp.163.com");
+            email.setCharset("UTF-8");
+            email.addTo(userEmail);// 收件地址
+
+            email.setFrom("registerWEB2021@163.com", "EmailIdentifyCode");
+            email.setAuthentication("registerWEB2021@163.com", "WHCWZULLIJIUKJIL");
+
+            email.setSubject("挂号通知");//此处填写邮件名，邮件名可任意填写
+            email.setMsg(message);//此处填写邮件内容
+            email.send();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -22,8 +22,6 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
-    //要判断一下这个病人是否已经预约了这个scheduleId，不可重复预约！
-
     @ApiOperation(value="对于有卡的病人，根据病人id和scheduleId和cardType和cardId四个参数生成预约订单信息")
     @PostMapping("submitReservation/{scheduleId}/{patientId}/{cardType}/{cardId}")
     public Result submitReservation(@PathVariable String scheduleId,
@@ -34,7 +32,6 @@ public class ReservationController {
         return Result.wrapSuccessfulResult(reservationId);
     }
 
-
     @ApiOperation(value="对于没卡的病人，根据病人id和scheduleId两个参数生成预约订单信息")
     @PostMapping("submitReservation/{scheduleId}/{patientId}")
     public Result submitReservation(@PathVariable String scheduleId,
@@ -44,4 +41,12 @@ public class ReservationController {
         String reservationId = reservationService.addReservation(scheduleId,patientId,cardType,cardId);
         return Result.wrapSuccessfulResult(reservationId);
     }
+
+    //要判断一下这个病人是否已经预约了这个scheduleId，不可重复预约！
+    //查询用户reservation列表
+    //根据reservationId查询详情
+    //取消预约
+
+    //支付部分怎么做？
+
 }
