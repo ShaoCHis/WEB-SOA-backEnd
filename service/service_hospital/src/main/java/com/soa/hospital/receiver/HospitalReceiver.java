@@ -37,5 +37,4 @@ public class HospitalReceiver {
         schedule.setAvailableNumber(schedule.getAvailableNumber()-1);
         scheduleService.update(schedule);
     }
-
 }

@@ -122,4 +122,13 @@ public class ReservationService {
         //同时保存订单信息，让用户支付
         return reservation.getID();//返回刚刚生成的reservation的id
     }
+
+    public boolean haveReserved(String patientId, String scheduleId) {
+        Iterable<Reservation> all = reservationRepository.findAll();
+        for(Reservation tmp:all){
+            if(tmp.getPatientID().equals(patientId)&&tmp.getScheduleID().equals(scheduleId))
+                return true;//已经预约过
+        }
+        return false;
+    }
 }

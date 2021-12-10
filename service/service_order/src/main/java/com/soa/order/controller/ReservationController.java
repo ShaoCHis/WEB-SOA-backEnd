@@ -28,6 +28,11 @@ public class ReservationController {
                                     @PathVariable String patientId,
                                     @PathVariable int cardType,
                                     @PathVariable String cardId){
+        //要判断一下这个病人是否已经预约了这个scheduleId，不可重复预约！
+        boolean flag=reservationService.haveReserved(patientId,scheduleId);
+        if(flag)
+            //病人已预约此schedule
+            return Result.wrapErrorResult("error");
         String reservationId = reservationService.addReservation(scheduleId,patientId,cardType,cardId);
         return Result.wrapSuccessfulResult(reservationId);
     }
@@ -38,14 +43,17 @@ public class ReservationController {
                                     @PathVariable String patientId){
         int cardType=0;
         String cardId="";
+        if(reservationService.haveReserved(patientId,scheduleId))
+            return Result.wrapErrorResult("error");
         String reservationId = reservationService.addReservation(scheduleId,patientId,cardType,cardId);
         return Result.wrapSuccessfulResult(reservationId);
     }
 
-    //要判断一下这个病人是否已经预约了这个scheduleId，不可重复预约！
+    
     //查询用户reservation列表
     //根据reservationId查询详情
-    //取消预约
+    //取消预约,即删除
+
 
     //支付部分怎么做？
 
