@@ -28,13 +28,26 @@ public class PatientService {
 
     @Transactional
     public boolean addPatient(String userId ,PatientVo patientVo) {
-
-        return false;
+        Patient patient=new Patient();
+        patient.setPatientId(patientVo.getPatientId());
+        patient.setUserId(userId);
+        patient.setBirthday(patientVo.getBirthday());
+        patient.setIsInsure(patientVo.getIsInsure());
+        patient.setName(patientVo.getName());
+        patient.setSex(patientVo.getSex());
+        patient.setPhoneNumber(patientVo.getPhoneNumber());
+        patientRepository.save(patient);
+        return true;
     }
 
     @Transactional
     public boolean deletePatient(String patientId) {
-
+        boolean existsById = patientRepository.existsById(patientId);
+        if(existsById)
+        {
+            patientRepository.deleteById(patientId);
+            return true;
+        }
         return false;
     }
 }
