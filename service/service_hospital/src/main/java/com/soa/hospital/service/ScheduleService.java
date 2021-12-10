@@ -57,7 +57,6 @@ public class ScheduleService {
 
     @Transactional
     public boolean deleteSchedule(Integer scheduleId) {
-
         Optional<Schedule> byId = scheduleRepository.findById(scheduleId);
         Schedule schedule = byId.orElse(null);
         if(schedule==null)
@@ -66,20 +65,45 @@ public class ScheduleService {
         return true;
     }
 
+    @Transactional
     public boolean updateSchedule(ScheduleVo scheduleVo) {
-        //to write
-        
-        return false;
+        Schedule schedule = getSchedule(scheduleVo.getId());
+        if(schedule==null)
+            return false;
+        if(scheduleVo.getAvailableNumber()!=null)
+            schedule.setAvailableNumber(scheduleVo.getAvailableNumber());
+        if(scheduleVo.getStartTime()!=null)
+            schedule.setStartTime(scheduleVo.getStartTime());
+        if(scheduleVo.getEndTime()!=null)
+            schedule.setEndTime(scheduleVo.getEndTime());
+        if(scheduleVo.getReservedNumber()!=null)
+            schedule.setReservedNumber(scheduleVo.getReservedNumber());
+        if(scheduleVo.getDate()!=null)
+            schedule.setDate(scheduleVo.getDate());
+        if(scheduleVo.getDoctorId()!=null)
+            schedule.setDoctor(doctorService.getById(scheduleVo.getDoctorId()));
+        scheduleRepository.save(schedule);
+        return true;
     }
 
     public List<Schedule> getHospSchedule(String hospitalId) {
-        //to write
-        return null;
+        Iterable<Schedule> all = scheduleRepository.findAll();
+        List<Schedule> scheduleList=new ArrayList<>();
+        for(Schedule tmp:all){
+            if(tmp.getDoctor().getHospital().getId().equals(hospitalId))
+                scheduleList.add(tmp);
+        }
+        return scheduleList;
     }
 
     public List<Schedule> getHospDepartSchedule(String hospitalId, String departmentId) {
-        //to write
-        return null;
+        List<Schedule> hospSchedule = getHospSchedule(hospitalId);
+        List<Schedule> scheduleList=new ArrayList<>();
+        for(Schedule tmp:hospSchedule){
+            if(tmp.getDoctor().getDepartment().getId().equals(departmentId))
+                scheduleList.add(tmp);
+        }
+        return scheduleList;
     }
 
     public Schedule getSchedule(int scheduleId) {
@@ -88,8 +112,8 @@ public class ScheduleService {
         return schedule;
     }
 
+    @Transactional
     public void update(Schedule schedule) {
-        //更新schedule
-        //to write
+        scheduleRepository.save(schedule);
     }
 }
