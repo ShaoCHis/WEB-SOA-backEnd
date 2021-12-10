@@ -15,5 +15,4 @@ public class CardService {
     @Autowired
     CardRepository cardRepository;
 
-    
 }
