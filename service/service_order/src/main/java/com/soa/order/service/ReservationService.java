@@ -13,8 +13,11 @@ import com.soa.utils.utils.RandomUtil;
 import com.soa.utils.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ program: demo
@@ -128,6 +131,32 @@ public class ReservationService {
         for(Reservation tmp:all){
             if(tmp.getPatientID().equals(patientId)&&tmp.getScheduleID().equals(scheduleId))
                 return true;//已经预约过
+        }
+        return false;
+    }
+
+    public List<Reservation> getReservation(String userId) {
+        Iterable<Reservation> all = reservationRepository.findAll();
+        List<Reservation> reservationList=new ArrayList<>();
+        for(Reservation tmp:all){
+            if(tmp.getUserID().equals(userId))
+                reservationList.add(tmp);
+        }
+        return reservationList;
+    }
+
+    public Reservation getReservationById(String reservationId) {
+        Optional<Reservation> byId = reservationRepository.findById(reservationId);
+        Reservation reservation = byId.orElse(null);
+        return reservation;
+    }
+
+    @Transactional
+    public boolean cancel(String reservationId) {
+        boolean b = reservationRepository.existsById(reservationId);
+        if(b){
+            reservationRepository.deleteById(reservationId);
+            return true;
         }
         return false;
     }

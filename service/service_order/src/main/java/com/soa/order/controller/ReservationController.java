@@ -1,11 +1,16 @@
 package com.soa.order.controller;
 
+import com.soa.order.client.PatientFeignClient;
+import com.soa.order.model.Reservation;
+import com.soa.order.model.User;
 import com.soa.order.service.ReservationService;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @ program: demo
@@ -21,6 +26,9 @@ public class ReservationController {
 
     @Autowired
     ReservationService reservationService;
+
+    @Autowired
+    PatientFeignClient patientFeignClient;
 
     @ApiOperation(value="对于有卡的病人，根据病人id和scheduleId和cardType和cardId四个参数生成预约订单信息")
     @PostMapping("submitReservation/{scheduleId}/{patientId}/{cardType}/{cardId}")
@@ -49,12 +57,38 @@ public class ReservationController {
         return Result.wrapSuccessfulResult(reservationId);
     }
 
-    
-    //查询用户reservation列表
-    //根据reservationId查询详情
-    //取消预约,即删除
+    @ApiOperation(value="查询用户reservation列表")
+    @GetMapping("getReservationList/{userId}")
+    public Result getReservationList(@PathVariable String userId){
+        //判断userId是否正确
+        Result<User> userInfo = patientFeignClient.getUserInfo(userId);
+        if(!userInfo.isSuccess()){
+            //没有查到user
+            return Result.wrapErrorResult("error");
+        }
+        List<Reservation> reservationList = reservationService.getReservation(userId);
+        return Result.wrapSuccessfulResult(reservationList);
+    }
 
+    @ApiOperation(value="根据reservationId查询预约详情")
+    @GetMapping("getReservation/{reservationId}")
+    public Result getReservation(@PathVariable String reservationId){
+        Reservation reservationById = reservationService.getReservationById(reservationId);
+        if(reservationById==null)
+            return Result.wrapErrorResult("error");
+        else
+            return Result.wrapSuccessfulResult(reservationById);
+    }
+
+    @ApiOperation(value="根据reservationId取消预约")
+    @DeleteMapping("cancelReservation/{reservationId}")
+    public Result cancelReservation(@PathVariable String reservationId){
+        boolean flag = reservationService.cancel(reservationId);
+        if(flag)
+            return Result.wrapSuccessfulResult("success");
+        else
+            return Result.wrapErrorResult("error");
+    }
 
     //支付部分怎么做？
-
 }
