@@ -3,6 +3,7 @@ package com.soa.user.controller;
 import com.soa.user.model.Patient;
 import com.soa.user.model.User;
 import com.soa.user.service.UserInfoService;
+import com.soa.user.views.UserVo;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,5 +36,13 @@ public class UserInfoController {
             return Result.wrapErrorResult("error!");
     }
 
-    
+    @ApiOperation(value="修改用户基本信息,用户id必须传")
+    @PostMapping("updateUserInfo")
+    public Result updateUserInfo(@RequestBody UserVo userVo){
+        boolean flag=userInfoService.updateUserInfo(userVo);
+        if(flag)
+            return Result.wrapSuccessfulResult("success");
+        else
+            return Result.wrapErrorResult("error");
+    }
 }

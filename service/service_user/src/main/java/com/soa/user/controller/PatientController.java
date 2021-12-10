@@ -4,6 +4,7 @@ import com.soa.user.model.Patient;
 import com.soa.user.model.User;
 import com.soa.user.service.PatientService;
 import com.soa.user.service.UserInfoService;
+import com.soa.user.views.PatientVo;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,4 +53,28 @@ public class PatientController {
         }
     }
 
+    @ApiOperation(value="根据用户id为用户添加病人")
+    @PostMapping("addPatient/{userId}")
+    public Result addPatient(@PathVariable String userId,
+                             @RequestBody PatientVo patientVo){
+        //判断用户是否存在
+        User user = userInfoService.getById(userId);
+        if(user==null)
+            return Result.wrapErrorResult("error!");
+        boolean flag = patientService.addPatient(userId,patientVo);
+        if(flag)
+            return Result.wrapSuccessfulResult("success");
+        else
+            return Result.wrapErrorResult("error");
+    }
+
+    @ApiOperation(value="根据病人id删除病人")
+    @DeleteMapping("deletePatient/{patientId}")
+    public Result deletePatient(@PathVariable String patientId){
+        boolean flag=patientService.deletePatient(patientId);
+        if(flag)
+            return Result.wrapSuccessfulResult("success");
+        else
+            return Result.wrapErrorResult("error");
+    }
 }
