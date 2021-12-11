@@ -36,8 +36,10 @@ public class ScheduleService {
             return false;
         Schedule schedule=new Schedule();
         schedule.setDate(scheduleInfo.getDate());
-        schedule.setStartTime(new Time(scheduleInfo.getStartTime().getTime()-28800000-5760000));
-        schedule.setEndTime(new Time(scheduleInfo.getEndTime().getTime()-28800000-5760000));
+//        schedule.setStartTime(new Time(scheduleInfo.getStartTime().getTime()-28800000-5760000));
+//        schedule.setEndTime(new Time(scheduleInfo.getEndTime().getTime()-28800000-5760000));
+        schedule.setStartTime(scheduleInfo.getStartTime());
+        schedule.setEndTime(scheduleInfo.getEndTime());
         schedule.setReservedNumber(scheduleInfo.getReservedNumber());
         schedule.setAvailableNumber(scheduleInfo.getAvailableNumber());
         schedule.setDoctor(byId);
