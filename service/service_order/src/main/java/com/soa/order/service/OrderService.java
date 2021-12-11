@@ -42,6 +42,6 @@ public class OrderService {
     }
 
     public void paySuccess(String out_trade_no, Map<String, String> resultMap) {
-        
+
     }
 }
