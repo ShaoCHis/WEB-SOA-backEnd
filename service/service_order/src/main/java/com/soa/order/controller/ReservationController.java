@@ -80,7 +80,7 @@ public class ReservationController {
             return Result.wrapSuccessfulResult(reservationById);
     }
 
-    @ApiOperation(value="根据reservationId取消预约")
+    @ApiOperation(value="根据reservationId取消未付款的预约")
     @DeleteMapping("cancelReservation/{reservationId}")
     public Result cancelReservation(@PathVariable String reservationId){
         boolean flag = reservationService.cancel(reservationId);

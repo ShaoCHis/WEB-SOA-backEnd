@@ -83,6 +83,31 @@ public class WeixinService {
     }
 
     public Map<String, String> queryPayStatus(String reservationId) {
-        return null;
+        try {
+            Reservation reservation = reservationService.getReservationById(reservationId);
+            if (reservation == null)
+                return null;
+            //封装提交参数
+            Map paramMap = new HashMap();
+            paramMap.put("appid", ConstantPropertiesUtils.APPID);
+            paramMap.put("mch_id", ConstantPropertiesUtils.PARTNER);
+            paramMap.put("out_trade_no", reservationId);
+            paramMap.put("nonce_str", WXPayUtil.generateNonceStr());
+
+            //设置请求内容
+            HttpClient client = new HttpClient("https://api.mch.weixin.qq.com/pay/orderquery");
+            client.setXmlParam(WXPayUtil.generateSignedXml(paramMap,ConstantPropertiesUtils.PARTNERKEY));
+            client.setHttps(true);
+            client.post();
+
+            //得到微信接口返回数据
+            String xml = client.getContent();
+            Map<String, String> resultMap = WXPayUtil.xmlToMap(xml);
+//            System.out.println("支付状态resultMap:"+resultMap);
+            return resultMap;
+        }catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

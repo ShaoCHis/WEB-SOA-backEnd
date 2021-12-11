@@ -26,4 +26,6 @@ public class Orders {
     private Integer type;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss")
     private Date time;
+    @Column(name = "transaction_ID")
+    private String transactionID;
 }
