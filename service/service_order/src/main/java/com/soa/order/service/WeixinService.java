@@ -1,6 +1,8 @@
 package com.soa.order.service;
 
+import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
+import com.soa.order.model.Orders;
 import com.soa.order.model.Reservation;
 import com.soa.order.utils.ConstantPropertiesUtils;
 import com.soa.order.utils.HttpClient;
@@ -82,6 +84,7 @@ public class WeixinService {
         }
     }
 
+    //付款时的支付状态，三秒查一次
     public Map<String, String> queryPayStatus(String reservationId) {
         try {
             Reservation reservation = reservationService.getReservationById(reservationId);
@@ -106,6 +109,53 @@ public class WeixinService {
 //            System.out.println("支付状态resultMap:"+resultMap);
             return resultMap;
         }catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //微信退款
+    public Boolean refund(String id) {
+        try {
+            Orders orders = ordersService.getOrdersById(id);
+            //修改state信息为退款中
+            ordersService.refundOrders(id,2);
+            //判断当前订单数据是否已经退款
+            if(orders.getState() == 3)
+                return true;//3代表已退款
+
+            //微信退款
+            Map<String,String> paramMap = new HashMap<>();
+            paramMap.put("appid",ConstantPropertiesUtils.APPID);       //公众账号ID
+            paramMap.put("mch_id",ConstantPropertiesUtils.PARTNER);   //商户编号
+            paramMap.put("nonce_str",WXPayUtil.generateNonceStr());
+            paramMap.put("transaction_id",orders.getTransactionID()); //微信订单号
+            paramMap.put("out_trade_no",orders.getID()); //商户订单编号
+            paramMap.put("out_refund_no","tk"+orders.getID()); //商户退款单号
+//       paramMap.put("total_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
+//       paramMap.put("refund_fee",paymentInfoQuery.getTotalAmount().multiply(new BigDecimal("100")).longValue()+"");
+            paramMap.put("total_fee","1");
+            paramMap.put("refund_fee","1");
+            String paramXml = WXPayUtil.generateSignedXml(paramMap,ConstantPropertiesUtils.PARTNERKEY);
+            //设置调用接口内容
+            HttpClient client = new HttpClient("https://api.mch.weixin.qq.com/secapi/pay/refund");
+            client.setXmlParam(paramXml);
+            client.setHttps(true);
+            //设置证书信息
+            client.setCert(true);
+            client.setCertPassword(ConstantPropertiesUtils.PARTNER);
+            client.post();
+
+            //接收返回数据
+            String xml = client.getContent();
+            Map<String, String> resultMap = WXPayUtil.xmlToMap(xml);
+            if (null != resultMap && WXPayConstants.SUCCESS.equalsIgnoreCase(resultMap.get("result_code"))) {
+                //修改state信息为退款成功
+                ordersService.refundOrders(id,3);
+                return true;
+            }
+            return false;
+        }catch(Exception e){
             e.printStackTrace();
             return null;
         }

@@ -50,7 +50,7 @@ public class OrdersService {
         ordersRepository.save(orders);
     }
 
-    //改变支付状态
+    //成功时改变支付状态
     public void paySuccess(String orderId, Map<String, String> resultMap) {
         Optional<Orders> byId = ordersRepository.findById(orderId);
         Orders orders = byId.orElse(null);
@@ -64,25 +64,44 @@ public class OrdersService {
         //更新reservation信息
         Optional<Reservation> reservationRepositoryById = reservationRepository.findById(orders.getReserveID());
         Reservation reservation = reservationRepositoryById.orElse(null);
-        reservation.setState(1);
+        reservation.setState(1);//已支付
         reservationRepository.save(reservation);
-        //rabbit发短信：
-        //您好，病人xxx成功预约xxx医院xxx科室的门诊，时间为xxx（日期时间），预约序号为第xxx位。
+
+        //TODO
+        // rabbit发短信：
+        // 您好，病人xxx成功预约xxx医院xxx科室的门诊，时间为xxx（日期时间），预约序号为第xxx位。
 
 
-        //医院财务
-        //还有病人预约列表，医院端怎么查看
-
+        //TODO
+        // 医院财务
+        // 调子系统api，医院端记录病人预约
+        // 还有病人预约列表，医院端怎么查看
 
     }
 
-    //根据ordersId获取支付记录
+    //根据ordersId获取order
     public Orders getOrdersById(String ordersId){
         Optional<Orders> byId = ordersRepository.findById(ordersId);
         Orders orders = byId.orElse(null);
         return orders;
     }
 
-    //根据reservationId获取支付记录
-
+    //退款时修改reservation和orders的state
+    @Transactional
+    public void refundOrders(String ordersId,int type){
+        //更新order信息
+        Orders ordersById = getOrdersById(ordersId);
+        if(ordersById==null)
+            return;
+        ordersById.setTime(new Date());
+        ordersById.setState(type);//2为退款中,3为退款成功
+        ordersRepository.save(ordersById);
+        //更新reservation信息
+        Optional<Reservation> reservationRepositoryById = reservationRepository.findById(ordersById.getReserveID());
+        Reservation reservation = reservationRepositoryById.orElse(null);
+        if(reservation==null)
+            return;
+        reservation.setState(type);//2为退款中,3为退款成功
+        reservationRepository.save(reservation);
+    }
 }

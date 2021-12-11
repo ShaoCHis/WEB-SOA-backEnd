@@ -39,6 +39,9 @@ public class ReservationService {
     @Autowired
     ReservationRepository reservationRepository;
 
+    @Autowired
+    WeixinService weixinService;
+
     public String addReservation(String scheduleId, String patientId,int cardType, String cardId) {
         Result patientResult = patientFeignClient.getPatientInfo(patientId);
         //获取病人信息
@@ -159,5 +162,34 @@ public class ReservationService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public boolean cancelPaid(String reservationId) {
+        //获取
+        boolean b = reservationRepository.existsById(reservationId);
+        if(!b)
+            return false;
+        Optional<Reservation> byId = reservationRepository.findById(reservationId);
+        Reservation reservation = byId.orElse(null);
+        //状态必须是1（已付款未就诊）才行
+        if(reservation.getState()!=1)
+            return false;
+
+        //TODO
+        // 判断时间是否可以取消，schedule的startTime之前可取消，过了不可取消
+
+        Boolean flag = weixinService.refund(reservationId);
+        if(!flag)
+            return false;
+
+        //TODO
+        // 发送mq更新预约数量+1
+        // 短信提示取消预约成功
+
+        //TODO
+        // 调医院子系统api取消那边的预约，财务那边也退这个钱
+
+        return true;
     }
 }

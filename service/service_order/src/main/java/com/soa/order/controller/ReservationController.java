@@ -89,4 +89,14 @@ public class ReservationController {
         else
             return Result.wrapErrorResult("error");
     }
+
+    @ApiOperation(value="根据reservationId取消已经付款的预约，并退款")
+    @GetMapping("cancelPaidReservation/{reservationId}")
+    public Result cancelPaidReservation(@PathVariable String reservationId){
+        boolean flag = reservationService.cancelPaid(reservationId);
+        if(flag)
+            return Result.wrapSuccessfulResult("success");
+        else
+            return Result.wrapErrorResult("error");
+    }
 }
