@@ -25,7 +25,7 @@ public class WeixinService {
     ReservationService reservationService;
 
     @Autowired
-    OrderService orderService;
+    OrdersService ordersService;
 
     @Autowired
     RedisTemplate redisTemplate;
@@ -41,7 +41,7 @@ public class WeixinService {
             Reservation reservation = reservationService.getReservationById(reservationId);
             if (reservation == null)
                 return null;
-            orderService.saveOrderInfo(reservation, 1);//1代表type为微信支付
+            ordersService.saveOrderInfo(reservation, 1);//1代表type为微信支付
 
             Map paramMap = new HashMap();
             paramMap.put("appid", ConstantPropertiesUtils.APPID);
@@ -73,9 +73,8 @@ public class WeixinService {
             map.put("resultCode", resultMap.get("result_code"));
             map.put("codeUrl", resultMap.get("code_url")); //二维码地址
 
-            if(resultMap.get("result_code") != null) {
+            if(resultMap.get("result_code") != null)
                 redisTemplate.opsForValue().set(reservationId,map,120, TimeUnit.MINUTES);
-            }
             return map;
         }catch(Exception e){
             e.printStackTrace();

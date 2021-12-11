@@ -1,6 +1,6 @@
 package com.soa.order.controller;
 
-import com.soa.order.service.OrderService;
+import com.soa.order.service.OrdersService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/order/orders")
 @CrossOrigin
 @Api(value="支付订单",tags = "支付订单",description = "支付订单")
-public class OrderController {
+public class OrdersController {
     @Autowired
-    OrderService orderService;
+    OrdersService ordersService;
 
 
 }

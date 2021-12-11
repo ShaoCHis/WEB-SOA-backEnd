@@ -119,9 +119,9 @@ public class ReservationService {
         System.out.println(reservation);
 
         //mq修改schedule可预约数-1！
-        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleIntId);
+//        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleIntId);
 
-//        reservationRepository.save(reservation);
+        reservationRepository.save(reservation);
         //同时保存订单信息，让用户支付
         return reservation.getID();//返回刚刚生成的reservation的id
     }
