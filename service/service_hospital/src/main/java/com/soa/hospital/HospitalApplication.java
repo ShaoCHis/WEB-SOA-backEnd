@@ -1,5 +1,6 @@
 package com.soa.hospital;
 
+import com.soa.hospital.nettyServer.NettyServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -26,5 +27,10 @@ public class HospitalApplication {
     }
     public static void main(String[] args) {
         SpringApplication.run(HospitalApplication.class, args);
+        try {
+            new NettyServer(12114).start();
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.soa.hospital.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.soa.hospital.model.Hospital;
 import com.soa.hospital.repository.HospitalRepository;
 import com.soa.hospital.service.HospitalService;
@@ -7,12 +9,20 @@ import com.soa.hospital.views.HospitalBaseInfo;
 import com.soa.hospital.views.HospitalInfo;
 import com.soa.hospital.views.PatientInfo;
 import com.soa.utils.error.HospitalNotExistedError;
+import io.netty.buffer.Unpooled;
+import io.netty.util.CharsetUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.soa.utils.utils.Result;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,13 +42,25 @@ public class HospitalController {
     @Autowired
     HospitalRepository hospitalRepository;
 
-    @ApiOperation(value = "医院加入系统")
-    @PostMapping(path = "/join")
-    public Result<String> joinSystem(@RequestBody HospitalInfo body){
-        Hospital hospital= hospitalService.getById(body.getId());
+    @ApiOperation(value = "审核通过后，医院加入系统")
+    @PostMapping(path = "/join/{id}")
+    public Result<String> joinSystem(@PathVariable String id){
+        Hospital hospital= hospitalService.getById(id);
+
         if(hospital!=null)
             return Result.wrapErrorResult(new HospitalNotExistedError());
-        return hospitalService.joinSystem(body);
+
+        RestTemplate restTemplate = new RestTemplate();
+        String location = "http://127.0.0.1:18080/api/hospitals/"+id;
+        JSONObject json = restTemplate.getForEntity(location, JSONObject.class).getBody().getJSONObject("data");
+        HospitalInfo hospitalInfo= JSON.parseObject(String.valueOf(json),HospitalInfo.class);
+        return hospitalService.joinSystem(hospitalInfo);
+    }
+
+    @ApiOperation(value = "Netty监听，前端不用处理")
+    @PostMapping(path = "/update")
+    public Result<String> updateSystem(@RequestBody HospitalInfo body){
+        return hospitalService.updateHospitalInfo(body);
     }
 
     @ApiOperation(value = "集成政府信息（医保卡，社保卡）")
@@ -100,5 +122,4 @@ public class HospitalController {
         else
             return Result.wrapErrorResult("error!");
     }
-
 }
