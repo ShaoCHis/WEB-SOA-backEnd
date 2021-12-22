@@ -17,7 +17,6 @@
         <module>service_oss</module>
         <module>service_user</module>
         <module>service_order</module>
-        <module>service_admin</module>
     </modules>
 
     <properties>
