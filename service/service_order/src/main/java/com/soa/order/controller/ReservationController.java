@@ -19,7 +19,7 @@ import java.util.List;
  * @ date: 2021-12-08 20:17:14
  */
 @RestController
-@RequestMapping("/order/reservations")
+@RequestMapping("/orders/reservations")
 @CrossOrigin
 @Api(value="预约下单",tags = "预约下单",description = "预约下单")
 public class ReservationController {
