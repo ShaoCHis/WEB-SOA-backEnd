@@ -13,7 +13,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/orders/weixin")
 @CrossOrigin
-@Api(value="微信支付",tags = "微信支付",description = "支付订单")
+@Api(value="微信支付",tags = "微信支付",description = "微信支付")
 public class WeixinController {
 
     @Autowired
