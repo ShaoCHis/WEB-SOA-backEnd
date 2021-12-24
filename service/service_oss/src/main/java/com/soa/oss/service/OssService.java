@@ -59,7 +59,7 @@ public class OssService {
 
             // 创建上传文件的元信息，可以通过文件元信息设置HTTP header(设置了才能通过返回的链接直接访问)。
             ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType("image/jpg");
+            objectMetadata.setContentType(getContentType(fileName.substring(fileName.lastIndexOf("."))));
 
             //调用oss方法实现上传
             //第一个参数  Bucket名称
@@ -79,5 +79,40 @@ public class OssService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static String getContentType(String FilenameExtension) {
+        if (FilenameExtension.equalsIgnoreCase(".bmp")) {
+            return "image/bmp";
+        }
+        if (FilenameExtension.equalsIgnoreCase(".gif")) {
+            return "image/gif";
+        }
+        if (FilenameExtension.equalsIgnoreCase(".jpeg") ||
+                FilenameExtension.equalsIgnoreCase(".jpg") ||
+                FilenameExtension.equalsIgnoreCase(".png")) {
+            return "image/jpg";
+        }
+        if (FilenameExtension.equalsIgnoreCase(".html")) {
+            return "text/html";
+        }
+        if (FilenameExtension.equalsIgnoreCase(".txt")) {
+            return "text/plain";
+        }
+        if (FilenameExtension.equalsIgnoreCase(".vsd")) {
+            return "application/vnd.visio";
+        }
+        if (FilenameExtension.equalsIgnoreCase(".pptx") ||
+                FilenameExtension.equalsIgnoreCase(".ppt")) {
+            return "application/vnd.ms-powerpoint";
+        }
+        if (FilenameExtension.equalsIgnoreCase(".docx") ||
+                FilenameExtension.equalsIgnoreCase(".doc")) {
+            return "application/msword";
+        }
+        if (FilenameExtension.equalsIgnoreCase(".xml")) {
+            return "text/xml";
+        }
+        return "image/jpg";
     }
 }

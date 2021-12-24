@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/order/weixin")
+@RequestMapping("/orders/weixin")
 @CrossOrigin
-@Api(value="微信支付",tags = "微信支付",description = "微信支付")
+@Api(value="微信支付",tags = "微信支付",description = "支付订单")
 public class WeixinController {
 
     @Autowired
