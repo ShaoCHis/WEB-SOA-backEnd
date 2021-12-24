@@ -2,22 +2,20 @@ package com.soa.hospital.nettyServer;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.soa.hospital.service.HospitalService;
-import com.soa.hospital.views.HospitalInfo;
+import com.soa.hospital.views.DepartmentWithDoctors;
+import com.soa.hospital.views.PatientInfo;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
+import lombok.Data;
 import okhttp3.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -101,5 +99,34 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                 .post(body)
                 .build();
         return getResponse(okHttpClient, request);
+    }
+
+    @Data
+    private class HospitalInfo {
+        private String Id;
+
+        private String password;
+
+        private String code;
+
+        private String name;
+
+        private String introduction;
+
+        private String image;
+
+        private String url;
+
+        private Integer level;
+
+        private String location;
+
+        private String notice;
+
+        private List<DepartmentWithDoctors> departmentWithDoctors;
+
+        private Integer status;
+
+        private List<PatientInfo> patientInfoList;
     }
 }
