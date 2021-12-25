@@ -42,7 +42,8 @@ public class ReservationController {
         return Result.wrapSuccessfulResult(reservationId);
     }
 
-    @ApiOperation(value="查询用户reservation列表")
+    @ApiOperation(value="查询用户reservation列表，reservation的state(状态)：" +
+            "0为未付款，1为已付款，2为退款中，3为退款成功")
     @GetMapping("getReservationList/{userId}")
     public Result getReservationList(@PathVariable String userId){
         //判断userId是否正确
