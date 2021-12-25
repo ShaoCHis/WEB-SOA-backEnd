@@ -1,13 +1,20 @@
 package com.soa.order.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.soa.order.model.Orders;
 import com.soa.order.model.Reservation;
 import com.soa.order.repository.OrdersRepository;
 import com.soa.order.repository.ReservationRepository;
 import com.soa.rabbit.service.RabbitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.Map;
@@ -76,6 +83,21 @@ public class OrdersService {
         // 医院财务
         // 调子系统api，医院端记录病人预约
         // 还有病人预约列表，医院端怎么查看
+
+        //更新医院财务
+        String location = "http://139.196.194.51:18080/api/finance";
+        JSONObject postData = new JSONObject();
+        postData.put("hospitalId", reservation.getHospitalID());
+        postData.put("economy", orders.getCost());
+        RestTemplate client = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<JSONObject> requestEntity = new HttpEntity<>(postData, headers);
+        System.out.println(client.postForEntity(location, requestEntity, JSONObject.class).getBody());
+
+        //更新医院端病人预约信息
+        
+
 
     }
 

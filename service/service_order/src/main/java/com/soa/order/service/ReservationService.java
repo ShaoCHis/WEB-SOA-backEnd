@@ -102,9 +102,7 @@ public class ReservationService {
         reservation.setDoctorName(reservationVo.getDoctorName());
         reservation.setDoctorTitle(reservationVo.getDoctorTitle());
         int cost=reservationVo.getCost();
-        //根据卡类型打折
-//        if(reservation.getCardType()==1)
-//            cost=cost*0.9;
+
         reservation.setCost(cost);
         reservation.setHospitalID(reservationVo.getHospitalID());
         reservation.setHospitalName(reservationVo.getHospitalName());
