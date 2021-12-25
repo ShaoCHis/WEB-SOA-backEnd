@@ -43,7 +43,7 @@ public class WeixinService {
             Reservation reservation = reservationService.getReservationById(reservationId);
             if (reservation == null)
                 return null;
-            ordersService.saveOrderInfo(reservation, 1);//1代表type为微信支付
+            ordersService.saveOrderInfo(reservation, 0);//0代表type为微信支付
 
             Map paramMap = new HashMap();
             paramMap.put("appid", ConstantPropertiesUtils.APPID);

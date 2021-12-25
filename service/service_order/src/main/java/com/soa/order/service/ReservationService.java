@@ -100,7 +100,8 @@ public class ReservationService {
         reservation.setScheduleID(scheduleId);
         System.out.println(reservation);
 
-        //mq修改schedule可预约数-1！
+        //TODO
+        // mq修改schedule可预约数-1！
 //        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleIntId);
 
         reservationRepository.save(reservation);
@@ -159,7 +160,7 @@ public class ReservationService {
         // 判断当前时间是否可以取消，schedule的startTime之前可取消，过了不可取消
 
         //TODO
-        // 不一定是微信退款，还有卡退款，
+        // 不一定是微信退款，还有卡退款，根据order的type来判断
         Boolean flag = weixinService.refund(reservationId);
         if(!flag)
             return false;

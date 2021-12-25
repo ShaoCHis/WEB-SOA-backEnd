@@ -21,19 +21,24 @@ public class OrdersController {
     @Autowired
     OrdersService ordersService;
 
-    @ApiOperation(value="根据cardId查询卡余额，这个api还不能用")
-    @GetMapping("money/{cardId}")
-    public Result GetBalance(@PathVariable String cardId){
+    @ApiOperation(value="根据cardId和卡的type查询卡余额，这个api还不能用")
+    @GetMapping("money/{cardId}/{type}")
+    public Result GetBalance(@PathVariable String cardId,
+                             @PathVariable Integer type){
 
 
         return Result.wrapSuccessfulResult("success");
     }
 
-    @ApiOperation(value="根据reservationId和cardId，使用卡余额付款，这个api还不能用")
-    @GetMapping("cardPay/{reservationId}/{cardId}")
+    @ApiOperation(value="根据reservationId和cardId和卡的type，使用卡余额付款，这个api还不能用")
+    @PostMapping("cardPay/{reservationId}/{cardId}/{type}")
     public Result cardPay(@PathVariable String reservationId,
-                          @PathVariable String cardId) {
+                          @PathVariable String cardId,
+                          @PathVariable Integer type) {
 
+        //给reservation记录卡信息
+        //给orders表记录支付类型
+        // type：1为医院就诊卡，2为社保卡，3为医保卡
 
         return Result.wrapSuccessfulResult("success");
 
