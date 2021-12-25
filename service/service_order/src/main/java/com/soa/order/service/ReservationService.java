@@ -48,11 +48,7 @@ public class ReservationService {
             patient = (Patient) patientResult.getData();
         else
             patient=new Patient();
-        System.out.println(patient);
-        List<Card> cards = patient.getCards();
-        for(Card card:cards){
-            System.out.println(card);
-        }
+
         //获取排班信息
         int scheduleIntId = Integer.parseInt(scheduleId);
         Result schedule = hospitalFeignClient.getScheduleVo(scheduleIntId);
@@ -68,26 +64,8 @@ public class ReservationService {
         reservation.setUserID(patient.getUserId());
         reservation.setPatientID(patient.getPatientId());
         reservation.setPatientName(patient.getName());
-        if(cardType==0)
-        {
-            reservation.setCardType(0);
-            reservation.setCardNum("无卡");
-        }else{
-            //参数传递过来选择的卡
-            boolean flag=false;
-            List<Card> cards1 = patient.getCards();
-            for(Card card:cards1){
-                if(card.getCardId().equals(cardId)&&card.getType()==cardType){
-                    flag=true;
-                    reservation.setCardType(card.getType());//0没有，1xx卡9折，2yy卡8折
-                    reservation.setCardNum(card.getCardId());
-                }
-            }
-            if(!flag){
-                reservation.setCardType(0);
-                reservation.setCardNum("无卡");
-            }
-        }
+        reservation.setCardType(0);
+        reservation.setCardNum("");
         System.out.println(scheduleVo);
 
         //查询医生信息,获取名字和价格,医院id、科室id，医院name、科室name

@@ -30,22 +30,7 @@ public class ReservationController {
     @Autowired
     PatientFeignClient patientFeignClient;
 
-    @ApiOperation(value="对于有卡的病人，根据病人id和scheduleId和cardType和cardId四个参数生成预约订单信息")
-    @PostMapping("submitReservation/{scheduleId}/{patientId}/{cardType}/{cardId}")
-    public Result submitReservation(@PathVariable String scheduleId,
-                                    @PathVariable String patientId,
-                                    @PathVariable int cardType,
-                                    @PathVariable String cardId){
-        //要判断一下这个病人是否已经预约了这个scheduleId，不可重复预约！
-        boolean flag=reservationService.haveReserved(patientId,scheduleId);
-        if(flag)
-            //病人已预约此schedule
-            return Result.wrapErrorResult("error");
-        String reservationId = reservationService.addReservation(scheduleId,patientId,cardType,cardId);
-        return Result.wrapSuccessfulResult(reservationId);
-    }
-
-    @ApiOperation(value="对于没卡的病人，根据病人id和scheduleId两个参数生成预约订单信息")
+    @ApiOperation(value="根据病人id和scheduleId两个参数生成预约订单信息")
     @PostMapping("submitReservation/{scheduleId}/{patientId}")
     public Result submitReservation(@PathVariable String scheduleId,
                                     @PathVariable String patientId){
