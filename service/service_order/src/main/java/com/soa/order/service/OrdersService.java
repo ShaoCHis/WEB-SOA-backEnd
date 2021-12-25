@@ -78,12 +78,6 @@ public class OrdersService {
         // rabbit发短信：
         // 您好，病人xxx成功预约xxx医院xxx科室的门诊，时间为xxx（日期时间），预约序号为第xxx位。
 
-
-        //TODO
-        // 医院财务
-        // 调子系统api，医院端记录病人预约
-        // 还有病人预约列表，医院端怎么查看
-
         //更新医院财务
         String location = "http://139.196.194.51:18080/api/finance";
         JSONObject postData = new JSONObject();
@@ -95,8 +89,9 @@ public class OrdersService {
         HttpEntity<JSONObject> requestEntity = new HttpEntity<>(postData, headers);
         System.out.println(client.postForEntity(location, requestEntity, JSONObject.class).getBody());
 
-        //更新医院端病人预约信息
-        
+        //TODO
+        // 更新医院端病人预约信息
+
 
 
     }

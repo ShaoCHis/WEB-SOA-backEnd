@@ -22,7 +22,7 @@ public class WeixinController {
     @Autowired
     private OrdersService ordersService;
 
-    @ApiOperation(value="点击付款，本函数生成微信支付二维码，" +
+    @ApiOperation(value="点击微信付款，本函数生成微信支付二维码，" +
             "前端展示二维码（需要安装组件才能展示）给用户扫描支付")
     @GetMapping("createNative/{reservationId}")
     public Result createNative(@PathVariable String reservationId) {

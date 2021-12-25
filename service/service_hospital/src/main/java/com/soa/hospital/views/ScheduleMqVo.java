@@ -10,4 +10,6 @@ import lombok.Data;
  */
 @Data
 public class ScheduleMqVo {
+    private Integer Id;
+    private Integer addOrSub;
 }

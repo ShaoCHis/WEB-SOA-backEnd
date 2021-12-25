@@ -28,8 +28,8 @@ public class CardController {
     @Autowired
     PatientService patientService;
 
-    @ApiOperation(value="根据病人id（身份证号）查询他的卡列表," +
-            "卡只有一种类型，但是一个病人可以有很多家医院的卡")
+    @ApiOperation(value="根据病人id（身份证号）查询他的卡列表" +
+            "卡的type：1为医院就诊卡，2为社保卡，3为医保卡")
     @GetMapping("getPatientCards/{id}")
     public Result getPatientCards(@PathVariable String id){
         Patient patient=patientService.getById(id);

@@ -1,17 +1,24 @@
 package com.soa.order.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.soa.order.client.HospitalFeignClient;
 import com.soa.order.client.PatientFeignClient;
 import com.soa.order.model.*;
 import com.soa.order.repository.ReservationRepository;
 import com.soa.order.views.ReservationVo;
+import com.soa.order.views.ScheduleMqVo;
 import com.soa.order.views.ScheduleVo;
+import com.soa.rabbit.constant.MqConst;
 import com.soa.rabbit.service.RabbitService;
 import com.soa.utils.utils.RandomUtil;
 import com.soa.utils.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +46,9 @@ public class ReservationService {
 
     @Autowired
     WeixinService weixinService;
+
+    @Autowired
+    OrdersService ordersService;
 
     public String addReservation(String scheduleId, String patientId,int cardType, String cardId) {
         Result patientResult = patientFeignClient.getPatientInfo(patientId);
@@ -95,8 +105,11 @@ public class ReservationService {
         reservation.setScheduleID(scheduleId);
         System.out.println(reservation);
 
-        //mq修改schedule可预约数-1！
-//        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleIntId);
+        // mq修改schedule可预约数-1！
+        ScheduleMqVo scheduleMqVo=new ScheduleMqVo();
+        scheduleMqVo.setId(scheduleIntId);
+        scheduleMqVo.setAddOrSub(-1);
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleIntId);
 
         reservationRepository.save(reservation);
         //同时保存订单信息，让用户支付
@@ -151,19 +164,47 @@ public class ReservationService {
             return false;
 
         //TODO
-        // 判断时间是否可以取消，schedule的startTime之前可取消，过了不可取消
+        // 判断当前时间是否可以取消，schedule的startTime之前可取消，过了不可取消
 
-        Boolean flag = weixinService.refund(reservationId);
-        if(!flag)
-            return false;
+        // 微信退款，卡退款，根据order的type来判断
+        Orders ordersById = ordersService.getOrdersById(reservationId);
+        if(ordersById.getType()==0)
+        {
+            //微信支付
+            Boolean flag = weixinService.refund(reservationId);
+            if(!flag)
+                return false;
+        }else{
+            //卡支付
+
+        }
+
+        // 发送mq更新预约数量+1
+        ScheduleMqVo scheduleMqVo=new ScheduleMqVo();
+        scheduleMqVo.setId(Integer.parseInt(reservation.getScheduleID()));
+        scheduleMqVo.setAddOrSub(1);
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleMqVo);
 
         //TODO
-        // 发送mq更新预约数量+1
         // 短信提示取消预约成功
 
         //TODO
-        // 调医院子系统api取消那边的预约，财务那边也退这个钱
+        // 调医院子系统api取消那边的预约
 
+
+
+        //更新医院财务,扣钱
+        String location = "http://139.196.194.51:18080/api/finance";
+        JSONObject postData = new JSONObject();
+        postData.put("hospitalId", reservation.getHospitalID());
+        postData.put("economy", (0-reservation.getCost()));
+        RestTemplate client = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<JSONObject> requestEntity = new HttpEntity<>(postData, headers);
+        System.out.println(client.postForEntity(location, requestEntity, JSONObject.class).getBody());
+
+        reservationRepository.deleteById(reservationId);
         return true;
     }
 }
