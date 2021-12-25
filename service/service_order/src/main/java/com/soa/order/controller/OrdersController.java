@@ -21,7 +21,7 @@ public class OrdersController {
     @Autowired
     OrdersService ordersService;
 
-    @ApiOperation(value="根据cardId查询卡余额")
+    @ApiOperation(value="根据cardId查询卡余额，这个api还不能用")
     @GetMapping("money/{cardId}")
     public Result GetBalance(@PathVariable String cardId){
 
@@ -29,9 +29,10 @@ public class OrdersController {
         return Result.wrapSuccessfulResult("success");
     }
 
-    @ApiOperation(value="根据reservationId，使用卡余额付款")
-    @GetMapping("cardPay/{reservationId}")
-    public Result cardPay(@PathVariable String reservationId) {
+    @ApiOperation(value="根据reservationId和cardId，使用卡余额付款，这个api还不能用")
+    @GetMapping("cardPay/{reservationId}/{cardId}")
+    public Result cardPay(@PathVariable String reservationId,
+                          @PathVariable String cardId) {
 
 
         return Result.wrapSuccessfulResult("success");

@@ -1,5 +1,6 @@
 package com.soa.order.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.soa.order.client.HospitalFeignClient;
 import com.soa.order.client.PatientFeignClient;
 import com.soa.order.model.*;
@@ -10,8 +11,12 @@ import com.soa.rabbit.service.RabbitService;
 import com.soa.utils.utils.RandomUtil;
 import com.soa.utils.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,19 +156,35 @@ public class ReservationService {
             return false;
 
         //TODO
-        // 判断时间是否可以取消，schedule的startTime之前可取消，过了不可取消
+        // 判断当前时间是否可以取消，schedule的startTime之前可取消，过了不可取消
 
+        //TODO
+        // 不一定是微信退款，还有卡退款，
         Boolean flag = weixinService.refund(reservationId);
         if(!flag)
             return false;
 
         //TODO
         // 发送mq更新预约数量+1
+
+        //TODO
         // 短信提示取消预约成功
 
         //TODO
-        // 调医院子系统api取消那边的预约，财务那边也退这个钱
+        // 调医院子系统api取消那边的预约
 
+        //更新医院财务,扣钱
+        String location = "http://139.196.194.51:18080/api/finance";
+        JSONObject postData = new JSONObject();
+        postData.put("hospitalId", reservation.getHospitalID());
+        postData.put("economy", (0-reservation.getCost()));
+        RestTemplate client = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<JSONObject> requestEntity = new HttpEntity<>(postData, headers);
+        System.out.println(client.postForEntity(location, requestEntity, JSONObject.class).getBody());
+
+        reservationRepository.deleteById(reservationId);
         return true;
     }
 }
