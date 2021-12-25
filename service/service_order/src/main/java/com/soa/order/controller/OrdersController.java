@@ -31,7 +31,7 @@ public class OrdersController {
 
     @ApiOperation(value="根据reservationId，使用卡余额付款")
     @GetMapping("cardPay/{reservationId}")
-    public Result createNative(@PathVariable String reservationId) {
+    public Result cardPay(@PathVariable String reservationId) {
 
 
         return Result.wrapSuccessfulResult("success");
