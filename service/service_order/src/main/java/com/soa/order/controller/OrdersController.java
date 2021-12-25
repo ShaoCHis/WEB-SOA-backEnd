@@ -21,6 +21,14 @@ public class OrdersController {
     @Autowired
     OrdersService ordersService;
 
+    @ApiOperation(value="根据cardId查询卡余额")
+    @GetMapping("money/{cardId}")
+    public Result GetBalance(@PathVariable String cardId){
+
+
+        return Result.wrapSuccessfulResult("success");
+    }
+
     @ApiOperation(value="根据reservationId，使用卡余额付款")
     @GetMapping("cardPay/{reservationId}")
     public Result createNative(@PathVariable String reservationId) {
@@ -29,6 +37,8 @@ public class OrdersController {
         return Result.wrapSuccessfulResult("success");
 
         //支付失败是因为卡余额不足，提示前端
+
+
 
     }
 
