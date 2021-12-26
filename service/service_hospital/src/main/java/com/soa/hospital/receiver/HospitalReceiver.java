@@ -33,6 +33,8 @@ public class HospitalReceiver {
     ))
     public void receiver(ScheduleMqVo scheduleMqVo, Message message, Channel channel) throws IOException {
         //下单成功更新预约数,指定schedule可预约数-1；取消预约则+1
+        System.out.println(scheduleMqVo.getId());
+        System.out.println(scheduleMqVo.getAddOrSub());
         Schedule schedule = scheduleService.getSchedule(scheduleMqVo.getId());
         schedule.setAvailableNumber(schedule.getAvailableNumber()+scheduleMqVo.getAddOrSub());
         scheduleService.update(schedule);

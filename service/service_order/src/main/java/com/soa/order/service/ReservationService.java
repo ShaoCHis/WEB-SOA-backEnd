@@ -109,7 +109,7 @@ public class ReservationService {
         ScheduleMqVo scheduleMqVo=new ScheduleMqVo();
         scheduleMqVo.setId(scheduleIntId);
         scheduleMqVo.setAddOrSub(-1);
-        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleIntId);
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleMqVo);
 
         reservationRepository.save(reservation);
         //同时保存订单信息，让用户支付

@@ -90,7 +90,7 @@ public class OrdersService {
         System.out.println(client.postForEntity(location, requestEntity, JSONObject.class).getBody());
 
         //TODO
-        // 更新医院端病人预约信息
+        // 调医院api更新预约信息
 
 
 

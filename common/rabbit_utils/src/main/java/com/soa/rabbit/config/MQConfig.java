@@ -17,4 +17,5 @@ public class MQConfig {
     public MessageConverter messageConverter(){
         return new Jackson2JsonMessageConverter();
     }
+
 }
