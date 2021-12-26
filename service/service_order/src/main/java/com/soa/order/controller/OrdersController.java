@@ -25,31 +25,29 @@ public class OrdersController {
     @Autowired
     OrdersService ordersService;
 
-    @ApiOperation(value="根据patientId和卡的type查询卡上的余额，type:1为就诊卡2为社保卡3为医保卡" +
-            "本api暂不可用")
+    @ApiOperation(value="根据patientId和卡的type查询卡上的余额，type:1为就诊卡2为社保卡3为医保卡")
     @GetMapping("money/{patientId}/{type}")
     public Result GetBalance(@PathVariable String patientId,
                              @PathVariable Integer type){
+        if(type!=1&&type!=2&&type!=3)
+            return Result.wrapErrorResult("error");
+        String url;
         if(type==1)
-        {
             //医院就诊卡
-            String url="http://139.196.194.51:18080/api/patients/"+patientId;
-            RestTemplate restTemplate = new RestTemplate();
-            JSONObject json = restTemplate.getForEntity(url, JSONObject.class).getBody().getJSONObject("data");
-//            JSON.parseObject(String.valueOf(json), .class);
-
-
-        }else if(type==2){
+            url="http://139.196.194.51:18080/api/patients/"+patientId;
+        else if(type==2)
             //社保卡
-            String url="http://139.196.194.51:18081/api/patients/all";
-
-        }else if(type==3){
+            url="http://139.196.194.51:18081/api/patients/"+patientId;
+        else
             //医保卡
+            url="http://139.196.194.51:18081/api/patient2s/"+patientId;
 
-
-        }
-
-        return Result.wrapSuccessfulResult("success");
+        RestTemplate restTemplate = new RestTemplate();
+        Object data = restTemplate.getForEntity(url, JSONObject.class).getBody().get("data");
+        if(data==null)
+            return Result.wrapErrorResult("error");
+        int money=(int)data;
+        return Result.wrapSuccessfulResult(money);
     }
 
     @ApiOperation(value="根据reservationId和patientId和卡的type，使用卡余额付款，这个api还不能用")
@@ -57,6 +55,8 @@ public class OrdersController {
     public Result cardPay(@PathVariable String reservationId,
                           @PathVariable String patientId,
                           @PathVariable Integer type) {
+        if(type!=1&&type!=2&&type!=3)
+            return Result.wrapErrorResult("error");
 
         //给reservation记录卡信息
         //给orders表记录支付类型
