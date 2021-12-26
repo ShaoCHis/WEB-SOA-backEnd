@@ -121,4 +121,43 @@ public class OrdersService {
         reservation.setState(type);//2为退款中,3为退款成功
         reservationRepository.save(reservation);
     }
+
+    @Transactional
+    public boolean cardPay(String orderId, String patientId, Integer type) {
+        Optional<Orders> byId = ordersRepository.findById(orderId);
+        Orders orders = byId.orElse(null);
+        if(orders==null)
+            return false;
+        //更新order信息
+        orders.setState(1);//已支付
+        orders.setTime(new Date());
+        orders.setTransactionID(patientId);//通过patientId和type来记录卡信息
+        ordersRepository.save(orders);
+
+        //扣卡钱
+        if(type==1)
+        {
+
+        }else if(type==2)
+        {
+
+        }else{
+
+        }
+
+        //更新reservation信息
+        Optional<Reservation> reservationRepositoryById = reservationRepository.findById(orders.getReserveID());
+        Reservation reservation = reservationRepositoryById.orElse(null);
+        reservation.setCardType(type);
+
+//        reservation.setCardNum();
+
+        reservation.setState(1);//已支付
+        reservationRepository.save(reservation);
+        //发短信
+        //更新医院财务
+        //更新医院预约信息
+
+        return false;
+    }
 }

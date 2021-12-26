@@ -58,16 +58,14 @@ public class OrdersController {
         if(type!=1&&type!=2&&type!=3)
             return Result.wrapErrorResult("error");
 
+        //可能余额不足
         //给reservation记录卡信息
         //给orders表记录支付类型
-        // type：1为医院就诊卡，2为社保卡，3为医保卡
-
-        return Result.wrapSuccessfulResult("success");
-
-        //支付失败是因为卡余额不足，提示前端
-
-
-
+        boolean flag = ordersService.cardPay(reservationId,patientId,type);
+        if(flag)
+            return Result.wrapSuccessfulResult("success");
+        else
+            return Result.wrapErrorResult("error");
     }
 
 }

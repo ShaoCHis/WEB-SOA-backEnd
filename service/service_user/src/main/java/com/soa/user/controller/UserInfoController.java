@@ -1,6 +1,5 @@
 package com.soa.user.controller;
 
-import com.soa.user.model.Patient;
 import com.soa.user.model.User;
 import com.soa.user.service.UserInfoService;
 import com.soa.user.views.UserVo;
@@ -9,8 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @ program: demo
