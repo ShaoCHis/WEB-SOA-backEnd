@@ -85,4 +85,26 @@ public class ReservationController {
         else
             return Result.wrapErrorResult("error");
     }
+
+    @ApiOperation(value="根据医院id查询reservation列表")
+    @GetMapping("getHospResList/{hospitalId}")
+    public Result getHospResList(@PathVariable String hospitalId){
+
+        return Result.wrapSuccessfulResult("success");
+    }
+
+    @ApiOperation(value="根据医院id和科室id查询reservation列表")
+    @GetMapping("getDepartResList/{hospitalId}/{departId}")
+    public Result getDepartResList(@PathVariable String hospitalId,
+                                   @PathVariable String departId){
+        return Result.wrapSuccessfulResult("success");
+    }
+
+    @ApiOperation(value="根据医生id查询reservation列表")
+    @GetMapping("getDoctorResList/{doctorId}")
+    public Result getDoctorResList(@PathVariable String doctorId){
+
+        return Result.wrapSuccessfulResult("success");
+    }
+
 }
