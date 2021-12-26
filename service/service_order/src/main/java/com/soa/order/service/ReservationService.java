@@ -207,4 +207,24 @@ public class ReservationService {
         reservationRepository.deleteById(reservationId);
         return true;
     }
+
+    public List<Reservation> getHospResList(String hospitalId) {
+        Iterable<Reservation> all = reservationRepository.findAll();
+        List<Reservation> ans = new ArrayList<>();
+        for(Reservation tmp:all){
+            if(tmp.getHospitalID().equals(hospitalId))
+                ans.add(tmp);
+        }
+        return ans;
+    }
+
+    public List<Reservation> getDepartResList(String hospitalId, String departId) {
+        List<Reservation> hospResList = getHospResList(hospitalId);
+        List<Reservation> ans = new ArrayList<>();
+        for(Reservation tmp:hospResList){
+            if(tmp.getDepartmentID().equals(departId))
+                ans.add(tmp);
+        }
+        return ans;
+    }
 }

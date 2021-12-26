@@ -89,20 +89,24 @@ public class ReservationController {
     @ApiOperation(value="根据医院id查询reservation列表")
     @GetMapping("getHospResList/{hospitalId}")
     public Result getHospResList(@PathVariable String hospitalId){
-
-        return Result.wrapSuccessfulResult("success");
+        List<Reservation> reservations = reservationService.getHospResList(hospitalId);
+        return Result.wrapSuccessfulResult(reservations);
     }
 
     @ApiOperation(value="根据医院id和科室id查询reservation列表")
     @GetMapping("getDepartResList/{hospitalId}/{departId}")
     public Result getDepartResList(@PathVariable String hospitalId,
                                    @PathVariable String departId){
-        return Result.wrapSuccessfulResult("success");
+        List<Reservation> reservations = reservationService.getDepartResList(hospitalId,departId);
+        return Result.wrapSuccessfulResult(reservations);
     }
 
     @ApiOperation(value="根据医生id查询reservation列表")
     @GetMapping("getDoctorResList/{doctorId}")
     public Result getDoctorResList(@PathVariable String doctorId){
+        //查询医生的schedule列表
+        //查询reservation列表
+
 
         return Result.wrapSuccessfulResult("success");
     }
