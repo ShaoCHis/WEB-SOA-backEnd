@@ -2,9 +2,7 @@ package com.soa.user.controller;
 
 import com.soa.user.model.Card;
 import com.soa.user.model.Patient;
-import com.soa.user.service.CardService;
 import com.soa.user.service.PatientService;
-import com.soa.user.service.UserInfoService;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +30,7 @@ public class CardController {
             "卡的type：1为医院就诊卡，2为社保卡，3为医保卡")
     @GetMapping("getPatientCards/{id}")
     public Result getPatientCards(@PathVariable String id){
+        // TODO
         Patient patient=patientService.getById(id);
         if(patient!=null)
         {
