@@ -7,6 +7,8 @@ import com.soa.order.views.ScheduleVo;
 import com.soa.utils.utils.Result;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @ program: demo
  * @ description:
@@ -23,6 +25,11 @@ public class HospitalDegradeFeignClient implements HospitalFeignClient {
 
     @Override
     public Result<ReservationVo> getReservationVo(String id) {
+        return Result.wrapErrorResult("error");
+    }
+
+    @Override
+    public Result<List<Schedule>> getSchedule(String doctorId) {
         return Result.wrapErrorResult("error");
     }
 

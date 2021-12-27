@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @FeignClient(name = "service-hospital",fallback = HospitalDegradeFeignClient.class)
 @Component
 public interface HospitalFeignClient {
@@ -20,4 +22,8 @@ public interface HospitalFeignClient {
     //根据医生id查询医生信息、医院信息、科室信息
     @GetMapping("/hospital/doctors/getReservationVo/{id}")
     public Result<ReservationVo> getReservationVo(@PathVariable String id);
+
+    //根据医生id查询医生schedule列表
+    @GetMapping("getSchedule/{doctorId}")
+    public Result<List<Schedule>> getSchedule(@PathVariable String doctorId);
 }

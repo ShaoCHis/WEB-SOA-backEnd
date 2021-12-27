@@ -227,4 +227,10 @@ public class ReservationService {
         }
         return ans;
     }
+
+    public List<Reservation> getScheResList(String scheduleId) {
+        Iterable<Reservation> all = reservationRepository.findAll();
+
+        return null;
+    }
 }

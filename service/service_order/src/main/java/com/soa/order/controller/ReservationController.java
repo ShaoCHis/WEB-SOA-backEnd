@@ -1,7 +1,9 @@
 package com.soa.order.controller;
 
+import com.soa.order.client.HospitalFeignClient;
 import com.soa.order.client.PatientFeignClient;
 import com.soa.order.model.Reservation;
+import com.soa.order.model.Schedule;
 import com.soa.order.model.User;
 import com.soa.order.service.ReservationService;
 import com.soa.utils.utils.Result;
@@ -10,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +32,9 @@ public class ReservationController {
 
     @Autowired
     PatientFeignClient patientFeignClient;
+
+    @Autowired
+    HospitalFeignClient hospitalFeignClient;
 
     @ApiOperation(value="根据病人id和scheduleId两个参数生成预约订单信息")
     @PostMapping("submitReservation/{scheduleId}/{patientId}")
@@ -101,14 +107,29 @@ public class ReservationController {
         return Result.wrapSuccessfulResult(reservations);
     }
 
-    @ApiOperation(value="根据医生id查询reservation列表")
+    @ApiOperation(value="根据医生id查询reservation列表,暂不可用")
     @GetMapping("getDoctorResList/{doctorId}")
     public Result getDoctorResList(@PathVariable String doctorId){
         //查询医生的schedule列表
         //查询reservation列表
+        Result<List<Schedule>> scheduleResult = hospitalFeignClient.getSchedule(doctorId);
+        if(!scheduleResult.isSuccess())
+            return Result.wrapErrorResult("error");
+        List<Schedule> scheduleList = scheduleResult.getData();
+        List<Reservation> ans = new ArrayList<>();
+        for(Schedule tmp:scheduleList){
+            //对每个scheduleId,查询res列表
 
+        }
 
         return Result.wrapSuccessfulResult("success");
+    }
+
+    @ApiOperation(value="根据scheduleId查询reservation列表，暂不可用")
+    @GetMapping("getScheduleResList/{scheduleId}")
+    public Result getScheduleResList(@PathVariable String scheduleId){
+        List<Reservation> resList = reservationService.getScheResList(scheduleId);
+        return Result.wrapSuccessfulResult(resList);
     }
 
 }
