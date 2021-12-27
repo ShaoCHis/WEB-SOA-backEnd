@@ -63,15 +63,6 @@ public class HospitalController {
         return hospitalService.updateHospitalInfo(body);
     }
 
-    @ApiOperation(value = "集成政府信息（医保卡，社保卡）")
-    @PostMapping(path = "/geiInformation/{id}")
-    public Result<String> joinSystem(@PathVariable String id, @RequestBody List<PatientInfo> body){
-        Hospital hospital= hospitalService.getById(id);
-        if(hospital!=null)
-            return Result.wrapErrorResult(new HospitalNotExistedError());
-        return hospitalService.getInformation(id,body);
-    }
-
     @ApiOperation(value="根据id获取医院信息")
     @GetMapping("/getHospInfo/{id}")
     public Result<Hospital> getHospSet(@PathVariable String id) {
