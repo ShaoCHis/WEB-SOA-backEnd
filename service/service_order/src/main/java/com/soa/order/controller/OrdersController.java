@@ -50,7 +50,7 @@ public class OrdersController {
         return Result.wrapSuccessfulResult(money);
     }
 
-    @ApiOperation(value="根据reservationId和patientId和卡的type，使用卡余额付款，这个api还不能用")
+    @ApiOperation(value="根据reservationId和patientId和卡的type，使用卡余额付款")
     @PostMapping("cardPay/{reservationId}/{patientId}/{type}")
     public Result cardPay(@PathVariable String reservationId,
                           @PathVariable String patientId,
@@ -67,5 +67,6 @@ public class OrdersController {
         else
             return Result.wrapErrorResult("error");
     }
+
 
 }

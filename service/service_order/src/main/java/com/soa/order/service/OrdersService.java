@@ -1,10 +1,14 @@
 package com.soa.order.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.wxpay.sdk.WXPayConstants;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.soa.order.model.Orders;
 import com.soa.order.model.Reservation;
 import com.soa.order.repository.OrdersRepository;
 import com.soa.order.repository.ReservationRepository;
+import com.soa.order.utils.ConstantPropertiesUtils;
+import com.soa.order.utils.HttpClient;
 import com.soa.order.utils.PostUtil;
 import com.soa.rabbit.service.RabbitService;
 import com.soa.utils.utils.Result;
@@ -19,10 +23,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @ program: demo
@@ -154,7 +155,6 @@ public class OrdersService {
         //TODO
         // 调医院api更新预约信息
 
-
         return true;
     }
 
@@ -194,6 +194,7 @@ public class OrdersService {
         return "";
     }
 
+    //加钱，扣钱
     public void deductMoney(String id,int type,int money){
         String[] myUrl =new String[3];
         myUrl[0]="http://139.196.194.51:18080/api/hospitals/updatePatient";//就诊卡
@@ -215,4 +216,17 @@ public class OrdersService {
         postData.put("economy", money);
         PostUtil.postUrl(postData,location);
     }
+
+    //卡退钱，更新状态
+    public Boolean refundCard(String id) {
+        Orders orders = getOrdersById(id);
+        Optional<Reservation> reservationRepositoryById = reservationRepository.findById(id);
+        Reservation reservation = reservationRepositoryById.orElse(null);
+        if(reservation==null)
+            return false;
+        deductMoney(reservation.getPatientID(),orders.getType(),0-orders.getCost());
+        refundOrders(id,3);//退款成功
+        return true;
+    }
+
 }

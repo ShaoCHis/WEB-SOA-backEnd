@@ -162,16 +162,16 @@ public class ReservationService {
 
         // 微信退款，卡退款，根据order的type来判断
         Orders ordersById = ordersService.getOrdersById(reservationId);
+        Boolean flag;
         if(ordersById.getType()==0)
-        {
             //微信支付
-            Boolean flag = weixinService.refund(reservationId);
-            if(!flag)
-                return false;
-        }else{
+            flag = weixinService.refund(reservationId);
+        else
             //卡支付
+            flag = ordersService.refundCard(reservationId);
 
-        }
+        if(!flag)
+            return false;
 
         // 发送mq更新预约数量+1
         ScheduleMqVo scheduleMqVo=new ScheduleMqVo();
@@ -184,8 +184,6 @@ public class ReservationService {
 
         //TODO
         // 调医院子系统api取消那边的预约
-
-
 
         //更新医院财务,扣钱
         String location = "http://139.196.194.51:18080/api/finance";
