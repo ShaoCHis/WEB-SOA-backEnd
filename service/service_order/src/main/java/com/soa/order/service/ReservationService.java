@@ -228,9 +228,13 @@ public class ReservationService {
         return ans;
     }
 
-    public List<Reservation> getScheResList(String scheduleId) {
+    public List<Reservation> getScheResList(Integer scheduleId) {
         Iterable<Reservation> all = reservationRepository.findAll();
-
-        return null;
+        List<Reservation> ans = new ArrayList<>();
+        for(Reservation tmp:all){
+            if(tmp.getScheduleID().equals(scheduleId.toString()))
+                ans.add(tmp);
+        }
+        return ans;
     }
 }

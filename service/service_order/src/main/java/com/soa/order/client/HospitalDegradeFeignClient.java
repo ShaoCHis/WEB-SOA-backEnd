@@ -29,7 +29,7 @@ public class HospitalDegradeFeignClient implements HospitalFeignClient {
     }
 
     @Override
-    public Result<List<Schedule>> getSchedule(String doctorId) {
+    public Result getSchedule(String doctorId) {
         return Result.wrapErrorResult("error");
     }
 

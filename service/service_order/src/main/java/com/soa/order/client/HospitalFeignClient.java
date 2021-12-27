@@ -24,6 +24,6 @@ public interface HospitalFeignClient {
     public Result<ReservationVo> getReservationVo(@PathVariable String id);
 
     //根据医生id查询医生schedule列表
-    @GetMapping("getSchedule/{doctorId}")
-    public Result<List<Schedule>> getSchedule(@PathVariable String doctorId);
+    @GetMapping("/hospital/schedules/getSchedule/{doctorId}")
+    public Result getSchedule(@PathVariable String doctorId);
 }

@@ -1,5 +1,8 @@
 package com.soa.order.controller;
 
+
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soa.order.client.HospitalFeignClient;
 import com.soa.order.client.PatientFeignClient;
 import com.soa.order.model.Reservation;
@@ -107,27 +110,30 @@ public class ReservationController {
         return Result.wrapSuccessfulResult(reservations);
     }
 
-    @ApiOperation(value="根据医生id查询reservation列表,暂不可用")
+    @ApiOperation(value="根据医生id查询reservation列表")
     @GetMapping("getDoctorResList/{doctorId}")
     public Result getDoctorResList(@PathVariable String doctorId){
         //查询医生的schedule列表
         //查询reservation列表
-        Result<List<Schedule>> scheduleResult = hospitalFeignClient.getSchedule(doctorId);
+        Result scheduleResult = hospitalFeignClient.getSchedule(doctorId);
         if(!scheduleResult.isSuccess())
             return Result.wrapErrorResult("error");
-        List<Schedule> scheduleList = scheduleResult.getData();
-        List<Reservation> ans = new ArrayList<>();
-        for(Schedule tmp:scheduleList){
-            //对每个scheduleId,查询res列表
+        List<Schedule> scheduleList =(List<Schedule>)scheduleResult.getData();
 
+        List<Reservation> ans = new ArrayList<>();
+        for(int i = 0;i<scheduleList.size();i++){
+            Schedule tmp = JSON.parseObject(JSON.toJSONString(scheduleList.get(i)),Schedule.class);
+            //对每个scheduleId,查询res列表
+            List<Reservation> resList = reservationService.getScheResList(tmp.getId());
+            ans.addAll(resList);
         }
 
-        return Result.wrapSuccessfulResult("success");
+        return Result.wrapSuccessfulResult(ans);
     }
 
-    @ApiOperation(value="根据scheduleId查询reservation列表，暂不可用")
+    @ApiOperation(value="根据scheduleId查询reservation列表")
     @GetMapping("getScheduleResList/{scheduleId}")
-    public Result getScheduleResList(@PathVariable String scheduleId){
+    public Result getScheduleResList(@PathVariable Integer scheduleId){
         List<Reservation> resList = reservationService.getScheResList(scheduleId);
         return Result.wrapSuccessfulResult(resList);
     }
