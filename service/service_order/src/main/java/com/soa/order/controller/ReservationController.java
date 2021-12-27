@@ -41,13 +41,14 @@ public class ReservationController {
 
     @ApiOperation(value="根据病人id和scheduleId两个参数生成预约订单信息")
     @PostMapping("submitReservation/{scheduleId}/{patientId}")
-    public Result submitReservation(@PathVariable String scheduleId,
+    public Result submitReservation(@PathVariable int scheduleId,
                                     @PathVariable String patientId){
         int cardType=0;
         String cardId="";
         if(reservationService.haveReserved(patientId,scheduleId))
             return Result.wrapErrorResult("error");
-        String reservationId = reservationService.addReservation(scheduleId,patientId,cardType,cardId);
+        String scheduleIdStr=Integer.toString(scheduleId);
+        String reservationId = reservationService.addReservation(scheduleIdStr,patientId,cardType,cardId);
         return Result.wrapSuccessfulResult(reservationId);
     }
 

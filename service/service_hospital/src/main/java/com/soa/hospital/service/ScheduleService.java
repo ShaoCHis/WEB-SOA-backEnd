@@ -48,12 +48,7 @@ public class ScheduleService {
     }
 
     public List<Schedule> getScheduleList(String doctorId) {
-        Iterable<Schedule> all = scheduleRepository.findAll();
-        List<Schedule> scheduleList=new ArrayList<>();
-        for(Schedule tmp:all){
-            if(tmp.getDoctor().getId().equals(doctorId))
-                scheduleList.add(tmp);
-        }
+        List<Schedule> scheduleList = scheduleRepository.findScheByDoc(doctorId);
         return scheduleList;
     }
 

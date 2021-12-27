@@ -116,22 +116,15 @@ public class ReservationService {
         return reservation.getID();//返回刚刚生成的reservation的id
     }
 
-    public boolean haveReserved(String patientId, String scheduleId) {
-        Iterable<Reservation> all = reservationRepository.findAll();
-        for(Reservation tmp:all){
-            if(tmp.getPatientID().equals(patientId)&&tmp.getScheduleID().equals(scheduleId))
-                return true;//已经预约过
-        }
+    public boolean haveReserved(String patientId, int scheduleId) {
+        Reservation reservation = reservationRepository.findReserved(scheduleId,patientId);
+        if(reservation!=null)
+            return true;
         return false;
     }
 
     public List<Reservation> getReservation(String userId) {
-        Iterable<Reservation> all = reservationRepository.findAll();
-        List<Reservation> reservationList=new ArrayList<>();
-        for(Reservation tmp:all){
-            if(tmp.getUserID().equals(userId))
-                reservationList.add(tmp);
-        }
+        List<Reservation> reservationList=reservationRepository.findUserRes(userId);
         return reservationList;
     }
 
@@ -209,13 +202,8 @@ public class ReservationService {
     }
 
     public List<Reservation> getHospResList(String hospitalId) {
-        Iterable<Reservation> all = reservationRepository.findAll();
-        List<Reservation> ans = new ArrayList<>();
-        for(Reservation tmp:all){
-            if(tmp.getHospitalID().equals(hospitalId))
-                ans.add(tmp);
-        }
-        return ans;
+        List<Reservation> reservationList=reservationRepository.findHospRes(hospitalId);
+        return reservationList;
     }
 
     public List<Reservation> getDepartResList(String hospitalId, String departId) {
@@ -229,12 +217,7 @@ public class ReservationService {
     }
 
     public List<Reservation> getScheResList(Integer scheduleId) {
-        Iterable<Reservation> all = reservationRepository.findAll();
-        List<Reservation> ans = new ArrayList<>();
-        for(Reservation tmp:all){
-            if(tmp.getScheduleID().equals(scheduleId.toString()))
-                ans.add(tmp);
-        }
-        return ans;
+        List<Reservation> reservationList=reservationRepository.findScheRes(scheduleId);
+        return reservationList;
     }
 }

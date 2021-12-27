@@ -41,11 +41,10 @@ public class OrdersService {
     @Transactional
     public void saveOrderInfo(Reservation reservation, int type) {
         //首先查询是否存在相同订单
-        Iterable<Orders> all = ordersRepository.findAll();
-        for(Orders tmp:all){
-            if(tmp.getReserveID().equals(reservation.getID()));
-                return ;//已存在order
-        }
+        Optional<Orders> tmp = ordersRepository.findById(reservation.getID());
+        Orders orders1 = tmp.orElse(null);
+        if(orders1!=null)
+            return;//已存在order
         //添加order
         Orders orders =new Orders();
         orders.setID(reservation.getID());
