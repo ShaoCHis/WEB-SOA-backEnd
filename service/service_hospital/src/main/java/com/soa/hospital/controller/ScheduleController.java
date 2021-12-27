@@ -58,7 +58,7 @@ public class ScheduleController {
         Doctor byId = doctorService.getById(doctorId);
         if(byId==null)
             //医生id不正确
-            return Result.wrapSuccessfulResult("error");
+            return Result.wrapErrorResult("error");
         List<Schedule> list = scheduleService.getScheduleList(doctorId);
         return Result.wrapSuccessfulResult(list);
     }
