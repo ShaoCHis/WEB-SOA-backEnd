@@ -113,4 +113,14 @@ public class HospitalController {
         else
             return Result.wrapErrorResult("error!");
     }
+
+    @ApiOperation(value="获取所有医院列表")
+    @GetMapping("getHospList")
+    public Result getHospList(){
+        List<Hospital> hospitals = hospitalService.getHospList();
+        if(hospitals!=null)
+            return Result.wrapSuccessfulResult(hospitals);
+        else
+            return Result.wrapErrorResult("error!");
+    }
 }

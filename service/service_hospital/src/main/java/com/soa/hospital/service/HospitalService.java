@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -229,5 +230,14 @@ public class HospitalService {
             patientCardRepository.save(patientCard);
         }
         return Result.wrapSuccessfulResult("get Information Success!");
+    }
+
+    public List<Hospital> getHospList() {
+        Iterable<Hospital> all = hospInfoRepository.findAll();
+        List<Hospital> ans = new ArrayList<>();
+        for(Hospital tmp:all){
+            ans.add(tmp);
+        }
+        return ans;
     }
 }
