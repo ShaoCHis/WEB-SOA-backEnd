@@ -1,9 +1,11 @@
 package com.soa.statistic.controller;
 
+import com.soa.statistic.view.HospitalQueryVo;
+import com.soa.statistic.view.SystemQueryVo;
+import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ program: demo
@@ -17,5 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value="平台流水",tags = "平台流水",description = "平台流水")
 public class SystemMoneyController {
 
+//
+//    @ApiOperation(value="根据起止日期查询平台流水")
+//    @PostMapping("/getSystemMoney")
+//    public Result getSystemMoney(@RequestBody SystemQueryVo systemQueryVo){
+//
+//        return Result.wrapSuccessfulResult("success");
+//    }
 
 }

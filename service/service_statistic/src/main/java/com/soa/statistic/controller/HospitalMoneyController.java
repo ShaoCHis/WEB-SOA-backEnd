@@ -1,9 +1,10 @@
 package com.soa.statistic.controller;
 
+import com.soa.statistic.view.HospitalQueryVo;
+import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ program: demo
@@ -16,7 +17,35 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @Api(value="医院流水",tags = "医院流水",description = "医院流水")
 public class HospitalMoneyController {
-    
 
+
+//    @ApiOperation(value="根据医院id和起止日期查询医院流水(日期String格式为xxxx-xx-xx，" +
+//            "个位数的月份需要补十位的0，例子：2022-01-01)")
+//    @PostMapping("/getHospitalMoney")
+//    public Result getHospitalMoney(@RequestBody HospitalQueryVo hospitalQueryVo){
+//
+//        return Result.wrapSuccessfulResult("success");
+//    }
+//
+//    @ApiOperation(value="根据年份和月份查询当月30天医院流水")
+//    @GetMapping("/getHospYearMonthMoney")
+//    public Result getHospYearMonthMoney(){
+////调上面的
+//        return Result.wrapSuccessfulResult("success");
+//    }
+//
+//    @ApiOperation(value = "根据年份查询12个月的医院流水")
+//    @GetMapping("/getHospYearMonths/{year}")
+//    public Result getHospYearMonths(@PathVariable String year){
+////调上面的，然后根据每月日子算一下
+//        return Result.wrapSuccessfulResult("success");
+//    }
+//
+//    @ApiOperation(value="根据年份查询365天医院流水")
+//    @GetMapping("/getHospYearMoney/{year}")
+//    public Result getHospYearMoney(@PathVariable String year){
+////调第一个
+//        return Result.wrapSuccessfulResult("success");
+//    }
 
 }
