@@ -128,12 +128,14 @@ public class HospitalService {
 
         for(DepartmentWithDoctors departmentWithDoctors: body.getDepartmentWithDoctors()){
             Department department=null;
+            //首先寻找是否已经存在部门名称
             for(Department department1:departmentIterable){
                 if(department1.getName()==departmentWithDoctors.getName()) {
                     department=department1;
                     break;
                 }
             }
+            //不存在
             if(department==null)
                 department=new Department(departmentWithDoctors);
             departmentRepository.save(department);
@@ -163,14 +165,6 @@ public class HospitalService {
         }
         hospital.setDepartments(departments);
         updateDepart(hospital);
-        for(PatientInfo patientInfo:body.getPatientInfoList()){
-            PatientCard patientCard=new PatientCard();
-            patientCard.setPatientId(patientInfo.getPatientId());
-            patientCard.setCardId(patientInfo.getCardId());
-            patientCard.setType(patientInfo.getType());
-            patientCard.setHospital(hospital);
-            patientCardRepository.save(patientCard);
-        }
         return Result.wrapSuccessfulResult("join Success!!!");
     }
 
@@ -220,15 +214,7 @@ public class HospitalService {
         }
         hospital.setDepartments(departments);
         updateDepart(hospital);
-        for(PatientInfo patientInfo:body.getPatientInfoList()){
-            PatientCard patientCard=new PatientCard();
-            patientCard.setPatientId(patientInfo.getPatientId());
-            patientCard.setCardId(patientInfo.getCardId());
-            patientCard.setType(patientInfo.getType());
-            patientCard.setHospital(hospital);
-            patientCardRepository.save(patientCard);
-        }
-        return Result.wrapSuccessfulResult("join Success!!!");
+        return Result.wrapSuccessfulResult("update Success!!!");
     }
 
     @Transactional
