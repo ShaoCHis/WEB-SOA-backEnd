@@ -46,7 +46,7 @@ public class PatientController {
     public Result<List<Patient>> getPatListInfo(@PathVariable String id) {
         User user = userInfoService.getById(id);
         if(user==null)
-            return Result.wrapErrorResult("error!");
+            return Result.wrapErrorResult("error");
         else{
             List<Patient> patients = user.getPatients();
             return Result.wrapSuccessfulResult(patients);
@@ -60,7 +60,7 @@ public class PatientController {
         //判断用户是否存在
         User user = userInfoService.getById(userId);
         if(user==null)
-            return Result.wrapErrorResult("error!");
+            return Result.wrapErrorResult("error");
         boolean flag = patientService.addPatient(userId,patientVo);
         if(flag)
             return Result.wrapSuccessfulResult("success");

@@ -1,7 +1,6 @@
 package com.soa.user.views;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.soa.user.model.Card;
 import lombok.Data;
 
 import javax.persistence.*;

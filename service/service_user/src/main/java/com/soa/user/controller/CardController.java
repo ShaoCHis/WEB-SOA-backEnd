@@ -1,6 +1,5 @@
 package com.soa.user.controller;
 
-import com.soa.user.model.Card;
 import com.soa.user.model.Patient;
 import com.soa.user.service.PatientService;
 import com.soa.utils.utils.Result;
@@ -34,8 +33,8 @@ public class CardController {
         Patient patient=patientService.getById(id);
         if(patient!=null)
         {
-            List<Card> cards = patient.getCards();
-            return Result.wrapSuccessfulResult(cards);
+
+            return Result.wrapSuccessfulResult(0);
         }
         else
             return Result.wrapErrorResult("error");

@@ -30,7 +30,7 @@ public class UserInfoController {
         if(user!=null)
             return Result.wrapSuccessfulResult(user);
         else
-            return Result.wrapErrorResult("error!");
+            return Result.wrapErrorResult("error");
     }
 
     @ApiOperation(value="修改用户基本信息,用户id必须传")

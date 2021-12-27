@@ -31,7 +31,4 @@ public class Patient {
     private Date birthday;
     @Column(name="is_insure")
     private Integer isInsure;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "patient_ID")
-    private List<Card> cards;
 }
