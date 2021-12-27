@@ -5,6 +5,7 @@ import com.soa.order.client.HospitalFeignClient;
 import com.soa.order.client.PatientFeignClient;
 import com.soa.order.model.*;
 import com.soa.order.repository.ReservationRepository;
+import com.soa.order.utils.PostUtil;
 import com.soa.order.views.ReservationVo;
 import com.soa.order.views.ScheduleMqVo;
 import com.soa.order.views.ScheduleVo;
@@ -191,12 +192,7 @@ public class ReservationService {
         JSONObject postData = new JSONObject();
         postData.put("hospitalId", reservation.getHospitalID());
         postData.put("economy", (0-reservation.getCost()));
-        RestTemplate client = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<JSONObject> requestEntity = new HttpEntity<>(postData, headers);
-        System.out.println(client.postForEntity(location, requestEntity, JSONObject.class).getBody());
-
+        PostUtil.postUrl(postData,location);
         reservationRepository.deleteById(reservationId);
         return true;
     }

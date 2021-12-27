@@ -5,7 +5,9 @@ import com.soa.order.model.Orders;
 import com.soa.order.model.Reservation;
 import com.soa.order.repository.OrdersRepository;
 import com.soa.order.repository.ReservationRepository;
+import com.soa.order.utils.PostUtil;
 import com.soa.rabbit.service.RabbitService;
+import com.soa.utils.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -73,20 +77,11 @@ public class OrdersService {
         reservation.setState(1);//已支付
         reservationRepository.save(reservation);
 
+        updateHospFinance(reservation.getHospitalID(),orders.getCost());
+
         //TODO
         // rabbit发短信：
         // 您好，病人xxx成功预约xxx医院xxx科室的门诊，时间为xxx（日期时间），预约序号为第xxx位。
-
-        //更新医院财务
-        String location = "http://139.196.194.51:18080/api/finance";
-        JSONObject postData = new JSONObject();
-        postData.put("hospitalId", reservation.getHospitalID());
-        postData.put("economy", orders.getCost());
-        RestTemplate client = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<JSONObject> requestEntity = new HttpEntity<>(postData, headers);
-        System.out.println(client.postForEntity(location, requestEntity, JSONObject.class).getBody());
 
         //TODO
         // 调医院api更新预约信息
@@ -127,6 +122,12 @@ public class OrdersService {
         Orders orders = byId.orElse(null);
         if(orders==null)
             return false;
+
+        //查卡钱够不够
+        boolean flag = moneyEnough(patientId, type, orders.getCost());
+        if(!flag)
+            return false;//钱不够
+
         //更新order信息
         orders.setState(1);//已支付
         orders.setTime(new Date());
@@ -134,29 +135,84 @@ public class OrdersService {
         ordersRepository.save(orders);
 
         //扣卡钱
-        if(type==1)
-        {
-
-        }else if(type==2)
-        {
-
-        }else{
-
-        }
+        deductMoney(patientId,type,orders.getCost());
 
         //更新reservation信息
         Optional<Reservation> reservationRepositoryById = reservationRepository.findById(orders.getReserveID());
         Reservation reservation = reservationRepositoryById.orElse(null);
         reservation.setCardType(type);
-
-//        reservation.setCardNum();
-
+        reservation.setCardNum(getPatientCards(patientId,type));
         reservation.setState(1);//已支付
         reservationRepository.save(reservation);
-        //发短信
-        //更新医院财务
-        //更新医院预约信息
 
-        return false;
+        //更新医院财务
+        updateHospFinance(reservation.getHospitalID(),orders.getCost());
+
+        //TODO
+        // rabbit发短信
+
+        //TODO
+        // 调医院api更新预约信息
+
+
+        return true;
+    }
+
+    public boolean moneyEnough(String patientId,int type,int money){
+        String url;
+        if(type==1)
+            //医院就诊卡
+            url="http://139.196.194.51:18080/api/patients/"+patientId;
+        else if(type==2)
+            //社保卡
+            url="http://139.196.194.51:18081/api/patients/"+patientId;
+        else
+            //医保卡
+            url="http://139.196.194.51:18081/api/patient2s/"+patientId;
+
+        RestTemplate restTemplate = new RestTemplate();
+        Object data = restTemplate.getForEntity(url, JSONObject.class).getBody().get("data");
+        if(data==null)
+            return false;
+        int moneyAns=(int)data;
+        if(moneyAns<money)
+            return false;//钱不够
+        return true;
+    }
+
+    public String getPatientCards(String id,int type){
+        String[] myUrl =new String[3];
+        myUrl[0]="http://139.196.194.51:18080/api/patients/card/"+id;//就诊卡
+        myUrl[1]="http://139.196.194.51:18081/api/patients/card/"+id;//社保卡
+        myUrl[2]="http://139.196.194.51:18081/api/patient2s/card/"+id;//医保卡
+
+        RestTemplate restTemplate = new RestTemplate();
+        Object data = restTemplate.getForEntity(myUrl[type-1], JSONObject.class).getBody().get("data");
+
+        if(data!=null)
+            return (String)data;
+        return "";
+    }
+
+    public void deductMoney(String id,int type,int money){
+        String[] myUrl =new String[3];
+        myUrl[0]="http://139.196.194.51:18080/api/hospitals/updatePatient";//就诊卡
+        myUrl[1]="http://139.196.194.51:18081/api/patients/update";//社保卡
+        myUrl[2]="http://139.196.194.51:18081/api/patient2s/update";//医保卡
+
+        String location = myUrl[type-1];
+        JSONObject postData = new JSONObject();
+        postData.put("id", id);
+        postData.put("economy", money);
+        PostUtil.postUrl(postData,location);
+    }
+
+    //更新医院财务
+    public void updateHospFinance(String hospitalId,int money){
+        String location = "http://139.196.194.51:18080/api/finance";
+        JSONObject postData = new JSONObject();
+        postData.put("hospitalId", hospitalId);
+        postData.put("economy", money);
+        PostUtil.postUrl(postData,location);
     }
 }

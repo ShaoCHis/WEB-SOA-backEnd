@@ -58,10 +58,10 @@ public class OrdersController {
         if(type!=1&&type!=2&&type!=3)
             return Result.wrapErrorResult("error");
 
-        //可能余额不足
         //给reservation记录卡信息
         //给orders表记录支付类型
-        boolean flag = ordersService.cardPay(reservationId,patientId,type);
+        //可能余额不足
+        boolean flag = ordersService.cardPay(reservationId, patientId, type);
         if(flag)
             return Result.wrapSuccessfulResult("success");
         else
