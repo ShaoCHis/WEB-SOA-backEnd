@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @ program: demo
  * @ description: apply
@@ -29,4 +31,12 @@ public class ApplyController {
         applyService.applyInfo(apply);
         return Result.wrapSuccessfulResult("Success!");
     }
+
+    @ApiOperation(value="获取申请列表")
+    @GetMapping("getApplyList")
+    public Result getApplyList(){
+        List<Apply> applyList = applyService.getApplyList();
+        return Result.wrapSuccessfulResult(applyList);
+    }
+
 }

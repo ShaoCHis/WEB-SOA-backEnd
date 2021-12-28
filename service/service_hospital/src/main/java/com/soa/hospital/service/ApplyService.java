@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @ program: demo
  * @ description:
@@ -29,5 +32,14 @@ public class ApplyService {
         applyInfo.setLocation(apply.getLocation());
         applyInfo.setStatus(apply.getStatus());
         applyRepository.save(applyInfo);
+    }
+
+    public List<Apply> getApplyList() {
+        Iterable<Apply> all = applyRepository.findAll();
+        List<Apply> answer = new ArrayList<>();
+        for(Apply tmp:all){
+            answer.add(tmp);
+        }
+        return answer;
     }
 }
