@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ program: demo
@@ -41,5 +42,12 @@ public class ApplyService {
             answer.add(tmp);
         }
         return answer;
+    }
+
+    public Apply getApplyInfo(String code) {
+
+        Optional<Apply> byId = applyRepository.findById(code);
+        Apply apply = byId.orElse(null);
+        return apply;
     }
 }

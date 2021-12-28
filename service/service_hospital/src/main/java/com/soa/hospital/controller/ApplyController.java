@@ -39,4 +39,11 @@ public class ApplyController {
         return Result.wrapSuccessfulResult(applyList);
     }
 
+    @ApiOperation(value="根据code查询申请信息")
+    @GetMapping("getApplyInfo/{code}")
+    public Result getApplyInfo(@PathVariable String code){
+        Apply apply = applyService.getApplyInfo(code);
+        return Result.wrapSuccessfulResult(apply);
+    }
+
 }
