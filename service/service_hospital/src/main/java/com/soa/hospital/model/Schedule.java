@@ -5,6 +5,7 @@ package com.soa.hospital.model;/**
  */
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.soa.hospital.views.ScheduleInfo;
 import lombok.*;
 
@@ -39,8 +40,9 @@ public class Schedule {
   @Column(name = "available_number")
   private Integer availableNumber;//剩余可预约数
 
-  @JsonBackReference
+//  @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "doctor_Id")
+  @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
   private Doctor doctor;
 }
