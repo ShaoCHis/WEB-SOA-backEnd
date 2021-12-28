@@ -19,4 +19,11 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
 
     @Query(value="select * from reservation where schedule_ID=?1",nativeQuery = true)
     List<Reservation> findScheRes(Integer scheduleId);
+
+    @Query(value="select * from reservation where reserve_date>=?1 and reserve_date<=?2",nativeQuery = true)
+    List<Reservation> findSystemTimeReservation(String fromDate,String endDate);
+
+    @Query(value="select * from reservation where reserve_date>=?1 and reserve_date<=?2 and hospital_ID=?3",nativeQuery = true)
+    List<Reservation> findHospitalTimeReservation(String fromDate,String endDate,String hospitalId);
+
 }
