@@ -123,4 +123,11 @@ public class HospitalController {
         else
             return Result.wrapErrorResult("error!");
     }
+
+    @ApiOperation(value="根据搜索框内容，获取医院信息列表")
+    @GetMapping("getHospitalInfoByName/{content}")
+    public Result getHospitalInfoByName(@PathVariable String content){
+        List<Hospital> hospitals = hospitalService.getHospitalInfoByName(content);
+        return Result.wrapSuccessfulResult(hospitals);
+    }
 }

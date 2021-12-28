@@ -240,4 +240,9 @@ public class HospitalService {
         }
         return ans;
     }
+
+    public List<Hospital> getHospitalInfoByName(String content) {
+        List<Hospital> hospitals = hospInfoRepository.findByHospName(content);
+        return hospitals;
+    }
 }
