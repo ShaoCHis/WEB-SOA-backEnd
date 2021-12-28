@@ -47,6 +47,11 @@ public class HospitalController {
     public Result<String> joinSystem(@PathVariable String id){
         Hospital hospital= hospitalService.getById(id);
 
+        //TODO
+        // 这里查某code的医院是否已经存在而不应该是id
+        // 那从子系统查数据也应该是根据code查，或者都用id忽略code，明天讨论？
+        // 修改apply状态为1，那边只查询0的
+
         if(hospital!=null)
             return Result.wrapErrorResult(new HospitalNotExistedError());
 

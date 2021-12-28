@@ -36,16 +36,11 @@ public class ApplyService {
     }
 
     public List<Apply> getApplyList() {
-        Iterable<Apply> all = applyRepository.findAll();
-        List<Apply> answer = new ArrayList<>();
-        for(Apply tmp:all){
-            answer.add(tmp);
-        }
+        List<Apply> answer = applyRepository.queryAllList();
         return answer;
     }
 
     public Apply getApplyInfo(String code) {
-
         Optional<Apply> byId = applyRepository.findById(code);
         Apply apply = byId.orElse(null);
         return apply;
