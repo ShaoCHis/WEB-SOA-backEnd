@@ -1,13 +1,15 @@
 package com.soa.order.controller;
 
 import com.soa.order.service.StatisticService;
+import com.soa.order.views.StatisticResult;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ program: demo
@@ -18,17 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/orders/statistic")
 @CrossOrigin
-@Api(value="统计流水",tags = "统计流水",description = "统计流水")
 public class StatisticController {
     @Autowired
     StatisticService statisticService;
 
-    @GetMapping("/test")
-    public Result testMoney(){
-        String fromDate="2019-01-01";
-        String endDate="2021-12-28";
-        int moneyTest = statisticService.getMoneyTest(fromDate, endDate);
-        return Result.wrapSuccessfulResult(moneyTest);
+    @GetMapping("/querySystemMoney/{fromDate}/{endDate}")
+    public Result querySystemMoney(@PathVariable String fromDate,
+                                   @PathVariable String endDate){
+        Map<String, Integer> answer = statisticService.getSystemMoney(fromDate, endDate);
+        return Result.wrapSuccessfulResult(answer);
+    }
+
+    @GetMapping("/queryHospitalMoney/{fromDate}/{endDate}/{hospitalId}")
+    public Result queryHospitalMoney(@PathVariable String fromDate,
+                                     @PathVariable String endDate,
+                                     @PathVariable String hospitalId){
+        Map<String, Integer> answer = statisticService.getHospitalMoney(fromDate, endDate, hospitalId);
+        return Result.wrapSuccessfulResult(answer);
     }
 
 }

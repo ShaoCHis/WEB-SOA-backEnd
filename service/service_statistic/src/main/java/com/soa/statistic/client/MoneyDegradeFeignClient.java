@@ -1,5 +1,6 @@
 package com.soa.statistic.client;
 
+import com.soa.utils.utils.Result;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,5 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class MoneyDegradeFeignClient implements MoneyFeignClient {
 
+    @Override
+    public Result querySystemMoney(String fromDate, String endDate) {
+        return Result.wrapErrorResult("error");
+    }
+
+    @Override
+    public Result queryHospitalMoney(String fromDate, String endDate, String hospitalId) {
+        return Result.wrapErrorResult("error");
+    }
 
 }
