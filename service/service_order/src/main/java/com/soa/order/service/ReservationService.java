@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -237,16 +238,13 @@ public class ReservationService {
     }
 
     public boolean queryHaveReserved(String patientId) {
-
-        Date date = new Date();
-        String s = date.toString();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            dateFormat.parse(s);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        LocalDate todaysDate = LocalDate.now();
+        System.out.println(todaysDate);
+        List<Reservation> reservedList = reservationRepository.findHaveReserved(patientId,todaysDate.toString());
+        for(Reservation tmp:reservedList)
+            System.out.println(tmp);
+        if(reservedList.size()!=0)
+            return true;
         return false;
     }
 }

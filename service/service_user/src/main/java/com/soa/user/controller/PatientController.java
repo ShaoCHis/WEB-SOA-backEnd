@@ -84,9 +84,8 @@ public class PatientController {
 
     @ApiOperation(value="判断病人是不是已经预约了（不给删除了，需要先取消预约才能删除），" +
             "是的话返回正确，否则返回错误结果")
-    @DeleteMapping("deletePatient/{patientId}")
+    @GetMapping("patientHaveReserved/{patientId}")
     public Result patientHaveReserved(@PathVariable String patientId){
-
         Result result = reservationFeignClient.haveReserved(patientId);
         if(result.isSuccess())//已经预约
             return Result.wrapSuccessfulResult("can not delete");

@@ -29,4 +29,6 @@ public interface ReservationRepository extends CrudRepository<Reservation,String
             "reserve_date>=?1 and reserve_date<=?2 and hospital_ID=?3 group by reserve_date order by reserve_date",nativeQuery = true)
     List findHospitalTimeReservation(String fromDate,String endDate,String hospitalId);
 
+    @Query(value="select * from reservation where patient_ID=?1 and reserve_date>=?2",nativeQuery = true)
+    List<Reservation> findHaveReserved(String patientId, String s);
 }
