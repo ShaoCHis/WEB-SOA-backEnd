@@ -2,7 +2,9 @@ package com.soa.order.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.soa.order.model.Reservation;
 import com.soa.order.service.OrdersService;
+import com.soa.order.service.ReservationService;
 import com.soa.order.views.HospitalInfo;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
@@ -24,6 +26,9 @@ import org.springframework.web.client.RestTemplate;
 public class OrdersController {
     @Autowired
     OrdersService ordersService;
+
+    @Autowired
+    ReservationService reservationService;
 
     @ApiOperation(value="根据patientId和卡的type查询卡上的余额，type:1为就诊卡2为社保卡3为医保卡")
     @GetMapping("money/{patientId}/{type}")
@@ -61,6 +66,10 @@ public class OrdersController {
         //给reservation记录卡信息
         //给orders表记录支付类型
         //可能余额不足
+        Reservation reservation = reservationService.getReservationById(reservationId);
+        if (reservation == null)
+            return Result.wrapErrorResult("error");//reservation不应该未空
+        ordersService.saveOrderInfo(reservation, type);
         boolean flag = ordersService.cardPay(reservationId, patientId, type);
         if(flag)
             return Result.wrapSuccessfulResult("success");
