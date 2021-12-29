@@ -10,6 +10,8 @@ import com.soa.order.repository.ReservationRepository;
 import com.soa.order.utils.ConstantPropertiesUtils;
 import com.soa.order.utils.HttpClient;
 import com.soa.order.utils.PostUtil;
+import com.soa.order.views.MsmVo;
+import com.soa.rabbit.constant.MqConst;
 import com.soa.rabbit.service.RabbitService;
 import com.soa.utils.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,16 +80,13 @@ public class OrdersService {
         reservation.setState(1);//已支付
         reservationRepository.save(reservation);
 
+        // rabbitmq发短信
+        sendEmailByMq(reservation);
+
         updateHospFinance(reservation.getHospitalID(),orders.getCost());
 
-        //TODO
-        // rabbit发短信：
-        // 您好，病人xxx成功预约xxx医院xxx科室的门诊，时间为xxx（日期时间），预约序号为第xxx位。
-
-        //TODO
-        // 调医院api更新预约信息
-
-
+        // 调医院api添加预约信息
+        addHospitalSystemReservation(reservation);
 
     }
 
@@ -149,11 +148,11 @@ public class OrdersService {
         //更新医院财务
         updateHospFinance(reservation.getHospitalID(),orders.getCost());
 
-        //TODO
-        // rabbit发短信
+        // rabbitmq发短信
+        sendEmailByMq(reservation);
 
-        //TODO
-        // 调医院api更新预约信息
+        // 调医院api添加预约信息
+        addHospitalSystemReservation(reservation);
 
         return true;
     }
@@ -227,6 +226,21 @@ public class OrdersService {
         deductMoney(reservation.getPatientID(),orders.getType(),0-orders.getCost());
         refundOrders(id,3);//退款成功
         return true;
+    }
+
+    public void sendEmailByMq(Reservation reservation){
+        // 您好，病人xxx成功预约xxx医院xxx科室的门诊，时间为xxx（日期时间），预约序号为第xxx位。
+        String emailInfo="您好，病人"+reservation.getPatientName()+"成功预约"+reservation.getHospitalName()+
+                reservation.getDepartmentName()+"的门诊，时间为"+reservation.getReserveDate()+" "+
+                reservation.getReserveTime()+"，预约序号为第"+reservation.getNumber()+"位。";
+        MsmVo msmVo = new MsmVo(emailInfo,reservation.getUserID());
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM, MqConst.ROUTING_MSM, msmVo);
+    }
+
+    public void addHospitalSystemReservation(Reservation reservation){
+        // 调医院api添加预约信息
+        
+
     }
 
 }

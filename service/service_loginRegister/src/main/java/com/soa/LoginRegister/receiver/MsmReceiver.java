@@ -23,12 +23,12 @@ public class MsmReceiver {
     MsmService msmService;
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = MqConst.QUEUE_MSM_ITEM, durable = "true"),
+            value = @Queue(value = MqConst.QUEUE_MSM, durable = "true"),
             exchange = @Exchange(value = MqConst.EXCHANGE_DIRECT_MSM),
-            key = {MqConst.ROUTING_MSM_ITEM}
+            key = {MqConst.ROUTING_MSM}
     ))
     public void send(MsmVo msmVo, Message message, Channel channel) {
-        msmService.sendRemind(msmVo.getMessage(),msmVo.getEmail());
+        msmService.sendRemind(msmVo.getMessage(),msmVo.getUserId());
     }
 
 }

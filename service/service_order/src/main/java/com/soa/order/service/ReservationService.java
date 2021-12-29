@@ -7,6 +7,7 @@ import com.soa.order.model.*;
 import com.soa.order.repository.OrdersRepository;
 import com.soa.order.repository.ReservationRepository;
 import com.soa.order.utils.PostUtil;
+import com.soa.order.views.MsmVo;
 import com.soa.order.views.ReservationVo;
 import com.soa.order.views.ScheduleMqVo;
 import com.soa.order.views.ScheduleVo;
@@ -171,9 +172,6 @@ public class ReservationService {
         if(reservation.getState()!=1)
             return false;
 
-        //TODO
-        // 判断当前时间是否可以取消，schedule的startTime之前可取消，过了不可取消
-
         // 微信退款，卡退款，根据order的type来判断
         Orders ordersById = ordersService.getOrdersById(reservationId);
         Boolean flag;
@@ -193,18 +191,18 @@ public class ReservationService {
         scheduleMqVo.setAddOrSub(1);
         rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleMqVo);
 
-        //TODO
-        // 短信提示取消预约成功
-
-        //TODO
-        // 调医院子系统api取消那边的预约
+        // rabbitmq发短信
+        String emailInfo="您好，病人"+reservation.getPatientName()+"成功取消"+reservation.getHospitalName()+
+                reservation.getDepartmentName()+"的门诊预约！";
+        MsmVo msmVo = new MsmVo(emailInfo,reservation.getUserID());
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_MSM, MqConst.ROUTING_MSM, msmVo);
 
         //更新医院财务,扣钱
-        String location = "http://139.196.194.51:18080/api/finance";
-        JSONObject postData = new JSONObject();
-        postData.put("hospitalId", reservation.getHospitalID());
-        postData.put("economy", (0-reservation.getCost()));
-        PostUtil.postUrl(postData,location);
+        ordersService.updateHospFinance(reservation.getHospitalID(),(0-reservation.getCost()));
+
+        // 调医院子系统api取消那边的预约
+        cancelHospitalSystemReservation(reservation);
+
         return true;
     }
 
@@ -226,5 +224,11 @@ public class ReservationService {
     public List<Reservation> getScheResList(Integer scheduleId) {
         List<Reservation> reservationList=reservationRepository.findScheRes(scheduleId);
         return reservationList;
+    }
+
+    public void cancelHospitalSystemReservation(Reservation reservation){
+        // 调医院api取消预约信息
+
+
     }
 }

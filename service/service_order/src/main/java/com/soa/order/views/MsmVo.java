@@ -1,4 +1,4 @@
-package com.soa.LoginRegister.views;
+package com.soa.order.views;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
  * @ program: demo
  * @ description:
  * @ author: ShenBo
- * @ date: 2021-12-10 10:39:47
+ * @ date: 2021-12-29 21:09:24
  */
 @Data
 @AllArgsConstructor

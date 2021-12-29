@@ -13,6 +13,6 @@ public class MqConst {
     public static final String QUEUE_ORDER="queue.order";
     //msm
     public static final String EXCHANGE_DIRECT_MSM="exchange.direct.msm";
-    public static final String ROUTING_MSM_ITEM="msm.item";
-    public static final String QUEUE_MSM_ITEM="queue.msm.item";
+    public static final String ROUTING_MSM="msm.item";
+    public static final String QUEUE_MSM="queue.msm.item";
 }

@@ -1,7 +1,12 @@
 package com.soa.LoginRegister.service;
 
+import com.soa.LoginRegister.model.User;
+import com.soa.LoginRegister.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.commons.mail.HtmlEmail;
+
+import java.util.Optional;
 
 /**
  * @ program: demo
@@ -11,6 +16,9 @@ import org.apache.commons.mail.HtmlEmail;
  */
 @Service
 public class MsmService {
+    @Autowired
+    UserRepository userRepository;
+
     public boolean send(String param, String userEmail) {
         try {
             HtmlEmail email = new HtmlEmail();
@@ -32,17 +40,22 @@ public class MsmService {
 
     }
 
-    public boolean sendRemind(String message,String userEmail){
+    public boolean sendRemind(String message,String userId){
         try {
             HtmlEmail email = new HtmlEmail();
             email.setHostName("smtp.163.com");
             email.setCharset("UTF-8");
+
+            Optional<User> byId = userRepository.findById(userId);
+            User user = byId.orElse(null);
+            String userEmail=user.getEmail();
+
             email.addTo(userEmail);// 收件地址
 
             email.setFrom("registerWEB2021@163.com", "EmailIdentifyCode");
             email.setAuthentication("registerWEB2021@163.com", "WHCWZULLIJIUKJIL");
 
-            email.setSubject("挂号通知");//此处填写邮件名，邮件名可任意填写
+            email.setSubject("挂号系统通知");//此处填写邮件名，邮件名可任意填写
             email.setMsg(message);//此处填写邮件内容
             email.send();
             return true;
