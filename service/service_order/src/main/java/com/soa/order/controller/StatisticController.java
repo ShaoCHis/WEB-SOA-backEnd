@@ -27,7 +27,7 @@ public class StatisticController {
     @GetMapping("/querySystemMoney/{fromDate}/{endDate}")
     public Result querySystemMoney(@PathVariable String fromDate,
                                    @PathVariable String endDate){
-        Map<String, Integer> answer = statisticService.getSystemMoney(fromDate, endDate);
+        List<StatisticResult> answer = statisticService.getSystemMoney(fromDate, endDate);
         return Result.wrapSuccessfulResult(answer);
     }
 
@@ -35,7 +35,7 @@ public class StatisticController {
     public Result queryHospitalMoney(@PathVariable String fromDate,
                                      @PathVariable String endDate,
                                      @PathVariable String hospitalId){
-        Map<String, Integer> answer = statisticService.getHospitalMoney(fromDate, endDate, hospitalId);
+        List<StatisticResult> answer = statisticService.getHospitalMoney(fromDate, endDate, hospitalId);
         return Result.wrapSuccessfulResult(answer);
     }
 

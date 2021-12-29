@@ -23,27 +23,27 @@ public class StatisticService {
     @Autowired
     ReservationRepository reservationRepository;
 
-    public Map<String,Integer> getSystemMoney(String fromDate,String endDate){
+    public List<StatisticResult> getSystemMoney(String fromDate,String endDate){
         List systemTimeReservation = reservationRepository.findSystemTimeReservation(fromDate, endDate);
-        Map<String,Integer> map=new HashMap<>();//结果map
+        List<StatisticResult> ans=new ArrayList<>();//结果
         for(Object tmp:systemTimeReservation){
             Object[] cells = (Object[])tmp;
             StatisticResult statisticResult = new StatisticResult
                     (((Date)cells[0]).toString(),Integer.parseInt(String.valueOf(cells[1])));
-            map.put(statisticResult.getDate(),statisticResult.getMoney());
+            ans.add(statisticResult);
         }
-        return map;
+        return ans;
     }
 
-    public Map<String, Integer> getHospitalMoney(String fromDate, String endDate, String hospitalId){
+    public List<StatisticResult> getHospitalMoney(String fromDate, String endDate, String hospitalId){
         List systemTimeReservation = reservationRepository.findHospitalTimeReservation(fromDate, endDate, hospitalId);
-        Map<String,Integer> map=new HashMap<>();//结果map
+        List<StatisticResult> ans=new ArrayList<>();//结果
         for(Object tmp:systemTimeReservation){
             Object[] cells = (Object[])tmp;
             StatisticResult statisticResult = new StatisticResult
                     (((Date)cells[0]).toString(),Integer.parseInt(String.valueOf(cells[1])));
-            map.put(statisticResult.getDate(),statisticResult.getMoney());
+            ans.add(statisticResult);
         }
-        return map;
+        return ans;
     }
 }
