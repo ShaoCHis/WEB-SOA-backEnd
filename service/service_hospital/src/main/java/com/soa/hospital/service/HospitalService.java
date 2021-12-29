@@ -155,11 +155,11 @@ public class HospitalService {
                 for(ScheduleInfo scheduleInfo:doctorInfo.getScheduleInfoList()){
                     Schedule schedule=new Schedule();
                     schedule.setDate(scheduleInfo.getDate());
-                    schedule.setStartTime(new Time(scheduleInfo.getStartTime().getTime()-28800000-5760000));
-                    schedule.setEndTime(new Time(scheduleInfo.getEndTime().getTime()-28800000-5760000));
+                    schedule.setStartTime(new Time(scheduleInfo.getStartTime().getTime()));
+                    schedule.setEndTime(new Time(scheduleInfo.getEndTime().getTime()));
                     schedule.setReservedNumber(scheduleInfo.getReservedNumber());
                     schedule.setAvailableNumber(scheduleInfo.getAvailableNumber());
-                    schedule.setDoctor(doctor);
+                    schedule.setDoctor(doctorRepository.findById(doctor.getId()).get());
                     scheduleRepository.save(schedule);
                 }
             }
@@ -210,11 +210,11 @@ public class HospitalService {
                 for(ScheduleInfo scheduleInfo:doctorInfo.getScheduleInfoList()){
                     Schedule schedule=new Schedule();
                     schedule.setDate(scheduleInfo.getDate());
-                    schedule.setStartTime(new Time(scheduleInfo.getStartTime().getTime()-28800000-5760000));
-                    schedule.setEndTime(new Time(scheduleInfo.getEndTime().getTime()-28800000-5760000));
+                    schedule.setStartTime(new Time(scheduleInfo.getStartTime().getTime()));
+                    schedule.setEndTime(new Time(scheduleInfo.getEndTime().getTime()));
                     schedule.setReservedNumber(scheduleInfo.getReservedNumber());
                     schedule.setAvailableNumber(scheduleInfo.getAvailableNumber());
-                    schedule.setDoctor(doctor);
+                    schedule.setDoctor(doctorRepository.findById(doctor.getId()).get());
                     scheduleRepository.save(schedule);
                 }
             }
