@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.soa.order.client.HospitalFeignClient;
 import com.soa.order.client.PatientFeignClient;
 import com.soa.order.model.*;
+import com.soa.order.repository.OrdersRepository;
 import com.soa.order.repository.ReservationRepository;
 import com.soa.order.utils.PostUtil;
 import com.soa.order.views.ReservationVo;
@@ -50,6 +51,9 @@ public class ReservationService {
 
     @Autowired
     OrdersService ordersService;
+
+    @Autowired
+    OrdersRepository ordersRepository;
 
     public String addReservation(String scheduleId, String patientId,int cardType, String cardId) {
         Result patientResult = patientFeignClient.getPatientInfo(patientId);
@@ -137,12 +141,22 @@ public class ReservationService {
 
     @Transactional
     public boolean cancel(String reservationId) {
-        boolean b = reservationRepository.existsById(reservationId);
-        if(b){
-            reservationRepository.deleteById(reservationId);
-            return true;
+        Optional<Reservation> byId = reservationRepository.findById(reservationId);
+        Reservation reservation = byId.orElse(null);
+        if(reservation==null)
+            return false;
+        reservation.setState(3);//已经取消
+        reservationRepository.save(reservation);
+
+        //order如果不是空的，也设置成3
+        Orders ordersById = ordersService.getOrdersById(reservationId);
+        if(ordersById!=null)
+        {
+            ordersById.setState(3);//已经取消
+            ordersRepository.save(ordersById);
         }
-        return false;
+
+        return true;
     }
 
     @Transactional
@@ -191,7 +205,6 @@ public class ReservationService {
         postData.put("hospitalId", reservation.getHospitalID());
         postData.put("economy", (0-reservation.getCost()));
         PostUtil.postUrl(postData,location);
-        reservationRepository.deleteById(reservationId);
         return true;
     }
 
