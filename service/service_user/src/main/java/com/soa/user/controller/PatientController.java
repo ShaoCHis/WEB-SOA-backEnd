@@ -89,9 +89,9 @@ public class PatientController {
 
         Result result = reservationFeignClient.haveReserved(patientId);
         if(result.isSuccess())//已经预约
-            return Result.wrapSuccessfulResult("success");
+            return Result.wrapSuccessfulResult("can not delete");
         else
-            return Result.wrapErrorResult("error");
+            return Result.wrapErrorResult("can delete");
     }
 
 }
