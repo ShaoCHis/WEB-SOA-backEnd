@@ -1,5 +1,6 @@
 package com.soa.user.controller;
 
+import com.soa.user.client.ReservationFeignClient;
 import com.soa.user.model.Patient;
 import com.soa.user.model.User;
 import com.soa.user.service.PatientService;
@@ -30,6 +31,9 @@ public class PatientController {
 
     @Autowired
     UserInfoService userInfoService;
+
+    @Autowired
+    ReservationFeignClient reservationFeignClient;
 
     @ApiOperation(value="根据病人id获取病人信息")
     @GetMapping("getPatientInfo/{id}")
@@ -77,4 +81,17 @@ public class PatientController {
         else
             return Result.wrapErrorResult("error");
     }
+
+    @ApiOperation(value="判断病人是不是已经预约了（不给删除了，需要先取消预约才能删除），" +
+            "是的话返回正确，否则返回错误结果")
+    @DeleteMapping("deletePatient/{patientId}")
+    public Result patientHaveReserved(@PathVariable String patientId){
+
+        Result result = reservationFeignClient.haveReserved(patientId);
+        if(result.isSuccess())//已经预约
+            return Result.wrapSuccessfulResult("success");
+        else
+            return Result.wrapErrorResult("error");
+    }
+
 }

@@ -23,7 +23,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -230,5 +234,19 @@ public class ReservationService {
         // 调医院api取消预约信息
 
 
+    }
+
+    public boolean queryHaveReserved(String patientId) {
+
+        Date date = new Date();
+        String s = date.toString();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            dateFormat.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

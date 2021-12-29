@@ -58,6 +58,8 @@ public class ScheduleService {
         Schedule schedule = byId.orElse(null);
         if(schedule==null)
             return false;
+        if(!schedule.getReservedNumber().equals(schedule.getAvailableNumber()))
+            return false;//已经被预约了不给删
         scheduleRepository.deleteById(scheduleId);
         return true;
     }

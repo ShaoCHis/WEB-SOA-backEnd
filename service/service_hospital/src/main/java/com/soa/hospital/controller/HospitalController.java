@@ -54,7 +54,7 @@ public class HospitalController {
         if(hospital!=null)
             return Result.wrapErrorResult(new HospitalNotExistedError());
 
-        applyService.updateStatus(code);
+//        applyService.updateStatus(code);
 
         RestTemplate restTemplate = new RestTemplate();
         String location = "http://127.0.0.1:18080/api/hospitals/"+code;
