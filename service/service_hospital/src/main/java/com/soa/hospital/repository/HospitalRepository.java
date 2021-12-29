@@ -10,4 +10,6 @@ public interface HospitalRepository extends CrudRepository<Hospital,String> {
 
     @Query(value = "select * from hospital where name like %?1%" ,nativeQuery = true)
     List<Hospital> findByHospName(String content);
+
+    Hospital findByCode(String code);
 }

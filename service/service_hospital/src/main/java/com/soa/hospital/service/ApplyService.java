@@ -45,4 +45,10 @@ public class ApplyService {
         Apply apply = byId.orElse(null);
         return apply;
     }
+
+    public void updateStatus(String code) {
+        Apply applyInfo = getApplyInfo(code);
+        applyInfo.setStatus(1);//加入系统
+        applyRepository.save(applyInfo);
+    }
 }

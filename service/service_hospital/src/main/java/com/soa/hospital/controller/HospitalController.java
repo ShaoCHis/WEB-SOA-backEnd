@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.soa.hospital.model.Hospital;
 import com.soa.hospital.repository.HospitalRepository;
+import com.soa.hospital.service.ApplyService;
 import com.soa.hospital.service.HospitalService;
 import com.soa.hospital.views.HospitalBaseInfo;
 import com.soa.hospital.views.HospitalInfo;
@@ -42,21 +43,21 @@ public class HospitalController {
     @Autowired
     HospitalRepository hospitalRepository;
 
-    @ApiOperation(value = "审核通过后，医院加入系统")
-    @PostMapping(path = "/join/{id}")
-    public Result<String> joinSystem(@PathVariable String id){
-        Hospital hospital= hospitalService.getById(id);
+    @Autowired
+    ApplyService applyService;
 
-        //TODO
-        // 这里查某code的医院是否已经存在而不应该是id
-        // 那从子系统查数据也应该是根据code查，或者都用id忽略code，明天讨论？
-        // 修改apply状态为1，那边只查询0的
+    @ApiOperation(value = "审核通过后，医院加入系统")
+    @PostMapping(path = "/join/{code}")
+    public Result<String> joinSystem(@PathVariable String code){
+        Hospital hospital=hospitalService.getByCode(code);
 
         if(hospital!=null)
             return Result.wrapErrorResult(new HospitalNotExistedError());
 
+        applyService.updateStatus(code);
+
         RestTemplate restTemplate = new RestTemplate();
-        String location = "http://127.0.0.1:18080/api/hospitals/"+id;
+        String location = "http://127.0.0.1:18080/api/hospitals/"+code;
         JSONObject json = restTemplate.getForEntity(location, JSONObject.class).getBody().getJSONObject("data");
         HospitalInfo hospitalInfo= JSON.parseObject(String.valueOf(json),HospitalInfo.class);
         return hospitalService.joinSystem(hospitalInfo);

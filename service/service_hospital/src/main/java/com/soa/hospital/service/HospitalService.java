@@ -123,7 +123,7 @@ public class HospitalService {
         Hospital newHospital=new Hospital(body);
         hospInfoRepository.save(newHospital);
 
-        Hospital hospital = hospInfoRepository.findById(body.getId()).get();
+        Hospital hospital = hospInfoRepository.findByCode(body.getId());
         List<Department> departments = new LinkedList<>();
         Iterable<Department> departmentIterable=departmentRepository.findAll();
 
@@ -171,10 +171,16 @@ public class HospitalService {
 
     @Transactional
     public Result<String> updateHospitalInfo(HospitalInfo body) {
-        Hospital newHospital=new Hospital(body);
-        hospInfoRepository.save(newHospital);
+        Hospital hospital = hospInfoRepository.findByCode(body.getId());
 
-        Hospital hospital = hospInfoRepository.findById(body.getId()).get();
+        hospital.setLocation(body.getLocation());
+        hospital.setLevel(body.getLevel());
+        hospital.setName(body.getName());
+        hospital.setIntroduction(body.getIntroduction());
+        hospital.setNotice(body.getNotice());
+        hospital.setUrl(body.getUrl());
+        hospital.setImage(body.getImage());
+        hospInfoRepository.save(hospital);
         List<Department> departments = new LinkedList<>();
         Iterable<Department> departmentIterable=departmentRepository.findAll();
 
@@ -244,5 +250,9 @@ public class HospitalService {
     public List<Hospital> getHospitalInfoByName(String content) {
         List<Hospital> hospitals = hospInfoRepository.findByHospName(content);
         return hospitals;
+    }
+
+    public Hospital getByCode(String code) {
+        return hospInfoRepository.findByCode(code);
     }
 }

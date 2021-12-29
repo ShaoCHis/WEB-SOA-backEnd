@@ -2,8 +2,6 @@ package com.soa.hospital.nettyServer;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.soa.hospital.views.DepartmentWithDoctors;
-import com.soa.hospital.views.PatientInfo;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -15,8 +13,9 @@ import okhttp3.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
-import java.util.Objects;
 
 
 @Sharable
@@ -37,7 +36,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         String information=in.toString(CharsetUtil.UTF_8);
         System.out.println("服务端接收到数据:" + information);
 
-        if(Objects.equals(information, "UpdateInformation")){
+        if(information.startsWith("UpdateInformation")){
             //用RestTemplate GET对后端其他项目进行接口调用，进行json和Object类型之间的转化
             RestTemplate restTemplate = new RestTemplate();
             String location = "http://127.0.0.1:18080/api/hospitals/updateInfo/1";
@@ -46,11 +45,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             System.out.println(String.valueOf(json));
             HospitalInfo hospitalInfo= JSON.parseObject(String.valueOf(json),HospitalInfo.class);
 
-
             String newLocation="http://127.0.0.1:8083/hospital/hospitals/update";
             //请求参数JOSN类型
             RestTemplate client = new RestTemplate();
-            System.out.println(client.postForEntity(newLocation, json, JSONObject.class).getBody());
+            System.out.println(client.postForEntity(newLocation, hospitalInfo, JSONObject.class).getBody());
             //服务端给客户端发送消息
             ctx.writeAndFlush(Unpooled.copiedBuffer("服务端数据更新成功!", CharsetUtil.UTF_8));
         }
@@ -102,7 +100,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Data
-    private class HospitalInfo {
+    static class HospitalInfo {
         private String Id;
 
         private String password;
@@ -128,5 +126,65 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         private Integer status;
 
         private List<PatientInfo> patientInfoList;
+    }
+
+    @Data
+    static class DepartmentWithDoctors {
+        private String Id;
+
+        private String name;
+
+        private String introduction;
+
+        private List<DoctorInfo> doctorList;
+    }
+
+    @Data
+    static class PatientInfo {
+        private String patientId;
+
+        private String cardId;
+
+        private String name;
+
+        private String phoneNumber;
+
+        private String sex;
+
+        private Date birthday;
+
+        private Integer type;
+
+        private Integer balance;
+    }
+
+    @Data
+    static class DoctorInfo {
+        private String Id;
+
+        private String name;
+
+        private String introduction;
+
+        private Integer age;
+
+        private String title;
+
+        private Integer cost;
+
+        List<ScheduleInfo> scheduleInfoList;
+    }
+
+    @Data
+    static class ScheduleInfo {
+        private Integer availableNumber;
+
+        private Integer reservedNumber;
+
+        private Time startTime;
+
+        private Time endTime;
+
+        private Date date;
     }
 }

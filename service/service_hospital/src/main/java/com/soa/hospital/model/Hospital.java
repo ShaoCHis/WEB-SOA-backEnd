@@ -3,6 +3,7 @@ package com.soa.hospital.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.soa.hospital.views.HospitalBaseInfo;
 import com.soa.hospital.views.HospitalInfo;
+import com.soa.utils.utils.RandomUtil;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,8 +53,8 @@ public class Hospital {
     Set<PatientCard> patientCardSet;
 
     public Hospital(HospitalInfo hospitalInfo){
-        this.Id=hospitalInfo.getId();
-        this.code=hospitalInfo.getCode();
+        this.Id= RandomUtil.getFourBitRandom()+RandomUtil.getSixBitRandom();
+        this.code=hospitalInfo.getId();
         this.name=hospitalInfo.getName();
         this.introduction=hospitalInfo.getIntroduction();
         this.image=hospitalInfo.getImage();
