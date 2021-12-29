@@ -239,10 +239,10 @@ public class ReservationService {
 
     public boolean queryHaveReserved(String patientId) {
         LocalDate todaysDate = LocalDate.now();
-        System.out.println(todaysDate);
+//        System.out.println(todaysDate);
         List<Reservation> reservedList = reservationRepository.findHaveReserved(patientId,todaysDate.toString());
-        for(Reservation tmp:reservedList)
-            System.out.println(tmp);
+//        for(Reservation tmp:reservedList)
+//            System.out.println(tmp);
         if(reservedList.size()!=0)
             return true;
         return false;
