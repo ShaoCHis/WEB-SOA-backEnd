@@ -15,15 +15,9 @@ import java.util.List;
 @FeignClient(name = "service-hospital",fallback = HospitalDegradeFeignClient.class)
 @Component
 public interface HospitalFeignClient {
-    //根据scheduleId获取schedule信息
-    @GetMapping("/hospital/schedules/inner/getScheduleVo/{scheduleId}")
-    public Result<ScheduleVo> getScheduleVo(@PathVariable("scheduleId") int scheduleId);
-
-    //根据医生id查询医生信息、医院信息、科室信息
-    @GetMapping("/hospital/doctors/getReservationVo/{id}")
-    public Result<ReservationVo> getReservationVo(@PathVariable("id") String id);
 
     //根据医生id查询医生schedule列表
     @GetMapping("/hospital/schedules/getSchedule/{doctorId}")
     public Result getSchedule(@PathVariable("doctorId") String doctorId);
+
 }

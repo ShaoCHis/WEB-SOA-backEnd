@@ -39,18 +39,6 @@ public class ReservationController {
     @Autowired
     HospitalFeignClient hospitalFeignClient;
 
-//    @ApiOperation(value="根据病人id和scheduleId两个参数生成预约订单信息")
-//    @PostMapping("submitReservation/{scheduleId}/{patientId}")
-//    public Result submitReservation(@PathVariable int scheduleId,
-//                                    @PathVariable String patientId){
-//        int cardType=0;
-//        String cardId="";
-//        if(reservationService.haveReserved(patientId,scheduleId))
-//            return Result.wrapErrorResult("error");
-//        String scheduleIdStr=Integer.toString(scheduleId);
-//        String reservationId = reservationService.addReservation(scheduleIdStr,patientId,cardType,cardId);
-//        return Result.wrapSuccessfulResult(reservationId);
-//    }
     @ApiOperation(value = "判断病人是不是已经预约过此schedule,预约过返回error,没预约返回success")
     @GetMapping("/haveReservedThisSchedule/{patientId}/{scheduleId}")
     public Result haveReservedThisSchedule(@PathVariable String patientId,@PathVariable Integer scheduleId){

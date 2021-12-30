@@ -19,16 +19,6 @@ import java.util.List;
 public class HospitalDegradeFeignClient implements HospitalFeignClient {
 
     @Override
-    public Result<ScheduleVo> getScheduleVo(int scheduleId) {
-        return Result.wrapErrorResult("error");
-    }
-
-    @Override
-    public Result<ReservationVo> getReservationVo(String id) {
-        return Result.wrapErrorResult("error");
-    }
-
-    @Override
     public Result getSchedule(String doctorId) {
         return Result.wrapErrorResult("error");
     }

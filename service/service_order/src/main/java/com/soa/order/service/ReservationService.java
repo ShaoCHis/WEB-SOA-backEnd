@@ -61,68 +61,6 @@ public class ReservationService {
     @Autowired
     OrdersRepository ordersRepository;
 
-//    public String addReservation(String scheduleId, String patientId,int cardType, String cardId) {
-//        Result patientResult = patientFeignClient.getPatientInfo(patientId);
-//        //获取病人信息
-//        Patient patient;
-//        if(patientResult.isSuccess())
-//            patient = (Patient) patientResult.getData();
-//        else
-//            return "error";
-//
-//        //获取排班信息
-//        int scheduleIntId = Integer.parseInt(scheduleId);
-//        Result schedule = hospitalFeignClient.getScheduleVo(scheduleIntId);
-//        ScheduleVo scheduleVo;
-//        if(schedule.isSuccess())
-//            scheduleVo= (ScheduleVo) schedule.getData();
-//        else
-//            return "error";
-//
-//        //查询医生信息,获取名字和价格,医院id、科室id，医院name、科室name
-//        Result<ReservationVo> reservationVoResult = hospitalFeignClient.getReservationVo(scheduleVo.getDoctorId());
-//        ReservationVo reservationVo;
-//        if(reservationVoResult.isSuccess())
-//            reservationVo=reservationVoResult.getData();
-//        else
-//            return "error";
-//
-//        Reservation reservation=new Reservation();
-//        String randomId = RandomUtil.getFourBitRandom()+RandomUtil.getSixBitRandom();
-//        reservation.setID(randomId);
-//        reservation.setUserID(patient.getUserId());
-//        reservation.setPatientID(patient.getPatientId());
-//        reservation.setPatientName(patient.getName());
-//        reservation.setCardType(0);
-//        reservation.setCardNum("");
-//        reservation.setDoctorName(reservationVo.getDoctorName());
-//        reservation.setDoctorTitle(reservationVo.getDoctorTitle());
-//        int cost=reservationVo.getCost();
-//        reservation.setCost(cost);
-//        reservation.setHospitalID(reservationVo.getHospitalID());
-//        reservation.setHospitalName(reservationVo.getHospitalName());
-//        reservation.setDepartmentID(reservationVo.getDepartmentID());
-//        reservation.setDepartmentName(reservationVo.getDepartmentName());
-//        reservation.setDoctorTitle(reservationVo.getDoctorTitle());
-//        int num=scheduleVo.getReservedNumber()-scheduleVo.getAvailableNumber()+1;
-//        reservation.setNumber(num);
-//        reservation.setReserveDate(scheduleVo.getDate());
-//        reservation.setReserveTime(scheduleVo.getStartTime());
-//        reservation.setState(0);//默认未完成
-//        reservation.setScheduleID(scheduleId);
-//        System.out.println(reservation);
-//
-//        // mq修改schedule可预约数-1！
-//        ScheduleMqVo scheduleMqVo=new ScheduleMqVo();
-//        scheduleMqVo.setId(scheduleIntId);
-//        scheduleMqVo.setAddOrSub(-1);
-//        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, scheduleMqVo);
-//
-//        reservationRepository.save(reservation);
-//        //同时保存订单信息，让用户支付
-//        return reservation.getID();//返回刚刚生成的reservation的id
-//    }
-
     public boolean haveReserved(String patientId, int scheduleId) {
         Reservation reservation = reservationRepository.findReserved(scheduleId,patientId);
         if(reservation!=null)
