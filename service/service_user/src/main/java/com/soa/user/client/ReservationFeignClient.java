@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Component
 public interface ReservationFeignClient {
     @GetMapping("/orders/reserved/patient/{patientId}")
-    public Result haveReserved(@PathVariable String patientId);
+    public Result haveReserved(@PathVariable("patientId") String patientId);
 }

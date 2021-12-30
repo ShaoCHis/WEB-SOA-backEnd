@@ -1,8 +1,4 @@
-package com.soa.hospital.model;/**
- * Created By ShaoCHi
- * Date 2021/11/20 4:54 下午
- * Tongji University
- */
+package com.soa.hospital.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.soa.hospital.views.PatientIds;

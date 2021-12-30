@@ -70,4 +70,15 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>service-hospital</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.2.1.RELEASE</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

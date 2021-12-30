@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface ReservationRepository extends CrudRepository<Reservation,String> {
 
-    @Query(value = "select * from reservation where schedule_ID=?1 and patient_ID=?2",nativeQuery = true)
+    @Query(value = "select * from reservation where schedule_ID=?1 and patient_ID=?2 and(state=1 or state=0)",nativeQuery = true)
     Reservation findReserved(Integer scheduleId, String patientId);
 
     @Query(value="select * from reservation where user_ID=?1",nativeQuery = true)

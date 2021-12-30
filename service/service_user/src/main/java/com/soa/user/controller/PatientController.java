@@ -82,7 +82,7 @@ public class PatientController {
             return Result.wrapErrorResult("error");
     }
 
-    @ApiOperation(value="判断病人是不是已经预约了（不给删除了，需要先取消预约才能删除），" +
+    @ApiOperation(value="判断病人是不是已经预约了（是就不让删除该病人，需要先取消预约才能删除），" +
             "是的话返回正确，否则返回错误结果")
     @GetMapping("patientHaveReserved/{patientId}")
     public Result patientHaveReserved(@PathVariable String patientId){

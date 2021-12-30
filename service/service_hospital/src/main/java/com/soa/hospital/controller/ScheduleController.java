@@ -1,22 +1,28 @@
 package com.soa.hospital.controller;
 
-import com.soa.hospital.model.Department;
-import com.soa.hospital.model.Doctor;
-import com.soa.hospital.model.Hospital;
-import com.soa.hospital.model.Schedule;
+import com.soa.hospital.client.PatientFeignClient;
+import com.soa.hospital.model.*;
 import com.soa.hospital.service.DepartmentService;
 import com.soa.hospital.service.DoctorService;
 import com.soa.hospital.service.HospitalService;
 import com.soa.hospital.service.ScheduleService;
+import com.soa.hospital.views.ReservationVo;
 import com.soa.hospital.views.ScheduleInfo;
+import com.soa.hospital.views.ScheduleMqVo;
 import com.soa.hospital.views.ScheduleVo;
+import com.soa.rabbit.constant.MqConst;
+import com.soa.rabbit.service.RabbitService;
+import com.soa.utils.utils.RandomUtil;
 import com.soa.utils.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ program: demo
@@ -40,6 +46,15 @@ public class ScheduleController {
 
     @Autowired
     DepartmentService departmentService;
+
+    @Autowired
+    PatientFeignClient patientFeignClient;
+
+    @Autowired
+    RabbitService rabbitService;
+
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     @ApiOperation(value="为医生添加排班信息")
     @PostMapping("addSchedule/{doctorId}")
@@ -132,5 +147,82 @@ public class ScheduleController {
             return Result.wrapSuccessfulResult(scheduleVo);
         }
 
+    }
+
+    @ApiOperation(value="先根据service_order服务判断是不是已经预约过了，如果没有预约，再调用本方法" +
+            "根据病人id和scheduleId两个参数生成预约订单信息")
+    @PostMapping("submitReservation/{scheduleId}/{patientId}")
+    public Result submitReservation(@PathVariable int scheduleId,
+                                    @PathVariable String patientId){
+        //排班信息
+        Schedule schedule;
+        String numberStr = redisTemplate.opsForValue().get("schedule-"+String.valueOf(scheduleId));
+        if(!StringUtils.isEmpty(numberStr)) {
+            //不是空的
+            int number=Integer.parseInt(numberStr);
+            if(number>=1){
+                redisTemplate.opsForValue().set("schedule-"+String.valueOf(scheduleId),String.valueOf(number-1),10, TimeUnit.SECONDS);
+                schedule = scheduleService.getSchedule(scheduleId);
+                if(schedule==null)
+                    return Result.wrapErrorResult("error");
+                //扣库存和发rabbitmq
+            }
+            else
+                //number为0，预约失败
+                return Result.wrapErrorResult("error");
+        }
+        else{
+            //扣库存发rabbitmq
+            schedule = scheduleService.getSchedule(scheduleId);
+            if(schedule==null)
+                return Result.wrapErrorResult("error");
+            if(schedule.getAvailableNumber()<1)
+                return Result.wrapErrorResult("error");
+            redisTemplate.opsForValue().set("schedule-"+String.valueOf(scheduleId),String.valueOf(schedule.getAvailableNumber()-1),10, TimeUnit.SECONDS);
+        }
+
+        Result patientResult = patientFeignClient.getPatientInfo(patientId);
+        //获取病人信息
+        if(!patientResult.isSuccess())
+            return Result.wrapErrorResult("error");
+        Patient patient = (Patient) patientResult.getData();
+
+        //查询医生信息,获取名字和价格,医院id、科室id，医院name、科室name
+        Doctor doctor=doctorService.getById(schedule.getDoctor().getId());
+        if(doctor==null)
+            return Result.wrapErrorResult("error");
+
+        Reservation reservation=new Reservation();
+        String randomId = RandomUtil.getFourBitRandom()+RandomUtil.getSixBitRandom();
+        reservation.setID(randomId);
+        reservation.setUserID(patient.getUserId());
+        reservation.setPatientID(patient.getPatientId());
+        reservation.setPatientName(patient.getName());
+        reservation.setCardType(0);
+        reservation.setCardNum("");
+        reservation.setDoctorName(doctor.getName());
+        reservation.setDoctorTitle(doctor.getTitle());
+        reservation.setCost(doctor.getCost());
+        reservation.setHospitalID(doctor.getHospital().getId());
+        reservation.setHospitalName(doctor.getHospital().getName());
+        reservation.setDepartmentID(doctor.getDepartment().getId());
+        reservation.setDepartmentName(doctor.getDepartment().getName());
+        reservation.setDoctorTitle(doctor.getTitle());
+        int num=schedule.getReservedNumber()-schedule.getAvailableNumber()+1;
+        reservation.setNumber(num);
+        reservation.setReserveDate(schedule.getDate());
+        reservation.setReserveTime(schedule.getStartTime());
+        reservation.setState(0);//默认未完成
+        reservation.setScheduleID(String.valueOf(scheduleId));
+        System.out.println(reservation);
+
+        //schedule数量减去1
+        schedule.setAvailableNumber(schedule.getAvailableNumber()-1);
+        scheduleService.update(schedule);
+
+        // mq保存订单
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_RESERVATION, MqConst.ROUTING_RESERVATION, reservation);
+
+        return Result.wrapSuccessfulResult("success");
     }
 }

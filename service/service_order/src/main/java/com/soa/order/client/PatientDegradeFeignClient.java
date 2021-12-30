@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class PatientDegradeFeignClient implements PatientFeignClient {
 
-    @Override
-    public Result<Patient> getPatientInfo(String id) {
-        return Result.wrapErrorResult("获取病人信息失败！");
-    }
+//    @Override
+//    public Result<Patient> getPatientInfo(String id) {
+//        return Result.wrapErrorResult("获取病人信息失败！");
+//    }
 
     @Override
     public Result<User> getUserInfo(String id) {

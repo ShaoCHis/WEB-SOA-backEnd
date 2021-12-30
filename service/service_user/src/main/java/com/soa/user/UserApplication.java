@@ -3,6 +3,7 @@ package com.soa.user;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import java.util.TimeZone;
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan({"com.soa"})
+@EnableFeignClients
 public class UserApplication {
     @PostConstruct
     public void setDefaultTimezone() {

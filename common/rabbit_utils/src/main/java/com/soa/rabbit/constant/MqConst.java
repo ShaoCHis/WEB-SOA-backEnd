@@ -15,4 +15,8 @@ public class MqConst {
     public static final String EXCHANGE_DIRECT_MSM="exchange.direct.msm";
     public static final String ROUTING_MSM="msm.item";
     public static final String QUEUE_MSM="queue.msm.item";
+    //reservation
+    public static final String EXCHANGE_DIRECT_RESERVATION="exchange.direct.reservation";
+    public static final String ROUTING_RESERVATION="reservation";
+    public static final String QUEUE_RESERVATION="queue.reservation";
 }
