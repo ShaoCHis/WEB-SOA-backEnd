@@ -151,9 +151,12 @@ public class ScheduleController {
 
     @ApiOperation(value="先根据service_order服务判断是不是已经预约过了，如果没有预约，再调用本方法" +
             "根据病人id和scheduleId两个参数生成预约订单信息")
-    @PostMapping("submitReservation/{scheduleId}/{patientId}")
+    @GetMapping("submitReservation/{scheduleId}/{patientId}")
     public Result submitReservation(@PathVariable int scheduleId,
                                     @PathVariable String patientId){
+        System.out.println(scheduleId);
+        System.out.println(patientId);
+
         //排班信息
         Schedule schedule;
         String numberStr = redisTemplate.opsForValue().get("schedule-"+String.valueOf(scheduleId));
@@ -175,22 +178,22 @@ public class ScheduleController {
             //扣库存发rabbitmq
             schedule = scheduleService.getSchedule(scheduleId);
             if(schedule==null)
-                return Result.wrapErrorResult("error");
+                return Result.wrapErrorResult("error1");
             if(schedule.getAvailableNumber()<1)
-                return Result.wrapErrorResult("error");
+                return Result.wrapErrorResult("error2");
             redisTemplate.opsForValue().set("schedule-"+String.valueOf(scheduleId),String.valueOf(schedule.getAvailableNumber()-1),10, TimeUnit.SECONDS);
         }
 
         Result patientResult = patientFeignClient.getPatientInfo(patientId);
         //获取病人信息
         if(!patientResult.isSuccess())
-            return Result.wrapErrorResult("error");
+            return Result.wrapErrorResult("error3");
         Patient patient = (Patient) patientResult.getData();
 
         //查询医生信息,获取名字和价格,医院id、科室id，医院name、科室name
         Doctor doctor=doctorService.getById(schedule.getDoctor().getId());
         if(doctor==null)
-            return Result.wrapErrorResult("error");
+            return Result.wrapErrorResult("error4");
 
         Reservation reservation=new Reservation();
         String randomId = RandomUtil.getFourBitRandom()+RandomUtil.getSixBitRandom();

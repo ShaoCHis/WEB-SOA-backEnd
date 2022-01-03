@@ -21,7 +21,7 @@ public class OssController {
     @Autowired
     OssService ossService;
 
-    @PostMapping
+    @PostMapping("/upload")
     public Result uploadPic(@RequestParam MultipartFile file)
     {
         String url = ossService.uploadFilePic(file);

@@ -24,9 +24,11 @@ public class UserController {
     UserService userService;
 
     @ApiOperation(value = "用户注册")
-    @PostMapping // Map ONLY POST Requests
+    @PostMapping("/register") // Map ONLY POST Requests
     public @ResponseBody
     Result<User> addNewUser (@RequestBody User body) {
+        System.out.println(body.getEmail());
+        System.out.println(body.getName());
         User user=userService.addNewUser(body);
         if(user==null) return  Result.wrapErrorResult(new UserAlreadyExistedError());
         return Result.wrapSuccessfulResult(user);
