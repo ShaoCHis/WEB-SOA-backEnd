@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,5 +71,12 @@ public class DepartmentController {
         hospInfoService.updateDepart(hospital);
         return Result.wrapSuccessfulResult("success!");
     }
-    
+
+    @ApiOperation(value="返回所有科室信息")
+    @GetMapping("getAllDepart")
+    public Result<List<Department>> getAllDepart(){
+        List<Department> ans=new ArrayList<>();
+        ans=departmentService.getAll();
+        return Result.wrapSuccessfulResult(ans);
+    }
 }

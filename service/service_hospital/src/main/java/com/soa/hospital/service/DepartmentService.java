@@ -40,4 +40,9 @@ public class DepartmentService {
         List<Department> departments = hospital.getDepartments();
         return departments;
     }
+
+    @Transactional
+    public List<Department> getAll() {
+        return (List<Department>) departmentRepository.findAll();
+    }
 }
