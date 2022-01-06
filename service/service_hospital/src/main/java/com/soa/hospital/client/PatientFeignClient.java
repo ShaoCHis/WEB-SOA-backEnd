@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "service-user",url="192.168.101.1:8085",fallback = PatientDegradeFeignClient.class)
+@FeignClient(name = "service-user",fallback = PatientDegradeFeignClient.class)
 @Component
 public interface PatientFeignClient {
 

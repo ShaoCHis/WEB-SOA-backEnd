@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "service-hospital",url="192.168.101.1:8083",fallback = HospitalDegradeFeignClient.class)
+@FeignClient(name = "service-hospital",fallback = HospitalDegradeFeignClient.class)
 @Component
 public interface HospitalFeignClient {
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "service-orders",url="192.168.101.1:8088",fallback = MoneyDegradeFeignClient.class)
+@FeignClient(name = "service-orders",fallback = MoneyDegradeFeignClient.class)
 @Component
 public interface MoneyFeignClient {
     @GetMapping("/orders/statistic/querySystemMoney/{fromDate}/{endDate}")
