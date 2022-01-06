@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Component
 public interface MoneyFeignClient {
     @GetMapping("/orders/statistic/querySystemMoney/{fromDate}/{endDate}")
-    public Result querySystemMoney(@PathVariable String fromDate,
-                                   @PathVariable String endDate);
+    public Result querySystemMoney(@PathVariable("fromDate") String fromDate,
+                                   @PathVariable("endDate") String endDate);
 
     @GetMapping("/orders/statistic/queryHospitalMoney/{fromDate}/{endDate}/{hospitalId}")
-    public Result queryHospitalMoney(@PathVariable String fromDate,
-                                     @PathVariable String endDate,
-                                     @PathVariable String hospitalId);
+    public Result queryHospitalMoney(@PathVariable("fromDate") String fromDate,
+                                     @PathVariable("endDate") String endDate,
+                                     @PathVariable("hospitalId") String hospitalId);
 
 }
